@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/> <!-- Note the closing '/' character -->
+    <title th:text="${title}"></title>
+</head>
+<body>
+<h1 th:text="${title}"></h1>
+<form method = "post">
+    <label>Username:
+        <input th:field="${registrationDTO.username}">
+        <p th:errors="${registrationDTO.username}"></p>
+    </label>
+    <label>Password:
+        <input type="password" th:field="${registrationDTO.password}">
+        <p th:errors="${registrationDTO.password}"></p>
+    </label>
+    <label>Verify Password:
+        <input type="password" th:field="${registrationDTO.verifyPassword}">
+        <p th:errors="${registrationDTO.verifyPassword}"></p>
+    </label>
+    <input type="submit" value="Register" />
+</form>
+
+</body>
+</html>
