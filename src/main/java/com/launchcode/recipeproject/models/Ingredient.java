@@ -25,7 +25,9 @@ public class Ingredient extends AbstractEntity{
     private String name;
 
     @NotNull(message = "Quantity Required")
-    private Double tspQuantity;
+    private Double quantity;
+
+    private String measurement;
 
 
     //Added a recipes array to link a many-to-many relationship with recipes
@@ -33,9 +35,10 @@ public class Ingredient extends AbstractEntity{
     private List<Recipe> recipes = new ArrayList<>();
 
 
-    public Ingredient(String name, Double tspQuantity) {
+    public Ingredient(String name, Double quantity, String measurement) {
         this.name = name;
-        this.tspQuantity = tspQuantity;
+        this.quantity = quantity;
+        this.measurement = measurement;
     }
 
     public Ingredient() {}
@@ -51,12 +54,12 @@ public class Ingredient extends AbstractEntity{
         this.name = name;
     }
 
-    public Double getTspQuantity() {
-        return tspQuantity;
+    public Double getQuantity() {
+        return quantity;
     }
 
-    public void setTspQuantity(Double tspQuantity) {
-        this.tspQuantity = tspQuantity;
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     //Other Methods ------------------------------------------------------
@@ -66,23 +69,4 @@ public class Ingredient extends AbstractEntity{
         return name;
     }
 
-    public Double toTableSpoons(){
-        Double teaspoons = this.tspQuantity;
-        return (teaspoons / 3);
-    }
-
-    public Double toCups(){
-        Double teaspoons = this.tspQuantity;
-        return (teaspoons / 48);
-    }
-
-    public Double toOunces(){
-        Double teaspoons = this.tspQuantity;
-        return (teaspoons / 6);
-    }
-
-    public Double toDrops(){
-        Double teaspoons = this.tspQuantity;
-        return (teaspoons * 8);
-    }
 }
