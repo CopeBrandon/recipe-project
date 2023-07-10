@@ -1,8 +1,7 @@
 package com.launchcode.recipeproject.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,8 +25,8 @@ public class Recipe extends AbstractEntity{
     @NotNull
     private Integer portionNum;
 
-    @ManyToMany(mappedBy = "recipes")
-    private List<Ingredient> ingredientList = new ArrayList<>();
+    @OneToMany(mappedBy = "recipe")
+    private final List<Ingredient> ingredientList = new ArrayList<>();
 
     public Recipe(String name, String instructions, Integer portionNum) {
         this.name = name;
@@ -64,8 +63,16 @@ public class Recipe extends AbstractEntity{
         this.portionNum = portionNum;
     }
 
+    public List<Ingredient> getIngredientList() {
+        return ingredientList;
+    }
+
+    public void addIngredient(Ingredient ingredient){
+        this.ingredientList.add(ingredient);
+    }
 
     //Other Methods---------------------------------------------------------------
+
 
     @Override
     public String toString() {

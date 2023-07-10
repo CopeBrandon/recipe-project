@@ -2,8 +2,11 @@ package com.launchcode.recipeproject.models;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.Objects;
 
+@MappedSuperclass
 public abstract class AbstractEntity {
 
     /**
