@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https//www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<div th:replace="fragments :: page-header"></div>
+
+<div class="container body-content">
+
+    <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
+
+<!-- Determines the route for the post method that will go with the SearchController(SC) and ListController(LC) if needed-->
+    <form th:action="@{/search/results}" method = "post">
+        <h2>Search:</h2>
+
+<!-- This has the dropdown to select [title, ingredients, tags, etc.] submited by a column and a text box to search -->
+        <p>
+            <select name="searchType" th:id="${columns}"> <!-- Columns are sent through the LC to SC then called here -->
+                <option th:each="column : ${columns}" th:value="${column.key}" th:text="${column.value}">
+                </option>
+            </select>
+            <label for="searchTerm">Keyword:</label>
+            <input type="text" name="searchTerm" id="searchTerm" />
+        </p>
+
+<!-- May need to create 5 of these at once and something to hide and unhide them -->
+
+        <input type="submit" value="Search" />
+    </form>
+
+    <hr />
+
+    <!-- Search Results and how are they going to look show up after submit -->
+    <table th:each="job : ${jobs}" class="job-listing">
+        <tr>
+            <td>ID</td>
+            <td th:text="${job.id}"></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td th:text="${job.name}"></td>
+        </tr>
+        <tr>
+            <td>Employer</td>
+            <td th:text="${job.employer}"></td>
+        </tr>
+        <tr>
+            <td>Location</td>
+            <td th:text="${job.location}"></td>
+        </tr>
+        <tr>
+            <td>Position Type</td>
+            <td th:text="${job.positionType}"></td>
+        </tr>
+        <tr>
+            <td>Skill</td>
+            <td th:text="${job.coreCompetency}"></td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>
