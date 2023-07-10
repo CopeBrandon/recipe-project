@@ -7,6 +7,10 @@
 <body>
 <h1 th:text="${title}"></h1>
 <form method = "post">
+    <label>Email:
+        <input type="email" th:field="${registrationDTO.email}">
+        <p th:errors="${registrationDTO.email}"></p>
+    </label>
     <label>Username:
         <input th:field="${registrationDTO.username}">
         <p th:errors="${registrationDTO.username}"></p>

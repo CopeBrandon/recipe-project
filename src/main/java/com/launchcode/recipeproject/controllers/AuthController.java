@@ -42,7 +42,7 @@ public class AuthController {
 
         // save user to database
         String roles = "ROLE_USER";
-        User user = new User(registrationDTO.getUsername(),registrationDTO.getPassword(), roles);
+        User user = new User(registrationDTO.getUsername(),registrationDTO.getEmail(),registrationDTO.getPassword(), roles);
         userRepository.save(user); // rewrite this section if we choose to use Roles
 
         return "redirect:";
