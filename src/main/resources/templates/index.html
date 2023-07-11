@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head th:replace="fragments :: header"></head>
-<!--<head>-->
-<!--    <meta charset="UTF-8"/> &lt;!&ndash; Note the closing '/' character &ndash;&gt;-->
-<!--    <title th:text="${title}"></title>-->
-<!--</head>-->
+<head th:replace="fragments :: head"></head>
+
 <body>
 <h1 th:text="${title}"></h1>
+
+<header th:replace="fragments :: header"></header>
 
 </body>
 </html>
