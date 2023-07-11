@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Recipes</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<header th:fragment="header">
+<!--    <h1 th:text="${title}">Recipes</h1>-->
+    <div class="nav">
+        <a href="/home">Home</a>
+        <a href="/profile">Profile</a>
+        <a href="/viewAll">View All Recipes</a>
+        <a href="/search" id="search">Search</a>
+    </div>
+</header>
+</body>
+</html>
