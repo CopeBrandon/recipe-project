@@ -51,7 +51,8 @@
         let ingredientName = document.createElement("input");
         ingredientName.type = "text";
         ingredientName.placeholder = "Name";
-        ingredientName.setAttribute("th:field", "*{form.ingredients[" + ingredientCount + "].name}");
+        ingredientName.setAttribute("id", "ingredients" + ingredientCount + ".name");
+        ingredientName.setAttribute("name", "ingredients[" + ingredientCount + "].name");
         container.appendChild(ingredientName);
 
         // Creates ingredient quantity text box
@@ -59,12 +60,14 @@
         ingredientQuantity.type = "text";
         ingredientQuantity.placeholder = "Quantity";
         ingredientQuantity.setAttribute("size", "3");
-        ingredientQuantity.setAttribute("th:field", "*{form.ingredients[" + ingredientCount + "].quantity}");
+        ingredientQuantity.setAttribute("id", "ingredients" + ingredientCount + ".quantity");
+        ingredientQuantity.setAttribute("name", "ingredients[" + ingredientCount + "].quantity");
         container.appendChild(ingredientQuantity);
 
         // Creates measurement select element
         let measurementUnit = document.createElement("select");
-        measurementUnit.setAttribute("th:field", "*{form.ingredients[" + ingredientCount + "].measurement}");
+        measurementUnit.setAttribute("id", "ingredients" + ingredientCount + ".measurement");
+        measurementUnit.setAttribute("name", "ingredients[" + ingredientCount + "].measurement");
 
         // Adds options to the select element
         let defaultOption = document.createElement("option");

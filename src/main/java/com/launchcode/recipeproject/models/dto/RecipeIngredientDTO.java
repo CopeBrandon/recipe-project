@@ -8,6 +8,10 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Sean Feuerhelm
+ */
+
 public class RecipeIngredientDTO{
     @NotNull
     private Recipe recipe;

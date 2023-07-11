@@ -26,6 +26,7 @@ import java.util.List;
 @RequestMapping("recipe")
 public class RecipeController {
 
+    //Repositories----------------------------------
     @Autowired
     private RecipeRepository recipeRepository;
 
@@ -34,32 +35,27 @@ public class RecipeController {
 
     @GetMapping("create")
     public String displayCreateRecipeForm(Model model){
-
-        RecipeIngredientDTO recipeForm = new RecipeIngredientDTO();
-
-//        while (recipeForm.getIngredients().size() > ingredientCap){
-//            recipeForm.addIngredient(new Ingredient());
-//        }
-
-        model.addAttribute("form", recipeForm);
-
-
-
+        model.addAttribute("form", new RecipeIngredientDTO());
         return "recipe/create";
     }
 
     @PostMapping("create")
-    public String processCreateRecipeForm(@ModelAttribute RecipeIngredientDTO form,
+    public String processCreateRecipeForm(@ModelAttribute @Valid RecipeIngredientDTO form,
                                           Errors errors, Model model){
         if(errors.hasErrors()){
-            return "recipe/create";
+            return "recipe/create"; //Once more styles have been written, add styles for reloading page
         }
 
-        ingredientRepository.saveAll(form.getIngredients());
+        //For Loop to connect all ingredient objects to the recipe objects
+        for (Ingredient ingredient : form.getIngredients()){
+            ingredient.setRecipe(form.getRecipe());
+            form.getRecipe().addIngredient(ingredient);
+        }
+
+        //Must save recipe object before ingredient due to One-to-many relationship
         recipeRepository.save(form.getRecipe());
+        ingredientRepository.saveAll(form.getIngredients());
 
-
-
-        return "redirect:";
+        return "redirect:"; //Need to redirect somewhere specific, perhaps the display page when ready
     }
 }

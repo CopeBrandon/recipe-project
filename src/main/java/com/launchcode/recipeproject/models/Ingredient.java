@@ -14,11 +14,6 @@ import javax.validation.constraints.Size;
 @Entity
 public class Ingredient extends AbstractEntity{
 
-    /**
-     * Gave ingredients a name and tspQuantity (Tablespoon Quantity)
-     * I also included a constructor, as well as getters and setters.
-     */
-
     @NotBlank(message = "Ingredient names required")
     @Size(min = 1, max = 35, message = "Ingredient names must not exceed 50 characters")
     private String name;
