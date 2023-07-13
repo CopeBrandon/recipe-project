@@ -3,10 +3,16 @@ package com.launchcode.recipeproject.models;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.Objects;
 
-@MappedSuperclass // Makes sure the id gets picked up by hibernate
+@MappedSuperclass
 public abstract class AbstractEntity {
+
+    /**
+     * Created an abstract entity to generate a random and
+     * unique ID for all of our objects.
+     */
 
     @Id
     @GeneratedValue
@@ -20,8 +26,8 @@ public abstract class AbstractEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AbstractEntity entity = (AbstractEntity) o;
-        return id == entity.id;
+        AbstractEntity that = (AbstractEntity) o;
+        return id == that.id;
     }
 
     @Override
