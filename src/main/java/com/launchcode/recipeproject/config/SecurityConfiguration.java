@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -17,9 +18,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     private final JpaUserDetailsService jpaUserDetailsService; // annotated with @Service, load with constructor injection
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
-    public SecurityConfiguration(JpaUserDetailsService jpaUserDetailsService) {
+    public SecurityConfiguration(JpaUserDetailsService jpaUserDetailsService, AuthenticationSuccessHandler authenticationSuccessHandler) {
         this.jpaUserDetailsService = jpaUserDetailsService;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
     }
 
     @Bean // instantiated, assembled, and managed by Spring
@@ -31,7 +34,7 @@ public class SecurityConfiguration {
                         .mvcMatchers("/**", "/","/register","/login","/oauth/**").permitAll() // add permitted folders here "/**" to turn off auth
                         .anyRequest().authenticated() // authenticate all other requests
                         )
-                .userDetailsService(jpaUserDetailsService) // this is where spring security looks up the user and imports a SecurityUser
+//                .userDetailsService(jpaUserDetailsService) // this is where spring security looks up the user and imports a SecurityUser
 //                .httpBasic(Customizer.withDefaults())  // default login
                 .formLogin(form -> form // custom form
                         .loginPage("/login")
@@ -39,10 +42,10 @@ public class SecurityConfiguration {
 //                .oauth2Login(Customizer.withDefaults())
                 .oauth2Login(form -> form // custom form
                         .loginPage("/login")
+                        .successHandler(authenticationSuccessHandler) // set up a User with OAuth2 data
 ////                        .userInfoEndpoint()
                         )
-//                .logout(logout -> logout
-//                        .logoutSuccessUrl("/"))
+                .userDetailsService(jpaUserDetailsService)
                 .build();
     }
 

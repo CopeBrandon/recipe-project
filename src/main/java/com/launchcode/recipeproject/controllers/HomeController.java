@@ -2,6 +2,7 @@ package com.launchcode.recipeproject.controllers;
 
 import com.launchcode.recipeproject.data.UserRepository;
 import com.launchcode.recipeproject.models.User;
+import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("")
@@ -18,15 +20,16 @@ public class HomeController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    JpaUserDetailsService jpaUserDetailsService;
+
     @GetMapping()
     public String displayIndex(Model model, Principal principal){
         model.addAttribute("title", "Lets eat!");
 
         // example of how to bring a user in from an authenticated session
         if (principal != null){
-            String username = principal.getName();
-            User user = userRepository.findByUsername(username).get(); // returns optional
-            System.out.println(user);
+            User user = jpaUserDetailsService.getUsername(principal.getName()); // send username, get back User or null
             }
         return "index";
     }
