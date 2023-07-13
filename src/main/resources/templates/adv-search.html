@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <title></title>
 </head>
-<body>
+<body onload="addSearchBox()">
 
 <div class="container body-content">
 
@@ -72,7 +72,7 @@
                 // Creates label
                 let keyword = document.createElement("label");
                 keyword.for = "searchTerm";
-                keyword.innerHTML = "Keyword: ";
+                keyword.innerHTML = " Keyword: ";
                 searchBox.appendChild(keyword);
 
                 // Creates the text box for searchTerm
