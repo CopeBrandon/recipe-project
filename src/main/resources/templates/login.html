@@ -18,9 +18,14 @@
     </div>
     <input type="submit" value="Log in" />
 </form>
-
+<p>
+    <a th:href="@{/register}">No Account? Register Here.</a>
+</p>
 <p>
     <a th:href="@{/oauth2/authorization/github}">Login with Github</a>
+</p>
+<p>
+    <a th:href="@{/oauth2/authorization/google}">Login with Google</a>
 </p>
 </body>
 </html>
