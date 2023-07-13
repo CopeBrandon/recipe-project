@@ -9,14 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Sean Feuerhelm
@@ -43,7 +41,7 @@ public class RecipeController {
     public String processCreateRecipeForm(@ModelAttribute @Valid RecipeIngredientDTO form,
                                           Errors errors, Model model){
         if(errors.hasErrors()){
-            return "recipe/create"; //Once more styles have been written, add styles for reloading page
+            return "recipe/create"; //Once more styles have been written, add model attributes for reloading page
         }
 
         //For Loop to connect all ingredient objects to the recipe objects
@@ -56,6 +54,19 @@ public class RecipeController {
         recipeRepository.save(form.getRecipe());
         ingredientRepository.saveAll(form.getIngredients());
 
-        return "redirect:"; //Need to redirect somewhere specific, perhaps the display page when ready
+        return "redirect:view/" + form.getRecipe().getId(); //Need to redirect somewhere specific, perhaps the display page when ready
+    }
+
+    @GetMapping("view/{recipeId}")
+    public String displayRecipe(Model model, @PathVariable int recipeId){
+        Optional optRecipe = recipeRepository.findById(recipeId);
+        if (optRecipe.isPresent()){
+            Recipe recipe = (Recipe)optRecipe.get();
+            model.addAttribute("recipe", recipe);
+            return "recipe/view";
+        } else {
+            return "redirect:../";
+        }
+
     }
 }
