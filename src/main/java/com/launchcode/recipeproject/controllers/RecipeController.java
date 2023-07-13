@@ -33,6 +33,7 @@ public class RecipeController {
 
     @GetMapping("create")
     public String displayCreateRecipeForm(Model model){
+        model.addAttribute("title", "Create Recipe");
         model.addAttribute("form", new RecipeIngredientDTO());
         return "recipe/create";
     }
@@ -41,7 +42,8 @@ public class RecipeController {
     public String processCreateRecipeForm(@ModelAttribute @Valid RecipeIngredientDTO form,
                                           Errors errors, Model model){
         if(errors.hasErrors()){
-            return "recipe/create"; //Once more styles have been written, add model attributes for reloading page
+            model.addAttribute("title", "Create Recipe");
+            return "recipe/create";
         }
 
         //For Loop to connect all ingredient objects to the recipe objects

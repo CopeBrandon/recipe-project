@@ -1,6 +1,8 @@
 package com.launchcode.recipeproject.models;
 
 
+import org.springframework.core.metrics.StartupStep;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -27,6 +29,9 @@ public class Recipe extends AbstractEntity{
 
     @OneToMany(mappedBy = "recipe")
     private final List<Ingredient> ingredientList = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "recipes")
+    private final List<Tags> tags = new ArrayList<>();
 
     public Recipe(String name, String instructions, Integer portionNum) {
         this.name = name;
