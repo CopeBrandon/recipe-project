@@ -1,10 +1,137 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https//www.thymeleaf.org/">
+<html lang="en" xmlns:th="https//www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8"/>
     <title></title>
 </head>
 <body>
+
+<div class="container body-content">
+
+    <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
+
+    <!-- Determines the route for the post method that will go with the SearchController(SC) and ListController(LC) if needed-->
+    <form th:action="@{/adv-search/results}" method = "post">
+        <h2>Advanced Search:</h2>
+
+        <!-- This the normal search box and can add up to 5 of them -->
+        <div id="newSearchBox"></div>
+        <button type="button" onclick="addSearchBox()">Add Parameter</button>
+        <button type="button" onclick="removeSearchBox()">Remove Parameter</button>
+        </br></br>
+
+        <div>
+            <input type="submit" value="Search" /></br>
+            <!-- should go to the normal search page -->
+            <a href="/search">Normal Search</a>
+        </div>
+        </br>
+    </form>
+
+<!-- JavaScript to add additional search boxes up to 5 -->
+    <script th:inline="javascript">
+        let searchBoxCount = 0;
+
+        function addSearchBox() {
+            if (searchBoxCount < 5) {
+                let searchBox = document.getElementById("newSearchBox");
+
+                //Create select and option for type of search
+                let searchType = document.createElement("select");
+                searchType.setAttribute("name", "searchType");
+                searchType.setAttribute("th:id", "${columns}");
+
+                let defaultOption = document.createElement("option");
+                defaultOption.text = "All";
+                defaultOption.value = "all";
+                searchType.appendChild(defaultOption);
+
+                let option1 = document.createElement("option");
+                option1.text = "Name";
+                option1.value = "name";
+                searchType.appendChild(option1);
+
+                let option2 = document.createElement("option");
+                option2.text = "Ingredients";
+                option2.value = "ingredient";
+                searchType.appendChild(option2);
+
+                let option3 = document.createElement("option");
+                option3.text = "Tags";
+                option3.value = "tags";
+                searchType.appendChild(option3);
+
+    //            let options = document.createElement("option");
+    //            options.setAttribute("th:each", "column : ${columns}");
+    //            options.setAttribute("th:value", "${column.key}");
+    //            options.setAttribute("th:text", "${column.value}");
+    //            searchType.appendChild(options);
+
+                searchBox.appendChild(searchType);
+
+                // Creates label
+                let keyword = document.createElement("label");
+                keyword.for = "searchTerm";
+                keyword.innerHTML = "Keyword: ";
+                searchBox.appendChild(keyword);
+
+                // Creates the text box for searchTerm
+                let searchTerm = document.createElement("input");
+                searchTerm.type = "text";
+                searchTerm.setAttribute("id", "searchTerm");
+                searchTerm.setAttribute("name", "searchTerm");
+                searchBox.appendChild(searchTerm);
+
+                // Creates line break after new searchBox
+                let linebreak = document.createElement("br");
+                searchBox.appendChild(linebreak);
+
+                searchBoxCount++;
+            }
+        }
+
+        function removeSearchBox() {
+            let searchBox = document.getElementById("newSearchBox");
+
+            if(searchBoxCount > 1) {
+                searchBox.removeChild(searchBox.lastElementChild);
+                searchBox.removeChild(searchBox.lastElementChild);
+                searchBox.removeChild(searchBox.lastElementChild);
+                searchBox.removeChild(searchBox.lastElementChild);
+                searchBoxCount--;
+            }
+
+        }
+    </script>
+
+    <hr />
+
+    <!-- Search Results and how are they going to look show up after submit -->
+    <table class="recipe-listing">
+        <tr th:each="recipe : ${recipes}">
+            <td>
+                <p>
+                    Name:
+                    <a th:href="@{'/view/' + ${recipe.id}}" th:text="${recipe.name}"></a>
+                </p>
+                <p>
+                    Ingredients:
+                <p th:text="${recipe.ingredientList}"></p>
+                </p>
+                <p>
+                    tags:
+                <ul th:each="tag : ${recipe.tags}">
+                    <li>
+                        <a th:href="@{'/tags/view/' + ${tag.id}}" th:text="${tag.name}"></a>
+                    </li>
+                </ul>
+                </p>
+
+            </td>
+        </tr>
+    </table>
+
+</div>
 
 </body>
 </html>

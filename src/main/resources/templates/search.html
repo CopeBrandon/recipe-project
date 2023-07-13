@@ -5,7 +5,6 @@
     <title></title>
 </head>
 <body>
-<div th:replace="fragments :: page-header"></div>
 
 <div class="container body-content">
 
@@ -25,11 +24,11 @@
             <input type="text" name="searchTerm" id="searchTerm" />
         </p>
 
-<!-- should go to the advanced search page -->
-        <p><a href="/adv-search">Advanced Search</a></p>
-
         <input type="submit" value="Search" />
+        <!-- should go to the advanced search page -->
+        <p><a href="/adv-search">Advanced Search</a></p>
     </form>
+
 
     <hr />
 
