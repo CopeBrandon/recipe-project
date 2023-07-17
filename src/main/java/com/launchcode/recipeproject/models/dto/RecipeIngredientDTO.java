@@ -3,6 +3,7 @@ package com.launchcode.recipeproject.models.dto;
 import com.launchcode.recipeproject.models.AbstractEntity;
 import com.launchcode.recipeproject.models.Ingredient;
 import com.launchcode.recipeproject.models.Recipe;
+import com.launchcode.recipeproject.models.Tags;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class RecipeIngredientDTO{
 
     @NotNull
     private ArrayList<Ingredient> ingredients;
+
+    private ArrayList<Tags> tags;
 
     public RecipeIngredientDTO(Recipe recipe) {
         this.recipe = recipe;
@@ -44,5 +47,17 @@ public class RecipeIngredientDTO{
 
     public void addIngredient(Ingredient ingredient){
         this.ingredients.add(ingredient);
+    }
+
+    public ArrayList<Tags> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<Tags> tags) {
+        this.tags = tags;
+    }
+
+    public void addTag(Tags tag){
+        this.tags.add(tag);
     }
 }
