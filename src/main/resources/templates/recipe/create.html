@@ -47,12 +47,16 @@
         </label>
     </div>
 
+    <br>
+
     <div>
     <button type="button" onclick="addIngredient()">Add Ingredient</button>
     <button type="button" onclick="removeIngredient()">Remove Ingredient</button>
     <input type="submit" value="Submit">
     </div>
 </form>
+
+<p>Can't find a tag that describes your recipe? <a th:href="@{/recipe/tags}">Create new tags here</a></p>
 
 
 <!--JavaScript meant to add additional Text Boxes-->
