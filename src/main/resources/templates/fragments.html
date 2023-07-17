@@ -14,5 +14,11 @@
         <a href="/search" id="search">Search</a>
     </div>
 </header>
+
+<div th:fragment="tags">
+    <ul th:each="tag: ${tags}">
+        <li th:text="${tag.name}"></li>
+    </ul>
+</div>
 </body>
 </html>
