@@ -29,7 +29,9 @@ public class HomeController {
 
         // example of how to bring a user in from an authenticated session
         if (principal != null){
+            System.out.println(principal.getName());
             User user = jpaUserDetailsService.getUsername(principal.getName()); // send username, get back User or null
+            System.out.println(user);
             }
         return "index";
     }
