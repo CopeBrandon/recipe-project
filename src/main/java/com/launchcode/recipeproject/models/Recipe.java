@@ -1,14 +1,13 @@
 package com.launchcode.recipeproject.models;
 
 
-import org.springframework.core.metrics.StartupStep;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by Sean Feuerhelm
@@ -30,8 +29,8 @@ public class Recipe extends AbstractEntity{
     @OneToMany(mappedBy = "recipe")
     private final List<Ingredient> ingredientList = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "recipes")
-    private final List<Tags> tags = new ArrayList<>();
+    @ManyToMany
+    private final List<Tag> tags = new ArrayList<>();
 
     public Recipe(String name, String instructions, Integer portionNum) {
         this.name = name;
@@ -74,6 +73,14 @@ public class Recipe extends AbstractEntity{
 
     public void addIngredient(Ingredient ingredient){
         this.ingredientList.add(ingredient);
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
     }
 
     //Other Methods---------------------------------------------------------------
