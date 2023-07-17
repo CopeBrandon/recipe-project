@@ -5,8 +5,12 @@
 <head th:replace="fragments :: head"></head>
 
 <body>
-<h1 th:text="${title}"></h1>
+
 <header th:replace="fragments :: header"></header>
+
+<h1 th:text="${title}"></h1>
+
+<br>
 
 <form method="post">
 
@@ -31,6 +35,17 @@
     </div>
 
     <br>
+
+    <div>
+        <label>Tags:
+            <input type="checkbox" name="form.tags"
+                   th:each="tag : ${tags}"
+                   th:text="${tag.name}"
+                   th:value="${tag.id}"
+                   th:field="*{form.tags}"
+            />
+        </label>
+    </div>
 
     <div>
     <button type="button" onclick="addIngredient()">Add Ingredient</button>

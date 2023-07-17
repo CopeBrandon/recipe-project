@@ -2,8 +2,10 @@ package com.launchcode.recipeproject.controllers;
 
 import com.launchcode.recipeproject.data.IngredientRepository;
 import com.launchcode.recipeproject.data.RecipeRepository;
+import com.launchcode.recipeproject.data.TagRepository;
 import com.launchcode.recipeproject.models.Ingredient;
 import com.launchcode.recipeproject.models.Recipe;
+import com.launchcode.recipeproject.models.Tag;
 import com.launchcode.recipeproject.models.dto.RecipeIngredientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,10 +33,14 @@ public class RecipeController {
     @Autowired
     private IngredientRepository ingredientRepository;
 
+    @Autowired
+    private TagRepository tagRepository;
+
     @GetMapping("create")
     public String displayCreateRecipeForm(Model model){
         model.addAttribute("title", "Create Recipe");
         model.addAttribute("form", new RecipeIngredientDTO());
+        model.addAttribute("tags", tagRepository.findAll());
         return "recipe/create";
     }
 
@@ -51,12 +57,17 @@ public class RecipeController {
             ingredient.setRecipe(form.getRecipe());
             form.getRecipe().addIngredient(ingredient);
         }
+        //For Loop to connect the tags to the recipe
+        for (Tag tag : form.getTags()){
+            form.getRecipe().addTag(tag);
+        }
 
         //Must save recipe object before ingredient due to One-to-many relationship
         recipeRepository.save(form.getRecipe());
         ingredientRepository.saveAll(form.getIngredients());
 
-        return "redirect:view/" + form.getRecipe().getId(); //Need to redirect somewhere specific, perhaps the display page when ready
+
+        return "redirect:view/" + form.getRecipe().getId();
     }
 
     @GetMapping("view/{recipeId}")
@@ -65,6 +76,7 @@ public class RecipeController {
         if (optRecipe.isPresent()){
             Recipe recipe = (Recipe)optRecipe.get();
             model.addAttribute("recipe", recipe);
+            model.addAttribute("tags", tagRepository.findAll());
             model.addAttribute("title", "View Recipe");
             return "recipe/view";
         } else {
