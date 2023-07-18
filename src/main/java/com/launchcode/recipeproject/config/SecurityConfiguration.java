@@ -31,7 +31,7 @@ public class SecurityConfiguration {
         return http
                 .csrf().disable() // disables the need for web tokens
                 .authorizeRequests( auth -> auth
-                        .mvcMatchers("/**", "/","/register","/login","/oauth/**").permitAll() // add permitted folders here "/**" to turn off auth
+                        .mvcMatchers("/**", "/","/register","/login","/oauth/**").permitAll() //TODO add permitted folders here "/**" to turn off auth
                         .anyRequest().authenticated() // authenticate all other requests
                         )
                 .userDetailsService(jpaUserDetailsService) // this is where spring security looks up the user and imports a SecurityUser
