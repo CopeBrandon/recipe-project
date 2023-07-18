@@ -33,23 +33,23 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         if (authentication.getPrincipal() instanceof DefaultOAuth2User) { // check type instance
             DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal(); // cast user to DefaultOAuth2User
             String username = "";
+            String email = "";
             if (oAuth2User.getAttribute("email") != null) { // gmail oauth uses email
-                username = oAuth2User.getAttribute("email") + "@gmail.com";
+                username = oAuth2User.getAttribute("sub") + "@gmail.com";
+                email = oAuth2User.getAttribute("email");
             } else if (oAuth2User.getAttribute("login") != null) { // github oauth uses login
                 username = oAuth2User.getAttribute("id") + "@github.com";
+                email = username;
             }
             User user = jpaUserDetailsService.getUsername(username);
             if (user == null) { // no user exists, create one
                 user = new User();
-                user.setEmail(username);
+                user.setEmail(email);
                 user.setUsername(username);
                 user.setPassword(randomString(50)); // generate a default password that is never used
                 user.setRoles("ROLE_USER");
                 userRepository.save(user);
             }
-//            else{
-//            jpaUserDetailsService.loadUserByUsername(user.getUsername()); // load User into Spring Security so we can use its ID later.
-//        }
             new DefaultRedirectStrategy().sendRedirect(request, response, "/");
         }
     }
@@ -58,7 +58,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         String baseString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz" + "!@#$%&*()_+";
         String returnString = "";
         while (returnString.length() < n){
-            int index = (int) Math.round(baseString.length() * Math.random());
+            int index = (int) Math.round((baseString.length()-1) * Math.random());
             returnString += baseString.charAt(index);
         }
         return returnString;

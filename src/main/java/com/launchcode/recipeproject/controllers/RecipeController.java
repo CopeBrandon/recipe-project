@@ -3,10 +3,13 @@ package com.launchcode.recipeproject.controllers;
 import com.launchcode.recipeproject.data.IngredientRepository;
 import com.launchcode.recipeproject.data.RecipeRepository;
 import com.launchcode.recipeproject.data.TagRepository;
+import com.launchcode.recipeproject.data.UserRepository;
 import com.launchcode.recipeproject.models.Ingredient;
 import com.launchcode.recipeproject.models.Recipe;
 import com.launchcode.recipeproject.models.Tag;
+import com.launchcode.recipeproject.models.User;
 import com.launchcode.recipeproject.models.dto.RecipeIngredientDTO;
+import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +40,12 @@ public class RecipeController {
     @Autowired
     private TagRepository tagRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    JpaUserDetailsService jpaUserDetailsService;
+
     @GetMapping("create")
     public String displayCreateRecipeForm(Model model){
         model.addAttribute("title", "Create Recipe");
@@ -46,7 +56,7 @@ public class RecipeController {
 
     @PostMapping("create")
     public String processCreateRecipeForm(@ModelAttribute @Valid RecipeIngredientDTO form,
-                                          Errors errors, Model model){
+                                          Errors errors, Model model, Principal principal){
         if(errors.hasErrors()){
             model.addAttribute("title", "Create Recipe");
             return "recipe/create";
@@ -62,10 +72,22 @@ public class RecipeController {
             form.getRecipe().addTag(tag);
         }
 
+        //Get user information and set it in the recipe
+        User user; //TODO create a fake user until we turn on security
+        Optional<User> result = userRepository.findByUsername("Temp_User");
+        if (result.isPresent()){user = result.get();}
+        else{user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER"); userRepository.save(user);}
+//        if (principal != null){ // TODO uncomment when security is turned on
+//            System.out.println(principal.getName());
+//            User user = jpaUserDetailsService.getUsername(principal.getName()); // send username, get back User or null
+//        }
+        form.getRecipe().setUser(user);
+        user.addRecipe(form.getRecipe());
+
         //Must save recipe object before ingredient due to One-to-many relationship
         recipeRepository.save(form.getRecipe());
         ingredientRepository.saveAll(form.getIngredients());
-
+        userRepository.save(user);
 
         return "redirect:view/" + form.getRecipe().getId();
     }

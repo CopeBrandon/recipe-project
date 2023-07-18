@@ -3,6 +3,9 @@ package com.launchcode.recipeproject.models;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User extends AbstractEntity{
@@ -16,6 +19,9 @@ public class User extends AbstractEntity{
     private String roles; // comma separated list of roles "ROLE_USER,ROLE_ADMIN" default is "ROLE_USER"
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // static so all classes can use
+
+    @OneToMany
+    private final List<Recipe> recipes = new ArrayList<>();
 
     public User(){}
 
@@ -60,6 +66,14 @@ public class User extends AbstractEntity{
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public List<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void addRecipe(Recipe recipe){
+        this.recipes.add(recipe);
     }
 
     @Override

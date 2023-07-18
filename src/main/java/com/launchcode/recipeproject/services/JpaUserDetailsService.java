@@ -50,6 +50,12 @@ public class JpaUserDetailsService implements UserDetailsService {
             user = result.get();
             return user;
         }
+        // check for a google oauth2 user
+        result = userRepository.findByUsername(username + "@gmail.com");
+        if (result.isPresent()) {
+            user = result.get();
+            return user;
+        }
         return null;
     }
 }
