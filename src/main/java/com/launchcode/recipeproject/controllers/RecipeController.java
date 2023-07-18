@@ -73,11 +73,11 @@ public class RecipeController {
         }
 
         //Get user information and set it in the recipe
-        User user; // create a fake user until we turn on security
+        User user; //TODO create a fake user until we turn on security
         Optional<User> result = userRepository.findByUsername("Temp_User");
         if (result.isPresent()){user = result.get();}
         else{user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER"); userRepository.save(user);}
-//        if (principal != null){ //uncomment when security is turned on
+//        if (principal != null){ // TODO uncomment when security is turned on
 //            System.out.println(principal.getName());
 //            User user = jpaUserDetailsService.getUsername(principal.getName()); // send username, get back User or null
 //        }
