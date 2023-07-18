@@ -17,6 +17,8 @@ import javax.validation.Valid;
 @RequestMapping("recipe/tags")
 public class TagsController {
 
+    //New Tags can be added @ localhost8080/recipe/tags
+
     @Autowired
     TagRepository tagRepository;
 
