@@ -15,8 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +50,8 @@ public class RecipeController {
     @Autowired
     JpaUserDetailsService jpaUserDetailsService;
 
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images/recipe/";
+
     @GetMapping("create")
     public String displayCreateRecipeForm(Model model){
         model.addAttribute("title", "Create Recipe");
@@ -56,7 +62,7 @@ public class RecipeController {
 
     @PostMapping("create")
     public String processCreateRecipeForm(@ModelAttribute @Valid RecipeIngredientDTO form,
-                                          Errors errors, Model model, Principal principal){
+                                          Errors errors, Model model, Principal principal) throws IOException {
         if(errors.hasErrors()){
             model.addAttribute("title", "Create Recipe");
             return "recipe/create";
@@ -83,6 +89,11 @@ public class RecipeController {
 //        }
         form.getRecipe().setUser(user);
         user.addRecipe(form.getRecipe());
+
+        // Add image path to Recipe and save the image
+        String imagePath = UPLOAD_DIRECTORY + form.getImage().getOriginalFilename();
+        Files.write(Path.of((imagePath)), form.getImage().getBytes()); // write image to hard drive
+        form.getRecipe().setImagePath("/images/recipe/" + form.getImage().getOriginalFilename());
 
         //Must save recipe object before ingredient due to One-to-many relationship
         recipeRepository.save(form.getRecipe());

@@ -11,6 +11,7 @@
 <br>
 
 <div>
+    <img th:src="@{${recipe.imagePath}}">
     <h3 th:text="${recipe.name}">Recipe title</h3>
     <label>Serves: </label><label th:text="${recipe.portionNum}"></label>
     <br>

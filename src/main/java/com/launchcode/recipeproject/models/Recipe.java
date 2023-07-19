@@ -35,6 +35,8 @@ public class Recipe extends AbstractEntity{
     @ManyToOne
     private User user;
 
+    private String imagePath;
+
     public Recipe(String name, String instructions, Integer portionNum, User user) {
         this.name = name;
         this.instructions = instructions;
@@ -93,6 +95,14 @@ public class Recipe extends AbstractEntity{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     //Other Methods---------------------------------------------------------------
