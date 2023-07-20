@@ -50,8 +50,6 @@ public class RecipeController {
     @Autowired
     JpaUserDetailsService jpaUserDetailsService;
 
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images/recipe/";
-
     @GetMapping("create")
     public String displayCreateRecipeForm(Model model){
         model.addAttribute("title", "Create Recipe");
@@ -91,9 +89,9 @@ public class RecipeController {
         user.addRecipe(form.getRecipe());
 
         // Add image path to Recipe and save the image
-        String imagePath = UPLOAD_DIRECTORY + form.getImage().getOriginalFilename();
-        Files.write(Path.of((imagePath)), form.getImage().getBytes()); // write image to hard drive
-        form.getRecipe().setImagePath("/images/recipe/" + form.getImage().getOriginalFilename());
+        String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + form.getImage().getOriginalFilename();
+        Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
+        form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + form.getImage().getOriginalFilename());
 
         //Must save recipe object before ingredient due to One-to-many relationship
         recipeRepository.save(form.getRecipe());
