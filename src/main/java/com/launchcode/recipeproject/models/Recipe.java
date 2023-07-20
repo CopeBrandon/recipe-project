@@ -32,10 +32,14 @@ public class Recipe extends AbstractEntity{
     @ManyToMany
     private final List<Tag> tags = new ArrayList<>();
 
-    public Recipe(String name, String instructions, Integer portionNum) {
+    @ManyToOne
+    private User user;
+
+    public Recipe(String name, String instructions, Integer portionNum, User user) {
         this.name = name;
         this.instructions = instructions;
         this.portionNum = portionNum;
+        this.user = user;
     }
 
     public Recipe() {}
@@ -81,6 +85,14 @@ public class Recipe extends AbstractEntity{
 
     public void addTag(Tag tag) {
         this.tags.add(tag);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     //Other Methods---------------------------------------------------------------

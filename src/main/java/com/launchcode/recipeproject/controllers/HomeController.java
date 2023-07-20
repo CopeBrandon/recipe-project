@@ -28,8 +28,11 @@ public class HomeController {
         model.addAttribute("title", "Lets eat!");
 
         // example of how to bring a user in from an authenticated session
+        //TODO remove later, this is just an example
         if (principal != null){
+            System.out.println(principal.getName());
             User user = jpaUserDetailsService.getUsername(principal.getName()); // send username, get back User or null
+            System.out.println(user);
             }
         return "index";
     }
