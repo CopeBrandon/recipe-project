@@ -1,5 +1,6 @@
 package com.launchcode.recipeproject.controllers;
 
+import com.launchcode.recipeproject.data.RecipeRepository;
 import com.launchcode.recipeproject.data.UserRepository;
 import com.launchcode.recipeproject.models.User;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
@@ -21,11 +22,16 @@ public class HomeController {
     private UserRepository userRepository;
 
     @Autowired
+    private RecipeRepository recipeRepository;
+
+    @Autowired
     JpaUserDetailsService jpaUserDetailsService;
 
     @GetMapping()
     public String displayIndex(Model model, Principal principal){
         model.addAttribute("title", "Lets eat!");
+
+        model.addAttribute("top10", recipeRepository.findTop10ByOrderByIdDesc());
 
         // example of how to bring a user in from an authenticated session
         //TODO remove later, this is just an example

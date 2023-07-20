@@ -3,9 +3,24 @@
 <head th:replace="fragments :: head"></head>
 
 <body>
+<header th:replace="fragments :: header"></header>
 <h1 th:text="${title}"></h1>
 
-<header th:replace="fragments :: header"></header>
+<div th:each="recipe : ${top10}">
+        <h3 th:text="${recipe.name}">Recipe title</h3>
+        <label>Serves: </label><label th:text="${recipe.portionNum}"></label>
+        <br>
+        <ul th:each="ingredient : ${recipe.ingredientList}">
+            <li th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
+                Ingredient, amount, measurement
+            </li>
+        </ul>
+        <br>
+        <p th:text="${recipe.instructions}">Instructions</p>
+    </div>
+
+</div>
+
 
 </body>
 </html>
