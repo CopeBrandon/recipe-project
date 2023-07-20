@@ -36,7 +36,9 @@ public class RecipeData {
         if (fieldName.equals("name")){
             theValue = recipe.getName();
         } else if (fieldName.equals("ingredient")){
-            theValue = recipe.getIngredientList().toString();
+//            for(int i = 0; i < recipe.getIngredientList().size(); i++) {
+                theValue = recipe.getIngredientList().toString();
+//            }
         } else {
             theValue = recipe.getTags().toString();
         }

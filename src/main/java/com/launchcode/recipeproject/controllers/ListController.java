@@ -2,6 +2,11 @@ package com.launchcode.recipeproject.controllers;
 
 
 
+import com.launchcode.recipeproject.data.IngredientRepository;
+import com.launchcode.recipeproject.data.RecipeRepository;
+import com.launchcode.recipeproject.data.TagRepository;
+import com.launchcode.recipeproject.models.Recipe;
+import com.launchcode.recipeproject.models.RecipeData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +24,12 @@ import java.util.HashMap;
 @RequestMapping(value = "list")
 public class ListController {
 
-//    @Autowired
-//    private IngredientRepository IngredientRepository;
-//    @Autowired
-//    private RecipeRepository RecipeRepository;
-//    @Autowired
-//    private UserRepository UserRepository;
+    @Autowired
+    private IngredientRepository ingredientRepository;
+    @Autowired
+    private TagRepository tagRepository;
+    @Autowired
+    private RecipeRepository recipeRepository;
 
 
     static HashMap<String, String> columnChoices = new HashMap<>();
@@ -40,24 +45,25 @@ public class ListController {
 
     @RequestMapping("")
     public String list(Model model) {
-//        model.addAttribute();
-//        model.addAttribute();
+        model.addAttribute("ingredients", ingredientRepository.findAll());
+        model.addAttribute("tags", tagRepository.findAll());
 
         return "list";
     }
 
     @GetMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value) {
-//        Iterable<Recipe> recipes;
-//        if (column.toLowerCase().equals("all")){
-//            jobs = jobRepository.findAll();
-//            model.addAttribute("title", "All Jobs");
-//        } else {
-//            jobs = JobData.findByColumnAndValue(column, value, jobRepository.findAll());
-//            model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
-//        }
-//        model.addAttribute("recipes", recipes);
 
-        return "list-jobs";
+        Iterable<Recipe> recipes;
+        if (column.toLowerCase().equals("all")){
+            recipes = recipeRepository.findAll();
+            model.addAttribute("title", "All Jobs");
+        } else {
+            recipes = RecipeData.findByColumnAndValue(column, value, recipeRepository.findAll());
+            model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
+        }
+        model.addAttribute("recipes", recipes);
+
+        return "list-recipes";
     }
 }
