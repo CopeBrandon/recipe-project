@@ -4,6 +4,7 @@ import com.launchcode.recipeproject.models.Ingredient;
 import com.launchcode.recipeproject.models.Recipe;
 import com.launchcode.recipeproject.models.Tag;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 
 public class RecipeIngredientDTO{
     @NotNull
+    @Valid
     private Recipe recipe;
 
     @NotNull
+    @Valid
     private ArrayList<Ingredient> ingredients;
 
     private ArrayList<Tag> tags;

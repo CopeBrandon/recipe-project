@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -59,7 +57,7 @@ public class RecipeController {
                                           Errors errors, Model model, Principal principal){
         if(errors.hasErrors()){
             model.addAttribute("title", "Create Recipe");
-            model.addAttribute("form", new RecipeIngredientDTO());
+            model.addAttribute("form", form);
             model.addAttribute("tags", tagRepository.findAll());
             return "recipe/create";
         }

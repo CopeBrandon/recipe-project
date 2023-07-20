@@ -21,8 +21,8 @@
             Serves:
             <input th:field="${form.recipe.portionNum}" size="1/2">
         </label>
-        <span class="error" th:errors="${form.recipe.name}"></span>
-        <span class="error" th:errors="${form.recipe.portionNum}"></span>
+        <p class="error" th:errors="${form.recipe.name}"></p>
+        <p class="error" th:errors="${form.recipe.portionNum}"></p>
     </div>
 
             <!--Ingredients that are dynamically added by inline JS-->
@@ -34,7 +34,7 @@
         <label>Instructions:
             <input th:field="${form.recipe.instructions}">
         </label>
-        <span class="error"  th:errors="${form.recipe.instructions}"></span>
+        <p class="error"  th:errors="${form.recipe.instructions}"></p>
     </div>
 
     <br>
