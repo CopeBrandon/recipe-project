@@ -49,11 +49,7 @@
                 </p>
                 <p>
                     tags:
-                <ul th:each="tag : ${recipe.tags}">
-                    <li>
-                        <a th:href="@{'/tags/view/' + ${tag.id}}" th:text="${tag.name}"></a>
-                    </li>
-                </ul>
+                    <a th:each="tag : ${recipe.tags}" th:href="@{'/tags/view/' + ${tag.id}}" th:text="${tag.name}"></a>
                 </p>
 
             </td>

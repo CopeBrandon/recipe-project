@@ -1,6 +1,9 @@
 package com.launchcode.recipeproject.controllers;
 
 
+import com.launchcode.recipeproject.data.RecipeRepository;
+import com.launchcode.recipeproject.models.Recipe;
+import com.launchcode.recipeproject.models.RecipeData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +21,8 @@ import static com.launchcode.recipeproject.controllers.ListController.columnChoi
 @RequestMapping
 public class SearchController {
 
-//    @Autowired
-//    private RecipeRepository RecipeRepository;
+    @Autowired
+    private RecipeRepository RecipeRepository;
 
     @RequestMapping ("search")
     public String search(Model model) {
@@ -31,19 +34,19 @@ public class SearchController {
     @PostMapping ("search/results")
     public String displaySearchResults(Model model , @RequestParam String searchType, @RequestParam String searchTerm) {
 
+        Iterable<Recipe> recipes;
+        if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")){
+            recipes = RecipeRepository.findAll();
+        } else {
+            recipes = RecipeData.findByColumnAndValue(searchType, searchTerm, RecipeRepository.findAll());
+        }
 
-
-//        Iterable<Job> jobs;
-//        if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")){
-//            jobs = jobRepository.findAll();
-//        } else {
-//            jobs = JobData.findByColumnAndValue(searchType, searchTerm, jobRepository.findAll());
-//        }
         model.addAttribute("columns", columnChoices);
-//        model.addAttribute("title", "Jobs with " + columnChoices.get(searchType) + ": " + searchTerm);
-//        model.addAttribute("jobs", jobs);
+        model.addAttribute("title", "Recipes with " + columnChoices.get(searchType) + ": " + searchTerm);
+        model.addAttribute("recipes", recipes);
 
         return "search";
+
     }
 
     @RequestMapping ("adv-search")
@@ -55,8 +58,7 @@ public class SearchController {
     @PostMapping ("adv-search/results")
     public String displayAdvancedSearchResults(Model model , @RequestParam String searchType, @RequestParam String searchTerm) {
 
-
-
+        
 //        Iterable<Job> jobs;
 //        if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")){
 //            jobs = jobRepository.findAll();
