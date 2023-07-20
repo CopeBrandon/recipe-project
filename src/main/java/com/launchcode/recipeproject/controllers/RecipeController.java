@@ -59,6 +59,8 @@ public class RecipeController {
                                           Errors errors, Model model, Principal principal){
         if(errors.hasErrors()){
             model.addAttribute("title", "Create Recipe");
+            model.addAttribute("form", new RecipeIngredientDTO());
+            model.addAttribute("tags", tagRepository.findAll());
             return "recipe/create";
         }
 
@@ -81,6 +83,7 @@ public class RecipeController {
 //            System.out.println(principal.getName());
 //            User user = jpaUserDetailsService.getUsername(principal.getName()); // send username, get back User or null
 //        }
+
         form.getRecipe().setUser(user);
         user.addRecipe(form.getRecipe());
 
