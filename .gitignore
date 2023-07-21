@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Java Project ###
+/src/main/uploads/static/images/recipe/
