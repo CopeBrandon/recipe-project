@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
 
-    List<Recipe> findTop10ByOrderByIdDesc();
+    List<Recipe> findTop9ByOrderByIdDesc();
 }

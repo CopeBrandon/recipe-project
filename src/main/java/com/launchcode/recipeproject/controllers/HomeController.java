@@ -31,7 +31,7 @@ public class HomeController {
     public String displayIndex(Model model, Principal principal){
         model.addAttribute("title", "Lets eat!");
 
-        model.addAttribute("top10", recipeRepository.findTop10ByOrderByIdDesc());
+        model.addAttribute("top9", recipeRepository.findTop9ByOrderByIdDesc());
 
         // example of how to bring a user in from an authenticated session
         //TODO remove later, this is just an example
@@ -46,7 +46,7 @@ public class HomeController {
     @PreAuthorize("hasRole('ROLE_ADMIN')") // example of method level security. must add ROLE_USER,ROLE_ADMIN manually in db
     @GetMapping("/admin")
     public String displayRestrictedIndex(Model model){
-        model.addAttribute("title", "Lets eat!");
+        model.addAttribute("title", "Recipe Refresh!");
         return "admin/index";
     }
 }

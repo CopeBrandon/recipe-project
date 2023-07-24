@@ -5,8 +5,9 @@
 <body>
 <header th:replace="fragments :: header"></header>
 <h1 th:text="${title}"></h1>
-
-<div th:each="recipe : ${top10}">
+<div id="top9container">
+<th:block th:each="recipe, iter : ${top9}">
+    <div class="top9element">
         <h3 th:text="${recipe.name}">Recipe title</h3>
         <label>Serves: </label><label th:text="${recipe.portionNum}"></label>
         <br>
@@ -18,7 +19,6 @@
         <br>
         <p th:text="${recipe.instructions}">Instructions</p>
     </div>
-
 </div>
 
 
