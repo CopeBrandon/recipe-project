@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<header th:replace="fragments :: header"></header>
+
+<h1 th:text="${title}"></h1>
+
+<form method="post">
+
+    <!--Recipe Title and serving size-->
+    <div>
+        <label>Recipe Title:
+            <input th:field="${editForm.recipe.name}" th:value="${editForm.recipe.name}">
+            Serves:
+            <input th:field="${editForm.recipe.portionNum}"
+                   th:value="${editForm.recipe.portionNum}" size="1/2">
+        </label>
+        <p class="error" th:errors="${editForm.recipe.name}"></p>
+        <p class="error" th:errors="${editForm.recipe.portionNum}"></p>
+    </div>
+
+    <!--Ingredients that are dynamically added by inline JS-->
+    <label>Ingredients:</label>
+    <br>
+    <th:block th:each="ingredient, iter : ${editForm.ingredients}">
+        <input th:field="*{editForm.ingredients[__${iter.index}__].name}"
+               th:value="${ingredient.name}">
+        <input th:field="*{editForm.ingredients[__${iter.index}__].quantity}"
+               th:value="${ingredient.quantity}" size="3">
+        <select th:field="*{editForm.ingredients[__${iter.index}__].measurement}">
+            <option value="">unit</option>
+            <option value="tsp.">tsp.</option>
+            <option value="tbsp.">tbsp.</option>
+            <option value="cup">cup(s)</option>
+            <option value="drop">drop(s)</option>
+            <option value="dash">dash(s)</option>
+        </select>
+        <br>
+    </th:block>
+
+    <!--Input for Instruction Field-->
+    <div>
+        <label>Instructions:
+            <input th:field="${editForm.recipe.instructions}"
+                   th:value="${editForm.recipe.instructions}">
+        </label>
+        <p class="error"  th:errors="${editForm.recipe.instructions}"></p>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Tags:
+            <input type="checkbox" name="editForm.tags"
+                   th:each="tag : ${tags}"
+                   th:text="${tag.name}"
+                   th:value="${tag.id}"
+                   th:field="*{editForm.recipe.tags}"
+            />
+        </label>
+    </div>
+
+    <br>
+
+    <div>
+        <button type="button" onclick="addIngredient()">Add Ingredient</button>
+        <button type="button" onclick="removeIngredient()">Remove Ingredient</button>
+        <input type="submit" value="Submit">
+    </div>
+
+</body>
+</html>

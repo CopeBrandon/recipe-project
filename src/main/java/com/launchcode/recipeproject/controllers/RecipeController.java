@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -53,7 +54,7 @@ public class RecipeController {
     }
 
     @PostMapping("create")
-    public String processCreateRecipeForm(@ModelAttribute @Valid RecipeIngredientDTO form,
+    public String processCreateRecipeForm(@ModelAttribute ("form") @Valid RecipeIngredientDTO form,
                                           Errors errors, Model model, Principal principal){
         if(errors.hasErrors()){
             model.addAttribute("title", "Create Recipe");
@@ -106,5 +107,26 @@ public class RecipeController {
             return "redirect:../";
         }
 
+    }
+
+    @GetMapping("edit/{recipeId}")
+    public String displayEditForm (Model model, @PathVariable int recipeId){
+
+        Optional optRecipe = recipeRepository.findById(recipeId);
+
+        if (optRecipe.isPresent()){
+            Recipe recipeToEdit = (Recipe)optRecipe.get();
+            RecipeIngredientDTO editForm = new RecipeIngredientDTO();
+            editForm.setRecipe(recipeToEdit);
+            editForm.setTags(recipeToEdit.getTags());
+            editForm.setIngredients(recipeToEdit.getIngredientList());
+
+            model.addAttribute("editForm", editForm);
+            model.addAttribute("tags", tagRepository.findAll());
+            model.addAttribute("title", "Edit Recipe");
+            return "recipe/edit";
+        } else {
+            return "redirect:../";
+        }
     }
 }

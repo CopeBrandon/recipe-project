@@ -7,6 +7,7 @@ import com.launchcode.recipeproject.models.Tag;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sean Feuerhelm
@@ -19,9 +20,9 @@ public class RecipeIngredientDTO{
 
     @NotNull
     @Valid
-    private ArrayList<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
 
-    private ArrayList<Tag> tags;
+    private List<Tag> tags;
 
     public RecipeIngredientDTO(Recipe recipe) {
         this.recipe = recipe;
@@ -38,11 +39,11 @@ public class RecipeIngredientDTO{
         this.recipe = recipe;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -50,11 +51,11 @@ public class RecipeIngredientDTO{
         this.ingredients.add(ingredient);
     }
 
-    public ArrayList<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
