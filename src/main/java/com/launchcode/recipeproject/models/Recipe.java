@@ -95,6 +95,14 @@ public class Recipe extends AbstractEntity{
         this.user = user;
     }
 
+    public void clearIngredients(){
+        this.ingredientList.clear();
+    }
+
+    public void clearTags(){
+        this.tags.clear();
+    }
+
     //Other Methods---------------------------------------------------------------
 
 

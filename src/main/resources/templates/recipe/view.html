@@ -25,5 +25,9 @@
 
 <div th:replace="fragments :: recipe-tags"></div>
 
+<a th:href="@{edit/__${recipe.id}__}">
+<button type="button">Edit</button>
+</a>
+
 </body>
 </html>

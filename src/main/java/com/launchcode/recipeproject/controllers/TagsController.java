@@ -24,7 +24,7 @@ public class TagsController {
 
     @GetMapping
     public String displayCreateTagForm(Model model){
-        model.addAttribute("title", "Create Tag");
+        model.addAttribute("title", "Create Tags");
         model.addAttribute("tags", tagRepository.findAll());
         model.addAttribute(new Tag());
         return "recipe/tags";

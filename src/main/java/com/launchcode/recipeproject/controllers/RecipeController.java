@@ -4,6 +4,7 @@ import com.launchcode.recipeproject.data.IngredientRepository;
 import com.launchcode.recipeproject.data.RecipeRepository;
 import com.launchcode.recipeproject.data.TagRepository;
 import com.launchcode.recipeproject.data.UserRepository;
+import com.launchcode.recipeproject.exceptions.ResourceNotFoundException;
 import com.launchcode.recipeproject.models.Ingredient;
 import com.launchcode.recipeproject.models.Recipe;
 import com.launchcode.recipeproject.models.Tag;
@@ -11,6 +12,7 @@ import com.launchcode.recipeproject.models.User;
 import com.launchcode.recipeproject.models.dto.RecipeIngredientDTO;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -109,7 +110,9 @@ public class RecipeController {
 
     }
 
-    @GetMapping("edit/{recipeId}")
+    //Editing Controllers ------------------------------------------------------
+
+    @GetMapping("view/edit/{recipeId}")
     public String displayEditForm (Model model, @PathVariable int recipeId){
 
         Optional optRecipe = recipeRepository.findById(recipeId);
@@ -127,6 +130,45 @@ public class RecipeController {
             return "recipe/edit";
         } else {
             return "redirect:../";
+        }
+    }
+
+    @PutMapping("{recipeId}")
+    public String updateRecipe(@PathVariable int recipeId,
+                               @RequestBody RecipeIngredientDTO recipeDetails){
+        Optional optRecipe = recipeRepository.findById(recipeId);
+
+        if (optRecipe.isPresent()){
+
+            //TODO add validation here
+
+            Recipe recipeToEdit = (Recipe)optRecipe.get();
+            Recipe editedRecipe = recipeDetails.getRecipe();
+            recipeToEdit.setName(editedRecipe.getName());
+            recipeToEdit.setInstructions(editedRecipe.getInstructions());
+            recipeToEdit.setPortionNum(editedRecipe.getPortionNum());
+
+            recipeToEdit.clearTags();
+            recipeToEdit.clearIngredients();
+
+            for (Ingredient ingredient : recipeDetails.getIngredients()){
+                recipeToEdit.addIngredient(ingredient);
+                ingredient.setRecipe(recipeToEdit);
+            }
+
+            for (Tag tag : recipeDetails.getTags()){
+                recipeToEdit.addTag(tag);
+                tag.addRecipe(recipeToEdit);
+            }
+
+            recipeRepository.save(recipeToEdit);
+            ingredientRepository.saveAll(recipeDetails.getIngredients());
+
+            return "redirect:view/" + recipeId;
+
+
+        } else {
+            throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
         }
     }
 }
