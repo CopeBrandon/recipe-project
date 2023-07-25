@@ -15,8 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +60,7 @@ public class RecipeController {
 
     @PostMapping("create")
     public String processCreateRecipeForm(@ModelAttribute @Valid RecipeIngredientDTO form,
-                                          Errors errors, Model model, Principal principal){
+                                          Errors errors, Model model, Principal principal) throws IOException {
         if(errors.hasErrors()){
             model.addAttribute("title", "Create Recipe");
             return "recipe/create";
@@ -83,6 +87,11 @@ public class RecipeController {
 //        }
         form.getRecipe().setUser(user);
         user.addRecipe(form.getRecipe());
+
+        // Add image path to Recipe and save the image
+        String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + form.getImage().getOriginalFilename();
+        Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
+        form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + form.getImage().getOriginalFilename());
 
         //Must save recipe object before ingredient due to One-to-many relationship
         recipeRepository.save(form.getRecipe());
