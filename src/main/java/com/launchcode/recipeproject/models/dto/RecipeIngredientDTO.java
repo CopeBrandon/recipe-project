@@ -3,6 +3,7 @@ package com.launchcode.recipeproject.models.dto;
 import com.launchcode.recipeproject.models.Ingredient;
 import com.launchcode.recipeproject.models.Recipe;
 import com.launchcode.recipeproject.models.Tag;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class RecipeIngredientDTO{
 
     @NotNull
     private ArrayList<Ingredient> ingredients;
+
+    private MultipartFile image;
 
     private ArrayList<Tag> tags;
 
@@ -45,6 +48,14 @@ public class RecipeIngredientDTO{
 
     public void addIngredient(Ingredient ingredient){
         this.ingredients.add(ingredient);
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 
     public ArrayList<Tag> getTags() {
