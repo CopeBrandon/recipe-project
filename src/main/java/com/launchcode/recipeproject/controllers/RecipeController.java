@@ -89,9 +89,11 @@ public class RecipeController {
         user.addRecipe(form.getRecipe());
 
         // Add image path to Recipe and save the image
-        String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + form.getImage().getOriginalFilename();
-        Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
-        form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + form.getImage().getOriginalFilename());
+        if(form.getImage().getSize() != 0) { // check if image was uploaded
+            String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + form.getImage().getOriginalFilename();
+            Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
+            form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + form.getImage().getOriginalFilename()); // set image path in Recipe
+        }
 
         //Must save recipe object before ingredient due to One-to-many relationship
         recipeRepository.save(form.getRecipe());

@@ -6,19 +6,21 @@
 <header th:replace="fragments :: header"></header>
 <h1 th:text="${title}"></h1>
 <div id="top9container">
-<th:block th:each="recipe, iter : ${top9}">
-    <div class="top9element">
-        <h3 th:text="${recipe.name}">Recipe title</h3>
-        <label>Serves: </label><label th:text="${recipe.portionNum}"></label>
-        <br>
-        <ul th:each="ingredient : ${recipe.ingredientList}">
-            <li th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
-                Ingredient, amount, measurement
-            </li>
-        </ul>
-        <br>
-        <p th:text="${recipe.instructions}">Instructions</p>
-    </div>
+    <th:block th:each="recipe, iter : ${top9}">
+        <div class="top9element">
+            <img th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}">
+            <h3 th:text="${recipe.name}">Recipe title</h3>
+            <label>Serves: </label><label th:text="${recipe.portionNum}"></label>
+            <br>
+            <ul th:each="ingredient : ${recipe.ingredientList}">
+                <li th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
+                    Ingredient, amount, measurement
+                </li>
+            </ul>
+            <br>
+            <p th:text="${recipe.instructions}">Instructions</p>
+        </div>
+    </th:block>
 </div>
 
 
