@@ -26,5 +26,17 @@
 
 <div th:replace="fragments :: tags"></div>
 
+<div>
+    <td th:text = "${recipe.userLikeCount()} + ' '"></td>
+    <td th:if="${user}">
+        <span th:if="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button>Unlike</button></a></span>
+        <span th:unless="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button>Like</button></a></span>
+    </td>
+    <td th:unless="${user}">
+        <span><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button>Like</button></a></span>
+        <a th:if="${likeError}" th:text="${likeError}" th:href="@{'/login'}"></a>
+    </td>
+</div>
+
 </body>
 </html>

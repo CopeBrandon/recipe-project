@@ -3,6 +3,7 @@ package com.launchcode.recipeproject.controllers;
 import com.launchcode.recipeproject.data.RecipeRepository;
 import com.launchcode.recipeproject.data.UserRepository;
 import com.launchcode.recipeproject.models.User;
+import com.launchcode.recipeproject.services.ControllerServices;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +26,7 @@ public class HomeController {
     private RecipeRepository recipeRepository;
 
     @Autowired
-    JpaUserDetailsService jpaUserDetailsService;
+    ControllerServices controllerServices;
 
     @GetMapping()
     public String displayIndex(Model model, Principal principal){
@@ -35,11 +36,9 @@ public class HomeController {
 
         // example of how to bring a user in from an authenticated session
         //TODO remove later, this is just an example
-        if (principal != null){
-            System.out.println(principal.getName());
-            User user = jpaUserDetailsService.getUsername(principal.getName()); // send username, get back User or null
-            System.out.println(user);
-            }
+        User user = controllerServices.getUser(principal); // get back User or null
+        System.out.println(user);
+
         return "index";
     }
 

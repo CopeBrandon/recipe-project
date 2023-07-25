@@ -4,11 +4,9 @@ import com.launchcode.recipeproject.data.IngredientRepository;
 import com.launchcode.recipeproject.data.RecipeRepository;
 import com.launchcode.recipeproject.data.TagRepository;
 import com.launchcode.recipeproject.data.UserRepository;
-import com.launchcode.recipeproject.models.Ingredient;
-import com.launchcode.recipeproject.models.Recipe;
-import com.launchcode.recipeproject.models.Tag;
-import com.launchcode.recipeproject.models.User;
+import com.launchcode.recipeproject.models.*;
 import com.launchcode.recipeproject.models.dto.RecipeIngredientDTO;
+import com.launchcode.recipeproject.services.ControllerServices;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -48,7 +47,7 @@ public class RecipeController {
     private UserRepository userRepository;
 
     @Autowired
-    JpaUserDetailsService jpaUserDetailsService;
+    ControllerServices controllerServices;
 
     @GetMapping("create")
     public String displayCreateRecipeForm(Model model){
@@ -81,10 +80,7 @@ public class RecipeController {
         Optional<User> result = userRepository.findByUsername("Temp_User");
         if (result.isPresent()){user = result.get();}
         else{user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER"); userRepository.save(user);}
-//        if (principal != null){ // TODO uncomment when security is turned on
-//            System.out.println(principal.getName());
-//            User user = jpaUserDetailsService.getUsername(principal.getName()); // send username, get back User or null
-//        }
+//        User user = controllerServices.getUser(principal); TODO uncomment when we are ready to turn on security
         form.getRecipe().setUser(user);
         user.addRecipe(form.getRecipe());
 
@@ -104,17 +100,36 @@ public class RecipeController {
     }
 
     @GetMapping("view/{recipeId}")
-    public String displayRecipe(Model model, @PathVariable int recipeId){
+    public String displayRecipe(Model model, @PathVariable int recipeId, Principal principal){
         Optional optRecipe = recipeRepository.findById(recipeId);
         if (optRecipe.isPresent()){
             Recipe recipe = (Recipe)optRecipe.get();
             model.addAttribute("recipe", recipe);
             model.addAttribute("tags", tagRepository.findAll());
             model.addAttribute("title", "View Recipe");
+            model.addAttribute("user", controllerServices.getUser(principal));
             return "recipe/view";
         } else {
             return "redirect:../";
         }
+    }
 
+    @GetMapping("view/{recipeId}/like")
+    public String processUserLike(@PathVariable int recipeId, Model model, Principal principal){
+        Recipe recipe = controllerServices.getRecipe(recipeId); // returns a Recipe or null
+        User user = controllerServices.getUser(principal); // returns a User or null
+        if(user == null){
+            model.addAttribute("likeError", "Please Log In!");
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("tags", tagRepository.findAll());
+            model.addAttribute("title", "View Recipe");
+            return "recipe/view";
+        }
+
+        UserLike userLike = new UserLike(user.getId()); // generate like
+        recipe.handleUserLike(userLike); // like or unlike
+        recipeRepository.save(recipe);
+
+        return "redirect:/recipe/view/" + recipe.getId();
     }
 }

@@ -41,6 +41,9 @@ public class Recipe extends AbstractEntity{
 
     private String imagePath;
 
+    @OneToMany(cascade=CascadeType.ALL)
+    private final List<UserLike> userLikes = new ArrayList<>();
+
     public Recipe(String name, String instructions, Integer portionNum, User user) {
         this.name = name;
         this.instructions = instructions;
@@ -119,6 +122,28 @@ public class Recipe extends AbstractEntity{
 
     //Other Methods---------------------------------------------------------------
 
+    public void handleUserLike(UserLike userLike){
+        for(UserLike like : userLikes){ //remove like if present
+            if (like.getUserId() == userLike.getUserId()){ //int == int
+                this.userLikes.remove(userLikes.indexOf(like));
+                return;
+            }
+        }
+        this.userLikes.add(userLike); //add like if not present
+    }
+
+    public Integer userLikeCount(){
+        return this.userLikes.size();
+    }
+
+    public Boolean userLiked(int userId){
+        for(UserLike like : userLikes){
+            if (like.getUserId() == userId){ //int == int
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
