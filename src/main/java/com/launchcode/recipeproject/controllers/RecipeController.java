@@ -15,11 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -112,7 +114,7 @@ public class RecipeController {
 
     //Editing Controllers ------------------------------------------------------
 
-    @GetMapping("view/edit/{recipeId}")
+    @GetMapping("edit/{recipeId}")
     public String displayEditForm (Model model, @PathVariable int recipeId){
 
         Optional optRecipe = recipeRepository.findById(recipeId);
@@ -129,46 +131,68 @@ public class RecipeController {
             model.addAttribute("title", "Edit Recipe");
             return "recipe/edit";
         } else {
-            return "redirect:../";
+            throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
         }
     }
 
-    @PutMapping("{recipeId}")
-    public String updateRecipe(@PathVariable int recipeId,
-                               @RequestBody RecipeIngredientDTO recipeDetails){
+    @PostMapping("edit/{recipeId}")
+    public String updateRecipe(@ModelAttribute ("editForm") @Valid RecipeIngredientDTO recipeDetails,
+                               Errors errors, Model model,
+                               @PathVariable int recipeId){
+
+        //Validates that the updated info doesn't have errors
+        //TODO Currently only redirects, does not display error messages
+        if(errors.hasErrors()){
+            model.addAttribute("title", "Edit Recipe");
+            model.addAttribute("editForm", recipeDetails);
+            model.addAttribute("tags", tagRepository.findAll());
+            return "redirect:/recipe/edit/" + recipeId;
+        }
+
+        //Check if entry is in database, if not, throws exception
         Optional optRecipe = recipeRepository.findById(recipeId);
-
         if (optRecipe.isPresent()){
-
-            //TODO add validation here
-
+            //Converts optional into a recipe object
             Recipe recipeToEdit = (Recipe)optRecipe.get();
+
+            //Separates DTO into more readable objects
             Recipe editedRecipe = recipeDetails.getRecipe();
+            List<Ingredient> editedIngs = recipeDetails.getIngredients();
+
+            //Uses getters and setter to update the original database object
             recipeToEdit.setName(editedRecipe.getName());
             recipeToEdit.setInstructions(editedRecipe.getInstructions());
             recipeToEdit.setPortionNum(editedRecipe.getPortionNum());
 
-            recipeToEdit.clearTags();
-            recipeToEdit.clearIngredients();
-
-            for (Ingredient ingredient : recipeDetails.getIngredients()){
-                recipeToEdit.addIngredient(ingredient);
-                ingredient.setRecipe(recipeToEdit);
+            //For each loop for updating each individual ingredient with getters and setters
+            int index = 0;
+            for (Ingredient ing : recipeToEdit.getIngredientList()) {
+                Optional optIng = ingredientRepository.findById(ing.getId());
+                if (optIng.isPresent()) {
+                    Ingredient ingToEdit = (Ingredient)optIng.get();
+                    ingToEdit.setName(editedIngs.get(index).getName());
+                    ingToEdit.setMeasurement(editedIngs.get(index).getMeasurement());
+                    ingToEdit.setQuantity(editedIngs.get(index).getQuantity());
+                    index++;
+                } else {
+                    throw new ResourceNotFoundException("No ingredient exists with the id: " + ing.getId());
+                }
             }
 
+            //Clear existing tags before Adding the updated tags
+            recipeToEdit.clearTags();
             for (Tag tag : recipeDetails.getTags()){
                 recipeToEdit.addTag(tag);
-                tag.addRecipe(recipeToEdit);
             }
 
+            //Saves the updated ingredients and recipe
             recipeRepository.save(recipeToEdit);
-            ingredientRepository.saveAll(recipeDetails.getIngredients());
+            ingredientRepository.saveAll(recipeToEdit.getIngredientList());
 
-            return "redirect:view/" + recipeId;
-
-
+            //redirects you to the updated view page
+            return "redirect:/recipe/view/" + recipeId;
         } else {
-            throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
+           throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
         }
     }
 }

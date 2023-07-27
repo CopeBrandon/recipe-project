@@ -8,7 +8,7 @@
 
 <h1 th:text="${title}"></h1>
 
-<form method="put">
+<form method="post">
 
     <!--Recipe Title and serving size-->
     <div>
@@ -58,7 +58,7 @@
                    th:each="tag : ${tags}"
                    th:text="${tag.name}"
                    th:value="${tag.id}"
-                   th:field="*{editForm.recipe.tags}"
+                   th:field="*{editForm.tags}"
             />
         </label>
     </div>
@@ -70,7 +70,9 @@
 <!--        <button type="button" onclick="removeIngredient()">Remove Ingredient</button>-->
         <input type="submit" value="Submit">
     </div>
+
 </form>
+
 
 </body>
 </html>
