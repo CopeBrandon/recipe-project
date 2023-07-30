@@ -2,9 +2,6 @@ package com.launchcode.recipeproject.models;
 
 import java.util.*;
 
-
-import static org.springframework.security.util.FieldUtils.getFieldValue;
-
 public class RecipeData {
 
     public static ArrayList<Recipe> findByColumnAndValue(String column, String value, Iterable<Recipe> allRecipes) {
@@ -31,16 +28,17 @@ public class RecipeData {
         return results;
     }
 
-    public static String getFieldValue(Recipe recipe, String fieldName){
+    public static String getFieldValue(Recipe recipe, String fieldName) {
         String theValue;
         if (fieldName.equals("name")){
             theValue = recipe.getName();
-        } else if (fieldName.equals("ingredient")){
-//            for(int i = 0; i < recipe.getIngredientList().size(); i++) {
-                theValue = recipe.getIngredientList().toString();
-//            }
-        } else {
-            theValue = recipe.getTags().toString();
+            System.out.println(recipe.getName());
+        } else if (fieldName.equals("ingredients")){
+            theValue = recipe.getIngredientList().toString();
+            System.out.println(recipe.getIngredientList().toString());
+        } else { //prints [com.launchcode.recipeproject.models.Tag@20] instead of tags
+            theValue = recipe.getTags().toString().toString();
+            System.out.println(recipe.getTags().toString().toString());
         }
 
         return theValue;
