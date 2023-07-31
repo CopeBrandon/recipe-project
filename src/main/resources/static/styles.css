@@ -5,3 +5,11 @@
 .top9element{
     flex-basis: 33.333333%;
 }
+
+.ratingButton {
+    background:url(/images/star.png) no-repeat;
+    cursor:pointer;
+    width: 20px;
+    height: 20px;
+    border: none;
+}

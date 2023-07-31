@@ -166,6 +166,10 @@ public class Recipe extends AbstractEntity{
         return (double) Math.round((sum / userRatings.size()) * 10)/10; // round to one decimal place
     }
 
+    public int userRatingCount(){
+        return userRatings.size();
+    }
+
     @Override
     public String toString() {
         return name;
