@@ -72,9 +72,9 @@ public class RecipeController {
             form.getRecipe().addIngredient(ingredient);
         }
         //For Loop to connect the tags to the recipe (had to Comment out to work)
-//        for (Tag tag : form.getTags()){
-//            form.getRecipe().addTag(tag);
-//        }
+        for (Tag tag : form.getTags()){
+            form.getRecipe().addTag(tag);
+        }
 
         //Get user information and set it in the recipe
         User user; //TODO create a fake user until we turn on security

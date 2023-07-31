@@ -41,4 +41,7 @@ public class Tag extends AbstractEntity{
 
     public void addRecipe(Recipe recipe){this.recipes.add(recipe);}
 
+    @Override
+    public String toString() { return name; }
+
 }

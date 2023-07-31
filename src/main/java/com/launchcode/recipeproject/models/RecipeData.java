@@ -33,14 +33,10 @@ public class RecipeData {
         String theValue;
         if (fieldName.equals("name")){
             theValue = recipe.getName();
-            System.out.println(recipe.getName());
         } else if (fieldName.equals("ingredients")){
             theValue = recipe.getIngredientList().toString();
-            System.out.println(recipe.getIngredientList().toString());
         } else {
-            //prints [com.launchcode.recipeproject.models.Tag@20] instead of tags
-            theValue = recipe.getTags().toString().toString();
-            System.out.println(recipe.getTags().toString().toString());
+            theValue = recipe.getTags().toString();
         }
 
         return theValue;

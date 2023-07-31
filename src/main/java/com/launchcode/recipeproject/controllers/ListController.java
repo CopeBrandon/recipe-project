@@ -51,19 +51,4 @@ public class ListController {
         return "list";
     }
 
-//    @GetMapping(value = "jobs")
-//    public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value) {
-//
-//        Iterable<Recipe> recipes;
-//        if (column.toLowerCase().equals("all")){
-//            recipes = recipeRepository.findAll();
-//            model.addAttribute("title", "All Jobs");
-//        } else {
-//            recipes = RecipeData.findByColumnAndValue(column, value, recipeRepository.findAll());
-//            model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
-//        }
-//        model.addAttribute("recipes", recipes);
-//
-//        return "list-recipes";
-//    }
 }
