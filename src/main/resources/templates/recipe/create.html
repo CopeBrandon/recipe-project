@@ -12,7 +12,7 @@
 
 <br>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data" >
 
             <!--Recipe Title and serving size-->
     <div>
@@ -56,6 +56,15 @@
             <input th:field="${form.recipe.instructions}">
         </label>
         <p class="error"  th:errors="${form.recipe.instructions}"></p>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Add an Image:
+<!--            <input type="file" accept="image/*" name="image">-->
+            <input type="file" accept="image/*" th:field="${form.image}">
+        </label>
     </div>
 
     <br>
