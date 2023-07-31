@@ -37,6 +37,37 @@
         <a th:if="${likeError}" th:text="${likeError}" th:href="@{'/login'}"></a>
     </td>
 </div>
+<br>
+<div>
+    <td th:text = "${recipe.recipeRating()} + ' '"></td>
+    <td th:if="${user}">
+        <span>
+            <a th:text="1 " th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=1'}"></a>
+            <a th:text="2 " th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=2'}"></a>
+            <a th:text="3 " th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=3'}"></a>
+            <a th:text="4 " th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=4'}"></a>
+            <a th:text="5 " th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=5'}"></a>
+        </span>
+    </td>
+    <td th:unless="${user}">
+        <span>
+            <a th:text="1 " th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=1'}"></a>
+            <a th:text="2 " th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=2'}"></a>
+            <a th:text="3 " th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=3'}"></a>
+            <a th:text="4 " th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=4'}"></a>
+            <a th:text="5 " th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=5'}"></a>
+        </span>
+        <a th:if="${ratingError}" th:text="${ratingError}" th:href="@{'/login'}"></a>
+    </td>
+
+<!--        <span th:if="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button>Unlike</button></a></span>-->
+<!--        <span th:unless="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button>Like</button></a></span>-->
+<!--    </td>-->
+<!--    <td th:unless="${user}">-->
+<!--        <span><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button>Like</button></a></span>-->
+<!--        <a th:if="${likeError}" th:text="${likeError}" th:href="@{'/login'}"></a>-->
+<!--    </td>-->
+</div>
 
 </body>
 </html>

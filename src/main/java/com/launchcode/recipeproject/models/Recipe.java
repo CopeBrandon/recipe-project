@@ -163,9 +163,7 @@ public class Recipe extends AbstractEntity{
         for (UserRating rating : userRatings){
             sum += rating.getUserRating();
         }
-        double average = (double) Math.round((sum / userRatings.size()) * 10)/10; // round to one decimal place
-
-        return average;
+        return (double) Math.round((sum / userRatings.size()) * 10)/10; // round to one decimal place
     }
 
     @Override

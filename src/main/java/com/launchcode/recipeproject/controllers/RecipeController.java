@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -128,6 +129,25 @@ public class RecipeController {
 
         UserLike userLike = new UserLike(user.getId()); // generate like
         recipe.handleUserLike(userLike); // like or unlike
+        recipeRepository.save(recipe);
+
+        return "redirect:/recipe/view/" + recipe.getId();
+    }
+
+    @GetMapping("view/{recipeId}/rate")
+    public String processUserRating(@PathVariable int recipeId, @RequestParam String rating, Model model, Principal principal){
+        Recipe recipe = controllerServices.getRecipe(recipeId);
+        User user = controllerServices.getUser(principal);
+        if(user == null){
+            model.addAttribute("ratingError", "Please Log In!");
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("tags", tagRepository.findAll());
+            model.addAttribute("title", "View Recipe");
+            return "recipe/view";
+        }
+
+        UserRating userRating = new UserRating(user.getId(), Integer.parseInt(rating));
+        recipe.addUserRating(userRating); // add or change rating
         recipeRepository.save(recipe);
 
         return "redirect:/recipe/view/" + recipe.getId();
