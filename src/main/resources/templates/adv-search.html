@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <title></title>
 </head>
+<!-- add , addSearchBox() -->
 <body onload="addSearchBox()">
 
 <div class="container body-content">
@@ -39,7 +40,6 @@
                 //Create select and option for type of search
                 let searchType = document.createElement("select");
                 searchType.setAttribute("name", "searchType");
-                searchType.setAttribute("id", "searchType");
 
                 let defaultOption = document.createElement("option");
                 defaultOption.text = "All";
@@ -53,19 +53,13 @@
 
                 let option2 = document.createElement("option");
                 option2.text = "Ingredients";
-                option2.value = "ingredient";
+                option2.value = "ingredients";
                 searchType.appendChild(option2);
 
                 let option3 = document.createElement("option");
                 option3.text = "Tags";
                 option3.value = "tags";
                 searchType.appendChild(option3);
-
-    //            let options = document.createElement("option");
-    //            options.setAttribute("th:each", "column : ${columns}");
-    //            options.setAttribute("th:value", "${column.key}");
-    //            options.setAttribute("th:text", "${column.value}");
-    //            searchType.appendChild(options);
 
                 searchBox.appendChild(searchType);
 
@@ -78,7 +72,6 @@
                 // Creates the text box for searchTerm
                 let searchTerm = document.createElement("input");
                 searchTerm.type = "text";
-                searchTerm.setAttribute("id", "searchTerm");
                 searchTerm.setAttribute("name", "searchTerm");
                 searchBox.appendChild(searchTerm);
 

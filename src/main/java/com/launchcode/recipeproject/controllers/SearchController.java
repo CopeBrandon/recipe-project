@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static com.launchcode.recipeproject.controllers.ListController.columnChoices;
 
 
@@ -30,7 +34,6 @@ public class SearchController {
         return "search";
     }
 
-    // TODO #3 - Create a handler to process a search request and render the updated search view.
     @PostMapping ("search/results")
     public String displaySearchResults(Model model , @RequestParam String searchType, @RequestParam String searchTerm) {
 
@@ -55,14 +58,26 @@ public class SearchController {
         return "adv-search";
     }
 
+
     @PostMapping ("adv-search/results")
     public String displayAdvancedSearchResults(Model model , @RequestParam String searchType, @RequestParam String searchTerm) {
 
-        Iterable<Recipe> recipes;
-        if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")){
-            recipes = RecipeRepository.findAll();
-        } else {
-            recipes = RecipeData.findByColumnAndValue(searchType, searchTerm, RecipeRepository.findAll());
+        Iterable<Recipe> recipes = null;
+        String[] searchTerms = searchTerm.split(",");
+        String[] searchTypes = searchType.split(",");
+        System.out.println(Arrays.toString(searchTerms));
+        System.out.println(Arrays.toString(searchTypes));
+
+        for (int i=0; i < searchTerms.length; i++) {
+            String sTe = searchTerms[i];
+            String sTy = searchTypes[i];
+
+            if (sTe.toLowerCase().equals("all") || sTe.equals("")){
+                recipes = RecipeRepository.findAll();
+            } else {
+                recipes = RecipeData.findByColumnAndValue(sTy, sTe, RecipeRepository.findAll());
+            }
+
         }
 
         model.addAttribute("columns", columnChoices);
@@ -70,6 +85,7 @@ public class SearchController {
         model.addAttribute("recipes", recipes);
 
         return "adv-search";
+
     }
 
 }
