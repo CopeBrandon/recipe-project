@@ -4,7 +4,8 @@ import java.util.*;
 
 public class RecipeData {
 
-    public static ArrayList<Recipe> findByColumnAndValue(String column, String value, Iterable<Recipe> allRecipes) {
+// Changed Iterable to ArrayList for allRecipes
+    public static ArrayList<Recipe> findByColumnAndValue(String column, String value, ArrayList<Recipe> allRecipes) {
 
         ArrayList<Recipe> results = new ArrayList<>();
 
@@ -36,7 +37,8 @@ public class RecipeData {
         } else if (fieldName.equals("ingredients")){
             theValue = recipe.getIngredientList().toString();
             System.out.println(recipe.getIngredientList().toString());
-        } else { //prints [com.launchcode.recipeproject.models.Tag@20] instead of tags
+        } else {
+            //prints [com.launchcode.recipeproject.models.Tag@20] instead of tags
             theValue = recipe.getTags().toString().toString();
             System.out.println(recipe.getTags().toString().toString());
         }
@@ -44,7 +46,7 @@ public class RecipeData {
         return theValue;
     }
 
-    public static ArrayList<Recipe> findByValue(String value, Iterable<Recipe> allRecipes) {
+    public static ArrayList<Recipe> findByValue(String value, ArrayList<Recipe> allRecipes) {
         String lower_val = value.toLowerCase();
 
         ArrayList<Recipe> results = new ArrayList<>();

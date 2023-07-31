@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static com.launchcode.recipeproject.controllers.ListController.columnChoices;
@@ -37,11 +38,13 @@ public class SearchController {
     @PostMapping ("search/results")
     public String displaySearchResults(Model model , @RequestParam String searchType, @RequestParam String searchTerm) {
 
-        Iterable<Recipe> recipes;
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
         if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")){
-            recipes = RecipeRepository.findAll();
+            recipes.addAll((Collection<? extends Recipe>) RecipeRepository.findAll());
+//            recipes = RecipeRepository.findAll();
         } else {
-            recipes = RecipeData.findByColumnAndValue(searchType, searchTerm, RecipeRepository.findAll());
+            recipes.addAll(RecipeData.findByColumnAndValue(searchType, searchTerm, (ArrayList<Recipe>) RecipeRepository.findAll()));
+//            recipes = RecipeData.findByColumnAndValue(searchType, searchTerm, RecipeRepository.findAll());
         }
 
         model.addAttribute("columns", columnChoices);
@@ -62,20 +65,23 @@ public class SearchController {
     @PostMapping ("adv-search/results")
     public String displayAdvancedSearchResults(Model model , @RequestParam String searchType, @RequestParam String searchTerm) {
 
-        Iterable<Recipe> recipes = null;
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+
         String[] searchTerms = searchTerm.split(",");
         String[] searchTypes = searchType.split(",");
-        System.out.println(Arrays.toString(searchTerms));
-        System.out.println(Arrays.toString(searchTypes));
+//        System.out.println(Arrays.toString(searchTerms));
+//        System.out.println(Arrays.toString(searchTypes));
 
         for (int i=0; i < searchTerms.length; i++) {
             String sTe = searchTerms[i];
             String sTy = searchTypes[i];
 
             if (sTe.toLowerCase().equals("all") || sTe.equals("")){
-                recipes = RecipeRepository.findAll();
+                recipes.addAll((Collection<? extends Recipe>) RecipeRepository.findAll());
+//                recipes = RecipeRepository.findAll();
             } else {
-                recipes = RecipeData.findByColumnAndValue(sTy, sTe, RecipeRepository.findAll());
+                recipes.addAll(RecipeData.findByColumnAndValue(sTy, sTe, (ArrayList<Recipe>) RecipeRepository.findAll()));
+//                recipes = RecipeData.findByColumnAndValue(sTy, sTe, RecipeRepository.findAll());
             }
 
         }
