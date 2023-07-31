@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,10 +78,15 @@ public class RecipeController {
             ingredient.setRecipe(form.getRecipe());
             form.getRecipe().addIngredient(ingredient);
         }
+
         //For Loop to connect the tags to the recipe
-        for (Tag tag : form.getTags()){
-            form.getRecipe().addTag(tag);
+        ArrayList<Tag> allTags = (ArrayList<Tag>) tagRepository.findAll();
+        if (allTags.size() > 0){
+            for (Tag tag : form.getTags()){
+                form.getRecipe().addTag(tag);
+            }
         }
+
 
         //Get user information and set it in the recipe
         User user; //TODO create a fake user until we turn on security
