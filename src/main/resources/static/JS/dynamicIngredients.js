@@ -32,6 +32,7 @@ let ingredientCount = 0;
         // Adds options to the select element
         let defaultOption = document.createElement("option");
         defaultOption.text = "unit";
+        defaultOption.value = ""
         measurementUnit.appendChild(defaultOption);
 
         let option1 = document.createElement("option");
@@ -60,6 +61,7 @@ let ingredientCount = 0;
         measurementUnit.appendChild(option5);
 
         container.appendChild(measurementUnit);
+
 
         // Creates line break after new ingredient
         let linebreak = document.createElement("br");

@@ -63,6 +63,12 @@ public class RecipeController {
             model.addAttribute("title", "Create Recipe");
             model.addAttribute("form", form);
             model.addAttribute("tags", tagRepository.findAll());
+            for (Ingredient ingredient : form.getIngredients()){
+                if (ingredient.getName().isBlank() || ingredient.getMeasurement().isBlank() || ingredient.getQuantity() == null){
+                    model.addAttribute("ingError", "Ensure all ingredient fields are entered correctly");
+                    break;
+                }
+            }
             return "recipe/create";
         }
 
