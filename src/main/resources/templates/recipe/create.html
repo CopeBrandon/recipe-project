@@ -27,8 +27,28 @@
 
             <!--Ingredients that are dynamically added by inline JS-->
     <label>Ingredients:</label>
+    <br>
+    <div id="ingredientContainer">
+        <th:block th:each="ingredient, iter : ${form.ingredients}">
+            <span>
+                <input class="existingIng" th:field="*{form.ingredients[__${iter.index}__].name}">
+                <input th:field="*{form.ingredients[__${iter.index}__].quantity}" size="3">
+                <select th:field="*{form.ingredients[__${iter.index}__].measurement}">
+                    <option value="">unit</option>
+                    <option value="tsp.">tsp.</option>
+                    <option value="tbsp.">tbsp.</option>
+                    <option value="cup">cup(s)</option>
+                    <option value="drop">drop(s)</option>
+                    <option value="dash">dash(s)</option>
+                </select>
+                <p class="error" th:errors="*{form.ingredients[__${iter.index}__].name}"></p>
+                <p class="error" th:errors="*{form.ingredients[__${iter.index}__].quantity}"></p>
+                <p class="error" th:errors="*{form.ingredients[__${iter.index}__].measurement}"></p>
+            </span>
+        </th:block>
+    </div>
     <div id="newIngredientContainer"></div>
-    <p class="error" th:text="${ingError}"></p>
+
 
             <!--Input for Instruction Field-->
     <div>

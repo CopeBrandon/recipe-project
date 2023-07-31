@@ -2,10 +2,16 @@
 
 //Functions for adding
 
-let ingredientCount = 0;
+let initIngContainer = document.getElementById("ingredientContainer");
+let ingredientCount = initIngContainer.children.length
+console.log(ingredientCount)
+
+
 
     function addIngredient() {
         let container = document.getElementById("newIngredientContainer");
+        let ingSpan = document.createElement("span")
+        
 
         // Creates ingredient name text box
         let ingredientName = document.createElement("input");
@@ -13,7 +19,7 @@ let ingredientCount = 0;
         ingredientName.placeholder = "Name";
         ingredientName.setAttribute("id", "ingredients" + ingredientCount + ".name");
         ingredientName.setAttribute("name", "ingredients[" + ingredientCount + "].name");
-        container.appendChild(ingredientName);
+        ingSpan.appendChild(ingredientName);
 
         // Creates ingredient quantity text box
         let ingredientQuantity = document.createElement("input");
@@ -22,7 +28,7 @@ let ingredientCount = 0;
         ingredientQuantity.setAttribute("size", "3");
         ingredientQuantity.setAttribute("id", "ingredients" + ingredientCount + ".quantity");
         ingredientQuantity.setAttribute("name", "ingredients[" + ingredientCount + "].quantity");
-        container.appendChild(ingredientQuantity);
+        ingSpan.appendChild(ingredientQuantity);
 
         // Creates measurement select element
         let measurementUnit = document.createElement("select");
@@ -60,26 +66,38 @@ let ingredientCount = 0;
         option5.value = "dash";
         measurementUnit.appendChild(option5);
 
-        container.appendChild(measurementUnit);
+        ingSpan.appendChild(measurementUnit);
 
 
         // Creates line break after new ingredient
         let linebreak = document.createElement("br");
-        container.appendChild(linebreak);
+        ingSpan.appendChild(linebreak);
+
+        container.appendChild(ingSpan)
 
         ingredientCount++;
     }
 
-    addIngredient();
+    if (ingredientCount == 0){addIngredient();}
+
 
     function removeIngredient() {
-        let container = document.getElementById("newIngredientContainer");
+        let existingIngredientContainer = document.getElementById("ingredientContainer")
+        let newIngredientContainer = document.getElementById("newIngredientContainer");
 
-        if (ingredientCount > 0) {
-            container.removeChild(container.lastElementChild);
-            container.removeChild(container.lastElementChild);
-            container.removeChild(container.lastElementChild);
-            container.removeChild(container.lastElementChild);
-            ingredientCount--;
+        if (ingredientCount > 1) {
+            if (newIngredientContainer.children.length > 0){
+                newIngredientContainer.removeChild(newIngredientContainer.lastElementChild)
+                ingredientCount--;
+
+            } else if (existingIngredientContainer.children.length > 0){
+                existingIngredientContainer.removeChild(existingIngredientContainer.lastElementChild)
+                ingredientCount--;
+            }
+            // container.removeChild(container.lastElementChild);
+            // container.removeChild(container.lastElementChild);
+            // container.removeChild(container.lastElementChild);
+            // container.removeChild(container.lastElementChild);
+            // ingredientCount--;
         }
     }

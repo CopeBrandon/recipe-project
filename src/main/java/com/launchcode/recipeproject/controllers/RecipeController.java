@@ -64,12 +64,6 @@ public class RecipeController {
             model.addAttribute("title", "Create Recipe");
             model.addAttribute("form", form);
             model.addAttribute("tags", tagRepository.findAll());
-            for (Ingredient ingredient : form.getIngredients()){
-                if (ingredient.getName().isBlank() || ingredient.getMeasurement().isBlank() || ingredient.getQuantity() == null){
-                    model.addAttribute("ingError", "Ensure all ingredient fields are entered correctly");
-                    break;
-                }
-            }
             return "recipe/create";
         }
 
@@ -152,13 +146,11 @@ public class RecipeController {
                                Errors errors, Model model,
                                @PathVariable int recipeId){
 
-        //Validates that the updated info doesn't have errors
-        //TODO Currently only redirects, does not display error messages
         if(errors.hasErrors()){
             model.addAttribute("title", "Edit Recipe");
             model.addAttribute("editForm", recipeDetails);
             model.addAttribute("tags", tagRepository.findAll());
-            return "redirect:/recipe/edit/" + recipeId;
+            return "recipe/edit";
         }
 
         //Check if entry is in database, if not, throws exception
@@ -177,6 +169,7 @@ public class RecipeController {
             recipeToEdit.setPortionNum(editedRecipe.getPortionNum());
 
             //For each loop for updating each individual ingredient with getters and setters
+            //TODO Allow Users to add new ingredients while editing
             int index = 0;
             for (Ingredient ing : recipeToEdit.getIngredientList()) {
                 Optional optIng = ingredientRepository.findById(ing.getId());
@@ -186,10 +179,12 @@ public class RecipeController {
                     ingToEdit.setMeasurement(editedIngs.get(index).getMeasurement());
                     ingToEdit.setQuantity(editedIngs.get(index).getQuantity());
                     index++;
-                } else {
-                    throw new ResourceNotFoundException("No ingredient exists with the id: " + ing.getId());
                 }
             }
+            for (Ingredient newIng : editedIngs){
+                recipeToEdit.addIngredient(newIng);
+            }
+
 
             //Clear existing tags before Adding the updated tags
             recipeToEdit.clearTags();
@@ -198,8 +193,9 @@ public class RecipeController {
             }
 
             //Saves the updated ingredients and recipe
-            recipeRepository.save(recipeToEdit);
             ingredientRepository.saveAll(recipeToEdit.getIngredientList());
+            recipeRepository.save(recipeToEdit);
+
 
             //redirects you to the updated view page
             return "redirect:/recipe/view/" + recipeId;

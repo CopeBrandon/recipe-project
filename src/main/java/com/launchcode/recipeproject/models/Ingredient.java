@@ -13,14 +13,14 @@ import javax.validation.constraints.Size;
 @Entity
 public class Ingredient extends AbstractEntity{
 
-    @NotBlank(message = "Ingredient names required")
-    @Size(min = 1, max = 35, message = "Ingredient names must not exceed 50 characters")
+    @NotBlank(message = "*Ingredient name required")
+    @Size(max = 35, message = "*Ingredient names must not exceed 50 characters")
     private String name;
 
-    @NotNull(message = "Quantity required")
+    @NotNull(message = "*Quantity required")
     private Double quantity;
 
-    @NotBlank(message = "Measurement required")
+    @NotBlank(message = "*Measurement required")
     private String measurement;
 
 

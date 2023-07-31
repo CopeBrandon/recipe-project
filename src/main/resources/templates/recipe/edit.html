@@ -25,21 +25,28 @@
     <!--Ingredients that are dynamically added by inline JS-->
     <label>Ingredients:</label>
     <br>
-    <th:block th:each="ingredient, iter : ${editForm.ingredients}">
-        <input th:field="*{editForm.ingredients[__${iter.index}__].name}"
-               th:value="${ingredient.name}">
-        <input th:field="*{editForm.ingredients[__${iter.index}__].quantity}"
-               th:value="${ingredient.quantity}" size="3">
-        <select th:field="*{editForm.ingredients[__${iter.index}__].measurement}">
-            <option value="">unit</option>
-            <option value="tsp.">tsp.</option>
-            <option value="tbsp.">tbsp.</option>
-            <option value="cup">cup(s)</option>
-            <option value="drop">drop(s)</option>
-            <option value="dash">dash(s)</option>
-        </select>
-        <br>
-    </th:block>
+    <div id="ingredientContainer">
+        <th:block th:each="ingredient, iter : ${editForm.ingredients}">
+            <span>
+                <input th:field="*{editForm.ingredients[__${iter.index}__].name}"
+                       th:value="${ingredient.name}">
+                <input th:field="*{editForm.ingredients[__${iter.index}__].quantity}"
+                       th:value="${ingredient.quantity}" size="3">
+                <select th:field="*{editForm.ingredients[__${iter.index}__].measurement}">
+                    <option value="">unit</option>
+                    <option value="tsp.">tsp.</option>
+                    <option value="tbsp.">tbsp.</option>
+                    <option value="cup">cup(s)</option>
+                    <option value="drop">drop(s)</option>
+                    <option value="dash">dash(s)</option>
+                </select>
+                <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].name}"></p>
+                <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].quantity}"></p>
+                <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].measurement}"></p>
+            </span>
+        </th:block>
+    </div>
+    <div id="newIngredientContainer"></div>
 
     <!--Input for Instruction Field-->
     <div>
@@ -66,13 +73,14 @@
     <br>
 
     <div>
-<!--        <button type="button" onclick="addIngredient()">Add Ingredient</button>-->
-<!--        <button type="button" onclick="removeIngredient()">Remove Ingredient</button>-->
+        <button type="button" onclick="addIngredient()">Add Ingredient</button>
+        <button type="button" onclick="removeIngredient()">Remove Ingredient</button>
         <input type="submit" value="Submit">
     </div>
 
 </form>
 
+<script type="text/javascript" th:src="@{/JS/dynamicIngredients.js}"></script>
 
 </body>
 </html>

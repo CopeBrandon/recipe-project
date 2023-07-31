@@ -16,14 +16,14 @@ import java.util.List;
 @Entity
 public class Recipe extends AbstractEntity{
 
-    @NotBlank(message = "Recipe name required")
-    @Size(min = 1, max = 75, message = "Recipe name must not exceed 75 characters")
+    @NotBlank(message = "*Recipe name required")
+    @Size(max = 75, message = "*Recipe name must not exceed 75 characters")
     private String name;
 
-    @NotBlank(message = "Instructions required")
+    @NotBlank(message = "*Instructions required")
     private String instructions;
 
-    @NotNull(message = "Portion number required")
+    @NotNull(message = "*Portion number required")
     private Integer portionNum;
 
     @OneToMany(mappedBy = "recipe")

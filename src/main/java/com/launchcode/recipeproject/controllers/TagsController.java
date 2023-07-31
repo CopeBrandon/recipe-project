@@ -35,6 +35,8 @@ public class TagsController {
                                        Errors errors, Model model){
         if (errors.hasErrors()){
             model.addAttribute("title", "Create Tags");
+            model.addAttribute("tags", tagRepository.findAll());
+            model.addAttribute("tag", tag);
             return "recipe/tags";
         }
 
