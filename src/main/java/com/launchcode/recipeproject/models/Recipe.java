@@ -44,6 +44,9 @@ public class Recipe extends AbstractEntity{
     @OneToMany(cascade=CascadeType.ALL)
     private final List<UserLike> userLikes = new ArrayList<>();
 
+    @OneToMany(cascade=CascadeType.ALL)
+    private final List<UserRating> userRatings = new ArrayList<>();
+
     public Recipe(String name, String instructions, Integer portionNum, User user) {
         this.name = name;
         this.instructions = instructions;
@@ -143,6 +146,26 @@ public class Recipe extends AbstractEntity{
             }
         }
         return false;
+    }
+
+    public void addUserRating(UserRating userRating){
+        for(UserRating rating : userRatings){
+            if (rating.getUserId()  == userRating.getUserId()){
+                userRatings.set(userRatings.indexOf(rating), userRating); // update a rating
+                return;
+            }
+        }
+        this.userRatings.add(userRating); // add if not present
+    }
+
+    public double recipeRating(){
+        double sum = 0.0;
+        for (UserRating rating : userRatings){
+            sum += rating.getUserRating();
+        }
+        double average = (double) Math.round((sum / userRatings.size()) * 10)/10; // round to one decimal place
+
+        return average;
     }
 
     @Override
