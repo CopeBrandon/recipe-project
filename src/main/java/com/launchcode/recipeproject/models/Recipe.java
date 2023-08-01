@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -146,6 +147,10 @@ public class Recipe extends AbstractEntity{
             }
         }
         return false;
+    }
+
+    public List<Integer> getRatingScale() {
+        return new ArrayList<>(Arrays.asList(1,2,3,4,5));
     }
 
     public void addUserRating(UserRating userRating){

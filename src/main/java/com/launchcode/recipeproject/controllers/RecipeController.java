@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -116,7 +117,7 @@ public class RecipeController {
     }
 
     @GetMapping("view/{recipeId}/like")
-    public String processUserLike(@PathVariable int recipeId, Model model, Principal principal){
+    public String processUserLike(@PathVariable int recipeId, Principal principal){
         Recipe recipe = controllerServices.getRecipe(recipeId); // returns a Recipe or null
         User user = controllerServices.getUser(principal); // returns a User or null
         UserLike userLike = new UserLike(user.getId()); // generate like
@@ -127,7 +128,7 @@ public class RecipeController {
     }
 
     @GetMapping("view/{recipeId}/rate")
-    public String processUserRating(@PathVariable int recipeId, @RequestParam String rating, Model model, Principal principal){
+    public String processUserRating(@PathVariable int recipeId, @RequestParam String rating, Principal principal){
         Recipe recipe = controllerServices.getRecipe(recipeId);
         User user = controllerServices.getUser(principal);
         UserRating userRating = new UserRating(user.getId(), Integer.parseInt(rating));
