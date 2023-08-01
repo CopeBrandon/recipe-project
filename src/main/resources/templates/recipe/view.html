@@ -33,8 +33,10 @@
         <span th:unless="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button class="btn btn-primary">Like</button></a></span>
     </td>
     <td th:unless="${user}">
-        <span><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button class="btn btn-primary">Like</button></a></span>
-        <a th:if="${likeError}" th:text="${likeError}" th:href="@{'/login'}"></a>
+<!--        <span><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button class="btn btn-primary">Like</button></a></span>-->
+        <span><button class="btn btn-primary" onclick="likeLogIn()">Like</button></span>
+        <span id="likeLogIn"></span>
+<!--        <a th:if="${likeError}" th:text="${likeError}" th:href="@{'/login'}"></a>-->
     </td>
 </div>
 
@@ -44,20 +46,37 @@
     <td th:text = "${recipe.recipeRating()} + ' Stars : Reviewed by ' + ${recipe.userRatingCount()} + ' people'"></td>
     <br>
     <td>
-        <span>
-<!--            <button type="button" onclick="ratingLogIn()">TEST</button>-->
-            <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=1'}" onclick="ratingLogIn()"><button class="ratingButton"></button></a>
+        <span th:if="${user}">
+            <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=1'}"><button class="ratingButton"></button></a>
             <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=2'}"><button class="ratingButton"></button></a>
             <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=3'}"><button class="ratingButton"></button></a>
             <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=4'}"><button class="ratingButton"></button></a>
             <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=5'}"><button class="ratingButton"></button></a>
         </span>
-        <a th:if="${ratingError}" th:text="${ratingError}" th:href="@{'/login'}"></a>
-        <p id="ratingsLogIn"></p>
+        <span th:unless="${user}">
+            <button class="ratingButton" onclick="ratingLogIn()"></button>
+            <button class="ratingButton" onclick="ratingLogIn()"></button>
+            <button class="ratingButton" onclick="ratingLogIn()"></button>
+            <button class="ratingButton" onclick="ratingLogIn()"></button>
+            <button class="ratingButton" onclick="ratingLogIn()"></button>
+        </span>
+        <span id="ratingLogIn"></span>
+
         <script th:inline="javascript">
+        function likeLogIn(){
+            let span = document.getElementById('likeLogIn');
+            let a = document.createElement('a');
+            a.innerHTML="Please Log In!";
+            a.setAttribute('href', '/login');
+            span.appendChild(a);
+            }
+
         function ratingLogIn(){
-            let html = "yex";
-            document.getElementById('ratingsLogIn').innerHTML = html;
+            let span = document.getElementById('ratingLogIn');
+            let a = document.createElement('a');
+            a.innerHTML="Please Log In!";
+            a.setAttribute('href', '/login');
+            span.appendChild(a);
             }
         </script>
     </td>

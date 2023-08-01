@@ -119,14 +119,6 @@ public class RecipeController {
     public String processUserLike(@PathVariable int recipeId, Model model, Principal principal){
         Recipe recipe = controllerServices.getRecipe(recipeId); // returns a Recipe or null
         User user = controllerServices.getUser(principal); // returns a User or null
-        if(user == null){
-            model.addAttribute("likeError", "Please Log In!");
-            model.addAttribute("recipe", recipe);
-            model.addAttribute("tags", tagRepository.findAll());
-            model.addAttribute("title", "View Recipe");
-            return "recipe/view";
-        }
-
         UserLike userLike = new UserLike(user.getId()); // generate like
         recipe.handleUserLike(userLike); // like or unlike
         recipeRepository.save(recipe);
@@ -138,14 +130,6 @@ public class RecipeController {
     public String processUserRating(@PathVariable int recipeId, @RequestParam String rating, Model model, Principal principal){
         Recipe recipe = controllerServices.getRecipe(recipeId);
         User user = controllerServices.getUser(principal);
-        if(user == null){
-            model.addAttribute("ratingError", "Please Log In!");
-            model.addAttribute("recipe", recipe);
-            model.addAttribute("tags", tagRepository.findAll());
-            model.addAttribute("title", "View Recipe");
-            return "recipe/view";
-        }
-
         UserRating userRating = new UserRating(user.getId(), Integer.parseInt(rating));
         recipe.addUserRating(userRating); // add or change rating
         recipeRepository.save(recipe);
