@@ -1,8 +1,26 @@
 .sidebar {
-    background-color: #F5F5F5
+        background-color: #D3D3D3;
+        width: 180px;
+        position: fixed;
+        top: 10%;
+        height: 100%;
 }
 
 #search {
      padding-right: 50px;
+}
+
+.sidebar-list {
+    list-style-type: none
+    padding-top: 50px
+}
+
+.sidebar-link {
+    color: black;
+    text-decoration: none
+}
+
+.sidebar-list-item {
+    padding: 10px
 }
 

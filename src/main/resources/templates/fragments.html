@@ -11,7 +11,7 @@
 <body>
 <header th:fragment="header">
     <div ></div>
-    <nav class="navbar navbar-expand-sm bg-body-tertiary" id="navbar">
+    <nav class="navbar fixed-top navbar-expand-sm bg-body-tertiary" id="navbar">
         <div class="container-fluid bg-success bg-opacity-75">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav">
                 <span class="navbar-toggler-icon"></span>
@@ -46,34 +46,26 @@
     </ul>
 </div>
 
-<div th:fragment="sidebar" class="sidebar">
-    <button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
-        View Profile
-    </button>
 
-    <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
-        <div class="offcanvas-header">
-            <h3 class="offcanvas-title" id="staticBackdropLabel">My Profile</h3>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body h4">
-            <div class="">
-                <a href="">Favorites</a>
-            </div>
-            <div class="">
-                <a href="">My Recipes</a>
-            </div>
-            <div class="">
-                <a href="">Menu</a>
-            </div>
-            <div class="">
-                <a href="">Grocery List</a>
-            </div>
-            <div class="">
-                <a href="">Change Password</a>
-            </div>
-        </div>
-    </div>
+<div th:fragment="sidebar" class="sidebar">
+    <h3 class="h3 text-center pt-5 pb-4">Welcome</h3>
+    <ul class="list-inline sidebar-list">
+        <li class="list-inline-item text-center sidebar-list-item">
+            <a class="sidebar-link" href="">Favorites</a>
+        </li>
+        <li class="list-inline-item sidebar-list-item">
+            <a class="sidebar-link" href="">My Recipes</a>
+        </li>
+        <li class="list-inline-item sidebar-list-item">
+            <a class="sidebar-link" href="">Menu</a>
+        </li>
+        <li class="list-inline-item sidebar-list-item">
+            <a class="sidebar-link" href="">Grocery List</a>
+        </li>
+        <li class="list-inline-item sidebar-list-item">
+            <a class="sidebar-link" href="">Change Password</a>
+        </li>
+    </ul>
 </div>
 
 </body>
