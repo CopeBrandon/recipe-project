@@ -12,13 +12,10 @@ import com.launchcode.recipeproject.models.User;
 import com.launchcode.recipeproject.models.dto.RecipeIngredientDTO;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -122,7 +119,8 @@ public class RecipeController {
             model.addAttribute("title", "View Recipe");
             return "recipe/view";
         } else {
-            return "redirect:../";
+            model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
+            return "recipe/notFound";
         }
 
     }
@@ -211,5 +209,15 @@ public class RecipeController {
         } else {
            throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
         }
+    }
+
+    @GetMapping("delete/{recipeId}")
+    private String deleteRecipe (@PathVariable int recipeId, Model model){
+        Optional optRecipe = recipeRepository.findById(recipeId);
+        if (optRecipe.isPresent()){
+            recipeRepository.deleteById(recipeId);
+        }
+        model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
+        return "recipe/notFound";
     }
 }

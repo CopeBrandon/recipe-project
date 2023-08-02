@@ -7,7 +7,6 @@ let ingredientCount = initIngContainer.children.length
 console.log(ingredientCount)
 
 
-
     function addIngredient() {
         let container = document.getElementById("newIngredientContainer");
         let ingSpan = document.createElement("span")
@@ -89,15 +88,9 @@ console.log(ingredientCount)
             if (newIngredientContainer.children.length > 0){
                 newIngredientContainer.removeChild(newIngredientContainer.lastElementChild)
                 ingredientCount--;
-
             } else if (existingIngredientContainer.children.length > 0){
                 existingIngredientContainer.removeChild(existingIngredientContainer.lastElementChild)
                 ingredientCount--;
             }
-            // container.removeChild(container.lastElementChild);
-            // container.removeChild(container.lastElementChild);
-            // container.removeChild(container.lastElementChild);
-            // container.removeChild(container.lastElementChild);
-            // ingredientCount--;
         }
     }

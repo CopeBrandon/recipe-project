@@ -29,9 +29,13 @@
 <a th:href="@{/recipe/edit/__${recipe.id}__}">
     <button type="button">Edit</button>
 </a>
-<a th:href="@{/recipe/delete/__${recipe.id}__}">
+
+<a th:href="@{/recipe/delete/__${recipe.id}__}" onclick="confirmDeletion()">
     <button type="button">Delete</button>
 </a>
+
+<script type="text/javascript" th:src="@{/JS/deletionConfirmation.js}"></script>
+
 
 </body>
 </html>

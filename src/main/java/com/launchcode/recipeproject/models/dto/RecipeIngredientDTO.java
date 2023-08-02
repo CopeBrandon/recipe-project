@@ -27,8 +27,6 @@ public class RecipeIngredientDTO{
 
     private MultipartFile image;
 
-    private ArrayList<Tag> tags;
-
     public RecipeIngredientDTO(Recipe recipe) {
         this.recipe = recipe;
         this.ingredients = new ArrayList<>();
@@ -56,7 +54,6 @@ public class RecipeIngredientDTO{
         this.ingredients.add(ingredient);
     }
 
-    public List<Tag> getTags() {
     public MultipartFile getImage() {
         return image;
     }
@@ -65,7 +62,7 @@ public class RecipeIngredientDTO{
         this.image = image;
     }
 
-    public ArrayList<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 

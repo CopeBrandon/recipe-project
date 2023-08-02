@@ -1,5 +1,6 @@
 package com.launchcode.recipeproject.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
@@ -25,7 +26,7 @@ public class Ingredient extends AbstractEntity{
 
 
     //Added a recipes object to link a many-to-one relationship with recipes
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     private Recipe recipe;
 
 

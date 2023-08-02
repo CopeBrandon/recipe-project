@@ -1,6 +1,9 @@
 package com.launchcode.recipeproject.models;
 
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,6 +17,8 @@ import java.util.List;
  */
 
 @Entity
+@SQLDelete(sql = "UPDATE recipe SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class Recipe extends AbstractEntity{
 
     @NotBlank(message = "*Recipe name required")
@@ -26,7 +31,7 @@ public class Recipe extends AbstractEntity{
     @NotNull(message = "*Portion number required")
     private Integer portionNum;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private final List<Ingredient> ingredientList = new ArrayList<>();
 
     @ManyToMany
@@ -40,6 +45,8 @@ public class Recipe extends AbstractEntity{
     private final String RELATIVE_PATH = "/uploads/static/images/recipe";
 
     private String imagePath;
+
+    private boolean deleted = Boolean.FALSE;
 
     public Recipe(String name, String instructions, Integer portionNum, User user) {
         this.name = name;
