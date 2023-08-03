@@ -188,24 +188,26 @@ public class RecipeController {
                     index++;
                 }
             }
-            for (Ingredient newIng : editedIngs){
-                recipeToEdit.addIngredient(newIng);
-            }
+//            for (Ingredient newIng : editedIngs){
+//                recipeToEdit.addIngredient(newIng);
+//            }
 
 
             //Clear existing tags before Adding the updated tags
             recipeToEdit.clearTags();
-            for (Tag tag : recipeDetails.getTags()){
-                recipeToEdit.addTag(tag);
+            if (recipeDetails.getTags() != null) {
+                for (Tag tag : recipeDetails.getTags()) {
+                    recipeToEdit.addTag(tag);
+                }
             }
 
             //Saves the updated ingredients and recipe
-            ingredientRepository.saveAll(recipeToEdit.getIngredientList());
             recipeRepository.save(recipeToEdit);
+            ingredientRepository.saveAll(recipeToEdit.getIngredientList());
 
 
             //redirects you to the updated view page
-            return "redirect:/recipe/view/" + recipeId;
+            return "redirect:view/" + recipeId;
         } else {
            throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
         }
@@ -216,6 +218,29 @@ public class RecipeController {
         Optional optRecipe = recipeRepository.findById(recipeId);
         if (optRecipe.isPresent()){
             recipeRepository.deleteById(recipeId);
+        }
+        model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
+        return "recipe/notFound";
+    }
+
+    @PostMapping("convert/{recipeId}")
+    private String convertRecipe (@PathVariable int recipeId,
+                                  @ModelAttribute("portionNum") int newPortionNum,
+                                  Model model){
+        Optional optRecipe = recipeRepository.findById(recipeId);
+        if (optRecipe.isPresent()){
+            Recipe convertedRecipe = (Recipe) optRecipe.get();
+            int oldPortionNum = convertedRecipe.getPortionNum();
+            for (Ingredient ingredient : convertedRecipe.getIngredientList()){
+                double convertedIngQuantity = (ingredient.getQuantity() / oldPortionNum) * newPortionNum;
+                double convertedIngQuantityRounded = (Math.round(convertedIngQuantity*100)) / (double)100;
+                ingredient.setQuantity(convertedIngQuantityRounded);
+            }
+            convertedRecipe.setPortionNum(newPortionNum);
+            model.addAttribute("recipe", convertedRecipe);
+            model.addAttribute("title", "Converted Recipe");
+            model.addAttribute("tags", tagRepository.findAll());
+            return "recipe/view";
         }
         model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
         return "recipe/notFound";

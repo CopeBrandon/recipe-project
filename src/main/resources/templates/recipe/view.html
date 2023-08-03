@@ -13,10 +13,15 @@
 <div>
     <img th:src="@{${recipe.imagePath}}">
     <h3 th:text="${recipe.name}">Recipe title</h3>
-    <label>Serves: </label><label th:text="${recipe.portionNum}"></label>
+    <label>Serves:
+        <form method="post" th:action="@{/recipe/convert/__${recipe.id}__}">
+            <input size="1" th:value="${recipe.portionNum}" id="portionNum" name="portionNum">
+            <button type="submit">Convert</button>
+        </form>
+    </label>
     <br>
-    <ul th:each="ingredient : ${recipe.ingredientList}">
-        <li th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
+    <ul>
+        <li th:each="ingredient : ${recipe.ingredientList}" th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
             Ingredient, amount, measurement
         </li>
     </ul>
