@@ -207,7 +207,7 @@ public class RecipeController {
 
 
             //redirects you to the updated view page
-            return "redirect:view/" + recipeId;
+            return "redirect:../view/" + recipeId;
         } else {
            throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
         }

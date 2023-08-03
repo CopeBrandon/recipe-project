@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("recipe/tags")
@@ -38,6 +39,15 @@ public class TagsController {
             model.addAttribute("tags", tagRepository.findAll());
             model.addAttribute("tag", tag);
             return "recipe/tags";
+        }
+        ArrayList<Tag> allTags = (ArrayList<Tag>) tagRepository.findAll();
+        for (Tag existingTag : allTags){
+            if (tag.getName().equals(existingTag.getName())){
+                model.addAttribute("title", "Create Tags");
+                model.addAttribute("tags", tagRepository.findAll());
+                model.addAttribute("tag", tag);
+                return "recipe/tags";
+            }
         }
 
         //Makes tags uniform
