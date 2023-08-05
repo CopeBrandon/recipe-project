@@ -1,4 +1,4 @@
-package com.launchcode.recipeproject.models.dto;
+package com.launchcode.recipeproject.models;
 
 import com.launchcode.recipeproject.models.Recipe;
 
