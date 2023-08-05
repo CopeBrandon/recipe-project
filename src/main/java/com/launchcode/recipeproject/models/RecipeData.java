@@ -5,47 +5,48 @@ import com.launchcode.recipeproject.models.Recipe;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-//public class RecipeData {
+public class RecipeData {
 
 
-/*    public static ArrayList<Recipe> findByColumnAndValue(String column, String value){
+    public static ArrayList<Recipe> findByColumnAndValue(String column, String value) {
         ArrayList<Recipe> recipe = new ArrayList<>();
-        if(value. toLowerCase().equals("all")){
+        if (value.toLowerCase().equals("all")) {
             return findAll();
         }
-        if (column.equals("all")){
+        if (column.equals("all")) {
             recipes = findByValue(value);
             return recipes;
 
         }
-        for (Recipe recipe : allRecipes){
+        for (Recipe recipe : allRecipes) {
             String aValue = getFieldValue(recipe, column);
 
-            if (aValue !=null && aValue.toLowerCase().contains(value.toLowerCase())){
+            if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
                 recipe.add(recipe);
             }
         }
         return recipe;
     }
-    public static String getFieldValue(Recipe recipe, String fieldName){
+
+    public static String getFieldValue(Recipe recipe, String fieldName) {
         String theValue;
-        if(fieldName.equals("name")){
+        if (fieldName.equals("name")) {
             theValue = recipe.getName();
-        }else if (fieldName.equals("recentRecipes")){
+        } else if (fieldName.equals("recentRecipes")) {
             theValue = recipe.getRecentRecipes().toString();
-        }else if (fieldName.equals("myFavorite")){
+        } else if (fieldName.equals("myFavorite")) {
             theValue = recipe.getMyFavorite().toString();
-        }else if (fieldName.equals("myMenu")){
+        } else if (fieldName.equals("myMenu")) {
             theValue = recipe.getMyMenu().toString();
-        }else if (fieldName.equals("groceryList")){
+        } else if (fieldName.equals("groceryList")) {
             theValue = recipe.getGroceryList().toString();
-        }else if (fieldName.equals("viewAll")){
+        } else if (fieldName.equals("viewAll")) {
             theValue = recipe.getViewAll().toString();
-        }else if (fieldName.equals("advancedSearch"));
+        } else if (fieldName.equals("advancedSearch")) ;
         theValue = recipe.getAdvanceSearch().toString();
 
-return theValue;
-}
+        return theValue;
+    }
 
     public static ArrayList<Recipe> findByValue(String value) {
         String lower_val = value.toLowerCase();
@@ -68,10 +69,10 @@ return theValue;
                 results.add(recipe);
             } else if (recipe.getViewAll().toString().toLowerCase().contains(lower_val)) {
                 results.add(recipe);
-            } else if (recipe.getAdvancedSearch().toString().toLowerCase().contains(lower_val)){
+            } else if (recipe.getAdvancedSearch().toString().toLowerCase().contains(lower_val)) {
                 results.add(recipe);
             }
         }
         return results;
     }
-}*/
+}

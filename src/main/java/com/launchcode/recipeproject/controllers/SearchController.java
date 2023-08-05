@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-//@Controller
-//@RequestMapping
-/*public class SearchController {
+@Controller
+@RequestMapping
+public class SearchController {
 
     @GetMapping(value = "")
     public String search(Model model) {
@@ -31,4 +31,4 @@ import org.springframework.web.bind.annotation.RequestParam;
         model.addAttribute("recipes", recipes);
         return "search";
     }
-}*/
+}
