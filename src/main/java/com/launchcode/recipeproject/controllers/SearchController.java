@@ -1,6 +1,6 @@
 package com.launchcode.recipeproject.controllers;
 
-import com.launchcode.recipeproject.models.dto.RecipeData;
+//import com.launchcode.recipeproject.models.dto.RecipeData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
-@RequestMapping
-public class SearchController {
+//@Controller
+//@RequestMapping
+/*public class SearchController {
 
     @GetMapping(value = "")
     public String search(Model model) {
@@ -31,4 +31,4 @@ public class SearchController {
         model.addAttribute("recipes", recipes);
         return "search";
     }
-}
+}*/

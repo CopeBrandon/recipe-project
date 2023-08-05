@@ -5,10 +5,10 @@ import com.launchcode.recipeproject.models.Recipe;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class RecipeData {
+//public class RecipeData {
 
 
-    public static ArrayList<Recipe> findByColumnAndValue(String column, String value){
+/*    public static ArrayList<Recipe> findByColumnAndValue(String column, String value){
         ArrayList<Recipe> recipe = new ArrayList<>();
         if(value. toLowerCase().equals("all")){
             return findAll();
@@ -74,4 +74,4 @@ return theValue;
         }
         return results;
     }
-}
+}*/
