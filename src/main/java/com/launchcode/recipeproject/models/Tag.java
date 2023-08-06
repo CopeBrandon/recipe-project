@@ -41,4 +41,28 @@ public class Tag extends AbstractEntity{
 
     public void addRecipe(Recipe recipe){this.recipes.add(recipe);}
 
+    @Override
+    public Object getAdvanceSearch() {
+        return null;
+    }
+
+    @Override
+    public Object getMyMenu() {
+        return null;
+    }
+
+    @Override
+    public Object getGroceryList() {
+        return null;
+    }
+
+    @Override
+    public Object getMyFavorite() {
+        return null;
+    }
+
+    @Override
+    public Object getRecentRecipes() {
+        return null;
+    }
 }

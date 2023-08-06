@@ -1,54 +1,48 @@
 package com.launchcode.recipeproject.models;
 
-import com.launchcode.recipeproject.models.Recipe;
+import org.springframework.security.util.FieldUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import static org.springframework.security.util.FieldUtils.getFieldValue;
 
 public class RecipeData {
 
+    private static ArrayList<Recipe> allRecipes;
+    private static ArrayList<RecentRecipe> allRecentRecipes = new ArrayList<>();
+    private static ArrayList<Recipe> allRecipeNames = new ArrayList<>();
+    private static ArrayList<MyFavorite> allMyFavorite = new ArrayList<>();
+    private static ArrayList<MyMenu> allMyMeuns = new ArrayList<>();
+    private static ArrayList<GroceryList> allGroceryLists = new ArrayList<>();
+    private static ArrayList<AdvancedSearch> allAdavacnedSearchs = new ArrayList<>();
+    private static Object recipe;
 
-    public static ArrayList<Recipe> findByColumnAndValue(String column, String value) {
-        ArrayList<Recipe> recipe = new ArrayList<>();
-        if (value.toLowerCase().equals("all")) {
-            return findAll();
-        }
-        if (column.equals("all")) {
-            recipes = findByValue(value);
-            return recipes;
 
-        }
+    public static ArrayList<Recipe> findByColumnAndValue(String column, String value, Iterable<Recipe> allRecipes) throws IllegalAccessException {
+
+          ArrayList<Recipe> results = new ArrayList<>();
+
+
+            if (value.toLowerCase().equals("all")) {
+                return (ArrayList<Recipe>) allRecipes;
+            }
+            if (column.equals("all")) {
+                results = findByValue(value, allRecipes);
+                return results;
+            }
         for (Recipe recipe : allRecipes) {
-            String aValue = getFieldValue(recipe, column);
+
+            String aValue = String.valueOf(getFieldValue(recipe, column));
 
             if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
-                recipe.add(recipe);
+                results.add(recipe);
             }
         }
-        return recipe;
+
+        return results;
     }
 
-    public static String getFieldValue(Recipe recipe, String fieldName) {
-        String theValue;
-        if (fieldName.equals("name")) {
-            theValue = recipe.getName();
-        } else if (fieldName.equals("recentRecipes")) {
-            theValue = recipe.getRecentRecipes().toString();
-        } else if (fieldName.equals("myFavorite")) {
-            theValue = recipe.getMyFavorite().toString();
-        } else if (fieldName.equals("myMenu")) {
-            theValue = recipe.getMyMenu().toString();
-        } else if (fieldName.equals("groceryList")) {
-            theValue = recipe.getGroceryList().toString();
-        } else if (fieldName.equals("viewAll")) {
-            theValue = recipe.getViewAll().toString();
-        } else if (fieldName.equals("advancedSearch")) ;
-        theValue = recipe.getAdvanceSearch().toString();
-
-        return theValue;
-    }
-
-    public static ArrayList<Recipe> findByValue(String value) {
+    public static ArrayList<Recipe> findByValue(String value, Iterable<Recipe> allJobs) {
         String lower_val = value.toLowerCase();
 
         ArrayList<Recipe> results = new ArrayList<>();
@@ -57,22 +51,26 @@ public class RecipeData {
 
             if (recipe.getName().toLowerCase().contains(lower_val)) {
                 results.add(recipe);
-            } else if (recipe.getRecentRecipe().toString().toLowerCase().contains(lower_val)) {
-                results.add(recipe);
-            } else if (recipe.getRecipeName().toString().toLowerCase().contains(lower_val)) {
+            } else if (recipe.getRecentRecipes().toString().toLowerCase().contains(lower_val)) {
                 results.add(recipe);
             } else if (recipe.getMyFavorite().toString().toLowerCase().contains(lower_val)) {
                 results.add(recipe);
-            } else if (recipe.getMyMenu().toString().toLowerCase().contains(lower_val)) {
-                results.add(recipe);
             } else if (recipe.getGroceryList().toString().toLowerCase().contains(lower_val)) {
                 results.add(recipe);
-            } else if (recipe.getViewAll().toString().toLowerCase().contains(lower_val)) {
+            } else if (recipe.getAdvanceSearch().toString().toLowerCase().contains(lower_val)) {
                 results.add(recipe);
-            } else if (recipe.getAdvancedSearch().toString().toLowerCase().contains(lower_val)) {
+            }else if (recipe.getMyMenu().toString().toLowerCase().contains(lower_val)) {
+                    results.add(recipe);
+            } else if (recipe.toString().toLowerCase().contains(lower_val)) {
                 results.add(recipe);
             }
+
         }
+
         return results;
+    }
+
+    public static Iterable<Recipe> all() {
+        return null;
     }
 }

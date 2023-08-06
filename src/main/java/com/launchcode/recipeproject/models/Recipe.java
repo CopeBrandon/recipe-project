@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @Entity
-public class Recipe extends AbstractEntity{
+public abstract class Recipe extends AbstractEntity {
 
     @NotBlank
     @Size(min = 1, max = 75, message = "Recipe name must not exceed 75 characters")
@@ -48,7 +48,8 @@ public class Recipe extends AbstractEntity{
         this.user = user;
     }
 
-    public Recipe() {}
+    public Recipe() {
+    }
 
 
     //Getters and Setters----------------------------------------------------------
@@ -81,7 +82,7 @@ public class Recipe extends AbstractEntity{
         return ingredientList;
     }
 
-    public void addIngredient(Ingredient ingredient){
+    public void addIngredient(Ingredient ingredient) {
         this.ingredientList.add(ingredient);
     }
 
@@ -124,4 +125,6 @@ public class Recipe extends AbstractEntity{
     public String toString() {
         return name;
     }
-}
+
+
+    }
