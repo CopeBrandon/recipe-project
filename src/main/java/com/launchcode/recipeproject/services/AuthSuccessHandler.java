@@ -30,7 +30,9 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
         String referringUrl = "/"; // default to home
         for (Cookie cookie : cookies){
             if(cookie.getName().equals("referringUrl")){
-                referringUrl = cookie.getValue();
+                if (cookie.getValue() != ""){ // fixes a redirect error in case a user starts from /login
+                    referringUrl = cookie.getValue(); // set to referring url
+                }
             }
         }
 
@@ -56,6 +58,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
                 userRepository.save(user);
             }
         }
+
         new DefaultRedirectStrategy().sendRedirect(request, response, referringUrl);
     }
 

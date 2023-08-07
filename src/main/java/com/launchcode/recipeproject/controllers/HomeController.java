@@ -4,7 +4,6 @@ import com.launchcode.recipeproject.data.RecipeRepository;
 import com.launchcode.recipeproject.data.UserRepository;
 import com.launchcode.recipeproject.models.User;
 import com.launchcode.recipeproject.services.ControllerServices;
-import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.util.Optional;
+
 
 @Controller
 @RequestMapping()
@@ -31,10 +30,9 @@ public class HomeController {
     @GetMapping()
     public String displayIndex(Model model, Principal principal){
         model.addAttribute("title", "Recipe Refresh");
-
         model.addAttribute("top9", recipeRepository.findTop9ByOrderByIdDesc());
 
-        // example of how to bring a user in from an authenticated session
+    // example of how to bring a user in from an authenticated session
         //TODO remove later, this is just an example
         User user = controllerServices.getUser(principal); // get back User or null
         System.out.println(user);
