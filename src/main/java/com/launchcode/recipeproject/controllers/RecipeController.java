@@ -1,6 +1,7 @@
 package com.launchcode.recipeproject.controllers;
 
 import com.launchcode.recipeproject.data.IngredientRepository;
+import com.launchcode.recipeproject.data.RecipeRepository;
 import com.launchcode.recipeproject.data.TagRepository;
 import com.launchcode.recipeproject.data.UserRepository;
 import com.launchcode.recipeproject.models.Ingredient;
