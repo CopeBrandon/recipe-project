@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 
-<body>
+<body onload="addComment()">
 
 <header th:replace="fragments :: header"></header>
 
@@ -26,8 +26,9 @@
 
 <div th:replace="fragments :: tags"></div>
 
-<div id="newCommentContainer"></div>
-</br></br>
+<hr />
+
+<div id="newCommentBox"></div>
 
 <div>
     <input type="submit" value="Add Comment" /></br>
@@ -35,18 +36,22 @@
 </br>
 
 <script th:inline="javascript">
-    function addIngredient() {
-        let container = document.getElementById("newCommentContainer");
+    function addComment() {
+        let commentBox = document.getElementById("newCommentBox");
 
         let commentName = document.createElement("input");
         commentName.type = "text";
         commentName.placeholder = "Name";
-        container.appendChild(commentName);
+        commentBox.appendChild(commentName);
+
+        let linebreak = document.createElement("br");
+        commentBox.appendChild(linebreak);
 
         let commentComment = document.createElement("input");
         commentComment.type = "text";
-        commentComment.placeholder = "Name";
-        container.appendChild(commentComment);
+        commentComment.placeholder = "Comment";
+        commentBox.appendChild(commentComment);
+
     }
 </script>
 
