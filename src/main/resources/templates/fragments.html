@@ -40,18 +40,6 @@
     </nav>
 </header>
 
-<div th:fragment="all-tags">
-    <ul th:each="tag: ${tags}">
-        <li th:text="${tag.name}"></li>
-    </ul>
-</div>
-<div th:fragment="recipe-tags">
-    <ul th:each="tag: ${recipe.tags}">
-        <li th:text="${tag.name}"></li>
-    </ul>
-</div>
-
-
 <div th:fragment="sidebar" class="sidebar">
     <h3 class="h3 text-center pt-5 pb-4">Welcome</h3>
     <ul class="list-inline sidebar-list">
@@ -70,6 +58,17 @@
         <li class="list-inline-item sidebar-list-item">
             <a class="sidebar-link" href="/profile/changePassword">Change Password</a>
         </li>
+    </ul>
+</div>
+
+<div th:fragment="all-tags">
+    <ul th:each="tag: ${tags}">
+        <li th:text="${tag.name}"></li>
+    </ul>
+</div>
+<div th:fragment="recipe-tags">
+    <ul th:each="tag: ${recipe.tags}">
+        <li th:text="${tag.name}"></li>
     </ul>
 </div>
 
