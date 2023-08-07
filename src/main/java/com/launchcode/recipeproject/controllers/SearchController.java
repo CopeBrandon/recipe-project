@@ -1,6 +1,7 @@
 package com.launchcode.recipeproject.controllers;
 
 //import com.launchcode.recipeproject.models.dto.RecipeData;
+import com.launchcode.recipeproject.data.RecipeRepository;
 import com.launchcode.recipeproject.models.Recipe;
 import com.launchcode.recipeproject.models.RecipeData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,7 @@ import static com.launchcode.recipeproject.controllers.ListController.columnChoi
 public class SearchController {
 
     @Autowired
-    private RecipeRepository RecipeRepository;
-    private Scanner recipeRepository;
+    private RecipeRepository recipeRepository;
 
     @RequestMapping ("")
     public String search(Model model) {
@@ -30,17 +30,17 @@ public class SearchController {
     }
 
     @PostMapping("results")
-    public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm) throws IllegalAccessException {
+    public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm){
         Iterable<Recipe> recipes;
         if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")) {
-            recipes = RecipeData.all();
+            recipes = RecipeRepository.findAll();
         } else {
             recipes = RecipeData.findByColumnAndValue(searchType, searchTerm, RecipeRepository.findAll());
 
         }
         model.addAttribute("columns", columnChoices);
-        model.addAttribute("recipes", recipes);
-        model.addAttribute("title", "Jobs with  " + columnChoices.get(searchType) + ": " + searchTerm);
+        //model.addAttribute("recipes", recipes);
+        model.addAttribute("title", "Recipes with  " + columnChoices.get(searchType) + ": " + searchTerm);
         model.addAttribute("recipes", recipes);
 
         return "search";
