@@ -87,10 +87,19 @@ console.log(ingredientCount)
         if (ingredientCount > 1) {
             if (newIngredientContainer.children.length > 0){
                 newIngredientContainer.removeChild(newIngredientContainer.lastElementChild)
-                ingredientCount--;
             } else if (existingIngredientContainer.children.length > 0){
                 existingIngredientContainer.removeChild(existingIngredientContainer.lastElementChild)
-                ingredientCount--;
             }
+            ingredientCount--;
         }
+    }
+
+    function removeNewIngredient() {
+            let existingIngredientContainer = document.getElementById("ingredientContainer")
+            let newIngredientContainer = document.getElementById("newIngredientContainer");
+
+            if (newIngredientContainer.children.length > 0){
+                newIngredientContainer.removeChild(newIngredientContainer.lastElementChild)
+            }
+                ingredientCount--;
     }

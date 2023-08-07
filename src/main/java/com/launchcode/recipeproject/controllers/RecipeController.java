@@ -175,22 +175,41 @@ public class RecipeController {
             recipeToEdit.setInstructions(editedRecipe.getInstructions());
             recipeToEdit.setPortionNum(editedRecipe.getPortionNum());
 
+
+
+
             //For each loop for updating each individual ingredient with getters and setters
             //TODO Allow Users to add new ingredients while editing
             int index = 0;
             for (Ingredient ing : recipeToEdit.getIngredientList()) {
-                Optional optIng = ingredientRepository.findById(ing.getId());
-                if (optIng.isPresent()) {
-                    Ingredient ingToEdit = (Ingredient)optIng.get();
-                    ingToEdit.setName(editedIngs.get(index).getName());
-                    ingToEdit.setMeasurement(editedIngs.get(index).getMeasurement());
-                    ingToEdit.setQuantity(editedIngs.get(index).getQuantity());
-                    index++;
+                if (index == editedIngs.size()){
+                    recipeToEdit.getIngredientList().remove(index);
+                    break;
+                } else {
+                    Optional optIng = ingredientRepository.findById(ing.getId());
+                    if (optIng.isPresent()) {
+                        Ingredient ingToEdit = (Ingredient) optIng.get();
+                        ingToEdit.setName(editedIngs.get(index).getName());
+                        ingToEdit.setMeasurement(editedIngs.get(index).getMeasurement());
+                        ingToEdit.setQuantity(editedIngs.get(index).getQuantity());
+                        index++;
+                    }
                 }
             }
-//            for (Ingredient newIng : editedIngs){
-//                recipeToEdit.addIngredient(newIng);
-//            }
+
+            for (Ingredient newIng : editedIngs) {
+                boolean found = false;
+                for (Ingredient oldIng : recipeToEdit.getIngredientList()) {
+                    if (newIng.getName().equals(oldIng.getName())) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    newIng.setRecipe(recipeToEdit);
+                    recipeToEdit.addIngredient(newIng);
+                }
+            }
 
 
             //Clear existing tags before Adding the updated tags
@@ -201,10 +220,8 @@ public class RecipeController {
                 }
             }
 
-            //Saves the updated ingredients and recipe
+            //Saves the updated recipe
             recipeRepository.save(recipeToEdit);
-            ingredientRepository.saveAll(recipeToEdit.getIngredientList());
-
 
             //redirects you to the updated view page
             return "redirect:../view/" + recipeId;
