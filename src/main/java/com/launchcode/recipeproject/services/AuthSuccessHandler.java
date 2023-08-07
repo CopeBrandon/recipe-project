@@ -2,24 +2,21 @@ package com.launchcode.recipeproject.services;
 
 import com.launchcode.recipeproject.data.UserRepository;
 import com.launchcode.recipeproject.models.User;
-import com.nimbusds.jose.proc.SecurityContext;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Service
-public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
+public class AuthSuccessHandler implements AuthenticationSuccessHandler{
 
     @Autowired
     UserRepository userRepository;
@@ -29,6 +26,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        Cookie[] cookies = request.getCookies();
+        String referringUrl = "/"; // default to home
+        for (Cookie cookie : cookies){
+            if(cookie.getName().equals("referringUrl")){
+                referringUrl = cookie.getValue();
+            }
+        }
+
         System.out.println(authentication.getPrincipal());
         if (authentication.getPrincipal() instanceof DefaultOAuth2User) { // check type instance
             DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal(); // cast user to DefaultOAuth2User
@@ -50,8 +55,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 user.setRoles("ROLE_USER");
                 userRepository.save(user);
             }
-            new DefaultRedirectStrategy().sendRedirect(request, response, "/");
         }
+        new DefaultRedirectStrategy().sendRedirect(request, response, referringUrl);
     }
 
     public String randomString(int n){

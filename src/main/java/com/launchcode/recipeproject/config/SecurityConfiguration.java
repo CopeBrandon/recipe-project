@@ -3,7 +3,6 @@ package com.launchcode.recipeproject.config;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -38,6 +38,7 @@ public class SecurityConfiguration {
 //                .httpBasic(Customizer.withDefaults())  // default login
                 .formLogin(form -> form // custom form
                         .loginPage("/login")
+                        .successHandler(authenticationSuccessHandler)
                         .permitAll())
 //                .oauth2Login(Customizer.withDefaults()) // default oauth2
                 .oauth2Login(form -> form // custom form
@@ -51,4 +52,5 @@ public class SecurityConfiguration {
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
 }
