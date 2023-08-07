@@ -1,14 +1,8 @@
 package com.launchcode.recipeproject.controllers;
 
-import com.launchcode.recipeproject.data.IngredientRepository;
-import com.launchcode.recipeproject.data.RecipeRepository;
-import com.launchcode.recipeproject.data.TagRepository;
-import com.launchcode.recipeproject.data.UserRepository;
+import com.launchcode.recipeproject.data.*;
 import com.launchcode.recipeproject.exceptions.ResourceNotFoundException;
-import com.launchcode.recipeproject.models.Ingredient;
-import com.launchcode.recipeproject.models.Recipe;
-import com.launchcode.recipeproject.models.Tag;
-import com.launchcode.recipeproject.models.User;
+import com.launchcode.recipeproject.models.*;
 import com.launchcode.recipeproject.models.dto.RecipeIngredientDTO;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +34,9 @@ public class RecipeController {
 
     @Autowired
     private IngredientRepository ingredientRepository;
+
+    @Autowired
+    private InstructionRepository instructionRepository;
 
     @Autowired
     private TagRepository tagRepository;
@@ -74,6 +71,11 @@ public class RecipeController {
             form.getRecipe().addIngredient(ingredient);
         }
 
+        for (Instruction instruction : form.getInstructions()){
+            instruction.setRecipe(form.getRecipe());
+            form.getRecipe().addInstruction(instruction);
+        }
+
         //For Loop to connect the tags to the recipe
         ArrayList<Tag> allTags = (ArrayList<Tag>) tagRepository.findAll();
         if (allTags.size() > 0){
@@ -104,6 +106,7 @@ public class RecipeController {
         //Must save recipe object before ingredient due to One-to-many relationship
         recipeRepository.save(form.getRecipe());
         ingredientRepository.saveAll(form.getIngredients());
+        instructionRepository.saveAll(form.getInstructions());
         userRepository.save(user);
 
         return "redirect:view/" + form.getRecipe().getId();
@@ -138,6 +141,7 @@ public class RecipeController {
             editForm.setRecipe(recipeToEdit);
             editForm.setTags(recipeToEdit.getTags());
             editForm.setIngredients(recipeToEdit.getIngredientList());
+            editForm.setInstructions(recipeToEdit.getInstructions());
 
             model.addAttribute("editForm", editForm);
             model.addAttribute("tags", tagRepository.findAll());
@@ -169,34 +173,32 @@ public class RecipeController {
             //Separates DTO into more readable objects
             Recipe editedRecipe = recipeDetails.getRecipe();
             List<Ingredient> editedIngs = recipeDetails.getIngredients();
+            List<Instruction> editedInsts = recipeDetails.getInstructions();
 
             //Uses getters and setter to update the original database object
             recipeToEdit.setName(editedRecipe.getName());
-            recipeToEdit.setInstructions(editedRecipe.getInstructions());
             recipeToEdit.setPortionNum(editedRecipe.getPortionNum());
 
 
-
-
             //For each loop for updating each individual ingredient with getters and setters
-            int index = 0;
+            int indexIng = 0;
             for (Ingredient ing : recipeToEdit.getIngredientList()) {
-                if (index == editedIngs.size()){
-                    recipeToEdit.getIngredientList().remove(index);
+                if (indexIng == editedIngs.size()){
+                    recipeToEdit.getIngredientList().remove(indexIng);
                     break;
                 } else {
                     Optional optIng = ingredientRepository.findById(ing.getId());
                     if (optIng.isPresent()) {
                         Ingredient ingToEdit = (Ingredient) optIng.get();
-                        ingToEdit.setName(editedIngs.get(index).getName());
-                        ingToEdit.setMeasurement(editedIngs.get(index).getMeasurement());
-                        ingToEdit.setQuantity(editedIngs.get(index).getQuantity());
-                        index++;
+                        ingToEdit.setName(editedIngs.get(indexIng).getName());
+                        ingToEdit.setMeasurement(editedIngs.get(indexIng).getMeasurement());
+                        ingToEdit.setQuantity(editedIngs.get(indexIng).getQuantity());
+                        indexIng++;
                     }
                 }
             }
 
-            //Adds newly added ingredients to the main entity to be saved
+            //Adds newly created ingredients to the main entity to be saved
             for (Ingredient newIng : editedIngs) {
                 boolean found = false;
                 for (Ingredient oldIng : recipeToEdit.getIngredientList()) {
@@ -211,6 +213,36 @@ public class RecipeController {
                 }
             }
 
+            //Updates existing instructions
+            int indexInst = 0;
+            for (Instruction inst : recipeToEdit.getInstructions()){
+                if (indexInst == editedInsts.size()){
+                    recipeToEdit.getInstructions().remove(indexInst);
+                    break;
+                } else {
+                    Optional optInst = instructionRepository.findById(inst.getId());
+                    if (optInst.isPresent()) {
+                        Instruction instToEdit = (Instruction) optInst.get();
+                        instToEdit.setDetails(editedInsts.get(indexInst).getDetails());
+                        indexInst++;
+                    }
+                }
+            }
+
+            //adds new instructions
+            for (Instruction newInst : editedInsts) {
+                boolean found = false;
+                for (Instruction oldInst : recipeToEdit.getInstructions()) {
+                    if (newInst.getDetails().equals(oldInst.getDetails())) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    newInst.setRecipe(recipeToEdit);
+                    recipeToEdit.addInstruction(newInst);
+                }
+            }
 
             //Clear existing tags before Adding the updated tags
             recipeToEdit.clearTags();

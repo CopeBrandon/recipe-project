@@ -4,7 +4,6 @@
 
 let initIngContainer = document.getElementById("ingredientContainer");
 let ingredientCount = initIngContainer.children.length
-console.log(ingredientCount)
 
 
     function addIngredient() {
@@ -103,3 +102,52 @@ console.log(ingredientCount)
             }
                 ingredientCount--;
     }
+
+
+
+
+    let initInstructionContainer = document.getElementById("instructionContainer")
+    let instructionCount = initInstructionContainer.children.length
+
+    function addInstruction(){
+        let newInstructionContainer = document.getElementById("newInstructionContainer");
+        let instructionSpan = document.createElement("span")
+
+        //Create Number 
+        let instructionStep = document.createElement("span");
+        instructionStep.innerHTML = instructionCount + 1 + ". ";
+        instructionSpan.appendChild(instructionStep);
+
+
+        //Create Instruction Inputs
+        let newInstruction = document.createElement("input");
+        newInstruction.type = "text";
+        newInstruction.setAttribute("id", "instructions" + instructionCount + ".details");
+        newInstruction.setAttribute("name", "instructions[" + instructionCount + "].details");
+        instructionSpan.appendChild(newInstruction);
+
+         let linebreak = document.createElement("br");
+         instructionSpan.appendChild(linebreak);
+
+        newInstructionContainer.appendChild(instructionSpan);
+        instructionCount++;
+    }
+
+    if (instructionCount == 0){addInstruction();}
+
+
+    function removeInstruction(){
+        let existingInstructionContainer = document.getElementById("instructionContainer");
+        let newInstructionContainer = document.getElementById("newInstructionContainer");
+
+        if (instructionCount > 1){
+            if (newInstructionContainer.children.length > 0){
+                newInstructionContainer.removeChild(newInstructionContainer.lastElementChild);
+            } else if (existingInstructionContainer.children.length > 0){
+                existingInstructionContainer.removeChild(existingInstructionContainer.lastElementChild);
+            }
+            instructionCount--;
+        }
+    }
+
+

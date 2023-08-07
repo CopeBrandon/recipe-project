@@ -1,6 +1,7 @@
 package com.launchcode.recipeproject.models.dto;
 
 import com.launchcode.recipeproject.models.Ingredient;
+import com.launchcode.recipeproject.models.Instruction;
 import com.launchcode.recipeproject.models.Recipe;
 import com.launchcode.recipeproject.models.Tag;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,10 @@ public class RecipeIngredientDTO{
     private List<Tag> tags;
 
     private MultipartFile image;
+
+    @NotNull
+    @Valid
+    private List<Instruction> instructions;
 
     public RecipeIngredientDTO(Recipe recipe) {
         this.recipe = recipe;
@@ -72,5 +77,13 @@ public class RecipeIngredientDTO{
 
     public void addTag(Tag tag){
         this.tags.add(tag);
+    }
+
+    public List<Instruction> getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(List<Instruction> instructions) {
+        this.instructions = instructions;
     }
 }

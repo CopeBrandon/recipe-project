@@ -48,14 +48,30 @@
         </th:block>
     </div>
     <div id="newIngredientContainer"></div>
+    <div>
+        <button type="button" onclick="addIngredient()">Add Ingredient</button>
+        <button type="button" onclick="removeNewIngredient()">Remove Ingredient</button>
+    </div>
 
     <!--Input for Instruction Field-->
+    <label>Instructions:</label>
+    <br>
+    <div id="instructionContainer">
+        <th:block th:each="instruction, iter : ${editForm.instructions}">
+            <span>
+                <span th:text="${iter.index} + 1 + '. '"></span>
+                <input th:field="*{editForm.instructions[__${iter.index}__].details}"
+                    th:value="instruction.details">
+                <span class="error"  th:errors="*{editForm.instructions[__${iter.index}__].details}"></span>
+                <br>
+            </span>
+        </th:block>
+    </div>
+    <div id="newInstructionContainer"></div>
+
     <div>
-        <label>Instructions:
-            <input th:field="${editForm.recipe.instructions}"
-                   th:value="${editForm.recipe.instructions}">
-        </label>
-        <p class="error"  th:errors="${editForm.recipe.instructions}"></p>
+        <button type="button" onclick="addInstruction()">Add Instruction</button>
+        <button type="button" onclick="removeInstruction()">Remove Instruction</button>
     </div>
 
     <br>
@@ -74,14 +90,12 @@
     <br>
 
     <div>
-        <button type="button" onclick="addIngredient()">Add Ingredient</button>
-        <button type="button" onclick="removeNewIngredient()">Remove Ingredient</button>
         <input type="submit" value="Submit">
     </div>
 
 </form>
 
-<script type="text/javascript" th:src="@{/JS/dynamicIngredients.js}"></script>
+<script type="text/javascript" th:src="@{/JS/dynamicInputs.js}"></script>
 
 </body>
 </html>

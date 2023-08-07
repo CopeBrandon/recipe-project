@@ -26,7 +26,9 @@
         </li>
     </ul>
     <br>
-    <p th:text="${recipe.instructions}">Instructions</p>
+    <ol>
+        <li th:each="instruction : ${recipe.instructions}" th:text="${instruction}" ></li>
+    </ol>
 </div>
 
 <div th:replace="fragments :: recipe-tags"></div>

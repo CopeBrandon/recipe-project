@@ -30,7 +30,7 @@ public class Ingredient extends AbstractEntity{
     private Recipe recipe;
 
 
-    public Ingredient(String name, Double quantity, String measurement, Recipe recipe) {
+    public Ingredient(String name, Double quantity, String measurement) {
         this.name = name;
         this.quantity = quantity;
         this.measurement = measurement;

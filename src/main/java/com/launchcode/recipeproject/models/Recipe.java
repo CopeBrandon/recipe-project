@@ -25,8 +25,8 @@ public class Recipe extends AbstractEntity{
     @Size(max = 75, message = "*Recipe name must not exceed 75 characters")
     private String name;
 
-    @NotBlank(message = "*Instructions required")
-    private String instructions;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<Instruction> instructions = new ArrayList<>();
 
     @NotNull(message = "*Portion number required")
     private Integer portionNum;
@@ -48,9 +48,8 @@ public class Recipe extends AbstractEntity{
 
     private boolean deleted = Boolean.FALSE;
 
-    public Recipe(String name, String instructions, Integer portionNum, User user) {
+    public Recipe(String name, Integer portionNum, User user) {
         this.name = name;
-        this.instructions = instructions;
         this.portionNum = portionNum;
         this.user = user;
     }
@@ -68,11 +67,11 @@ public class Recipe extends AbstractEntity{
         this.name = name;
     }
 
-    public String getInstructions() {
+    public List<Instruction> getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(String instructions) {
+    public void setInstructions(List<Instruction> instructions) {
         this.instructions = instructions;
     }
 
@@ -91,6 +90,8 @@ public class Recipe extends AbstractEntity{
     public void addIngredient(Ingredient ingredient){
         this.ingredientList.add(ingredient);
     }
+
+    public void addInstruction(Instruction instruction) {this.instructions.add(instruction);}
 
     public List<Tag> getTags() {
         return tags;
