@@ -179,7 +179,6 @@ public class RecipeController {
 
 
             //For each loop for updating each individual ingredient with getters and setters
-            //TODO Allow Users to add new ingredients while editing
             int index = 0;
             for (Ingredient ing : recipeToEdit.getIngredientList()) {
                 if (index == editedIngs.size()){
@@ -197,6 +196,7 @@ public class RecipeController {
                 }
             }
 
+            //Adds newly added ingredients to the main entity to be saved
             for (Ingredient newIng : editedIngs) {
                 boolean found = false;
                 for (Ingredient oldIng : recipeToEdit.getIngredientList()) {
