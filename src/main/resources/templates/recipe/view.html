@@ -26,5 +26,29 @@
 
 <div th:replace="fragments :: tags"></div>
 
+<div id="newCommentContainer"></div>
+</br></br>
+
+<div>
+    <input type="submit" value="Add Comment" /></br>
+</div>
+</br>
+
+<script th:inline="javascript">
+    function addIngredient() {
+        let container = document.getElementById("newCommentContainer");
+
+        let commentName = document.createElement("input");
+        commentName.type = "text";
+        commentName.placeholder = "Name";
+        container.appendChild(commentName);
+
+        let commentComment = document.createElement("input");
+        commentComment.type = "text";
+        commentComment.placeholder = "Name";
+        container.appendChild(commentComment);
+    }
+</script>
+
 </body>
 </html>

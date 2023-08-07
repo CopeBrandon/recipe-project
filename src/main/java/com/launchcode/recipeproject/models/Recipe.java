@@ -29,6 +29,9 @@ public class Recipe extends AbstractEntity{
     @OneToMany(mappedBy = "recipe")
     private final List<Ingredient> ingredientList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "recipe")
+    private final List<Comment> comments = new ArrayList<>();
+
     @ManyToMany
     private final List<Tag> tags = new ArrayList<>();
 
