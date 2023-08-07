@@ -16,7 +16,7 @@ import java.security.Principal;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("")
+@RequestMapping()
 public class HomeController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class HomeController {
 
     @GetMapping()
     public String displayIndex(Model model, Principal principal){
-        model.addAttribute("title", "Lets eat!");
+        model.addAttribute("title", "Recipe Refresh");
 
         model.addAttribute("top9", recipeRepository.findTop9ByOrderByIdDesc());
 

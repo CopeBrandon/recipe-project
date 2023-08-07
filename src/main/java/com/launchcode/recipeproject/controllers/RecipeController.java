@@ -108,7 +108,7 @@ public class RecipeController {
             Recipe recipe = (Recipe)optRecipe.get();
             model.addAttribute("recipe", recipe);
             model.addAttribute("tags", tagRepository.findAll());
-            model.addAttribute("title", "View Recipe");
+            model.addAttribute("title", recipe.getName() + " - Recipe Refresh");
             model.addAttribute("user", controllerServices.getUser(principal));
             return "recipe/view";
         } else {

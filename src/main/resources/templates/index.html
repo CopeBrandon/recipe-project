@@ -9,7 +9,7 @@
     <th:block th:each="recipe, iter : ${top9}">
         <div class="top9element">
             <img th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}">
-            <h3 th:text="${recipe.name}">Recipe title</h3>
+            <a th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 th:text="${recipe.name}">Recipe Title</h3></a>
             <label>Serves: </label><label th:text="${recipe.portionNum}"></label>
             <br>
             <ul th:each="ingredient : ${recipe.ingredientList}">
