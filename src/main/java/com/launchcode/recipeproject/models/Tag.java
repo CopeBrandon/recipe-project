@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Tag extends AbstractEntity{
+public class Tag extends AbstractEntity {
 
     @Size(min = 1, max = 30)
     @NotBlank
@@ -21,13 +21,14 @@ public class Tag extends AbstractEntity{
         this.name = name;
     }
 
-    public Tag() {}
+    public Tag() {
+    }
 
     public String getName() {
         return name;
     }
 
-    public String getDisplayName(){
+    public String getDisplayName() {
         return "#" + name + " ";
     }
 
@@ -39,30 +40,9 @@ public class Tag extends AbstractEntity{
         return recipes;
     }
 
-    public void addRecipe(Recipe recipe){this.recipes.add(recipe);}
-
-    @Override
-    public Object getAdvanceSearch() {
-        return null;
+    public void addRecipe(Recipe recipe) {
+        this.recipes.add(recipe);
     }
 
-    @Override
-    public Object getMyMenu() {
-        return null;
-    }
 
-    @Override
-    public Object getGroceryList() {
-        return null;
-    }
-
-    @Override
-    public Object getMyFavorite() {
-        return null;
-    }
-
-    @Override
-    public Object getRecentRecipes() {
-        return null;
-    }
 }

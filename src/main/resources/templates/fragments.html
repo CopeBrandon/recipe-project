@@ -4,7 +4,6 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${title}">Recipe Refresh</title>
-    <link href="/styles.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </head>
@@ -53,12 +52,9 @@
             <select>
             "<option value='Recent Recipes'>Recent Recipes</option>" +
             "<option value='Recipe Name'>Recipe</option>" +
-            "<option value='My Favorite'>Favorite</option>" +
-            "<option value='My Menu'> My Menu</option> +
-            "<option value='Grocery List'>Grocery List</option>
-            "<option value='View All'>View All</option>
-            "<option value='Advanced Search'>Advanced Search </option>"
-            "</select>
+            "<option value='My Favorite'>Favorite</option>"
+            "</select>"
+            <input type="text" placeholder="Search Term" name="q">
             <button type="submit">Search</button>
         </form>
 </nav>

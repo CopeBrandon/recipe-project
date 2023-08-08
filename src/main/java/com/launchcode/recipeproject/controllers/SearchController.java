@@ -34,9 +34,9 @@ public class SearchController {
     public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm){
         Iterable<Recipe> recipes;
         if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")) {
-            recipes = RecipeRepository.findAll();
+            recipes = recipeRepository.findAll();
         } else {
-            recipes = RecipeData.findByColumnAndValue(searchType, searchTerm, RecipeRepository.findAll());
+            recipes = RecipeData.findByColumnAndValue(searchType, searchTerm, recipeRepository.findAll());
 
         }
         model.addAttribute("columns", columnChoices);

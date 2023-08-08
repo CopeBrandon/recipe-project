@@ -3,8 +3,9 @@
 <head th:replace="fragments :: head">
 </head>
 <body>
+<nav th:replace="fragments :: navigation"></nav>
 
-<div th:replace="fragments :: page-header"></div>
+<div th:replace="fragments :: header"></div>
 
 <div class="container body-content">
 
@@ -14,24 +15,26 @@
         <h2>Search by:</h2>
 
         <p>
-            <span th:each="column : ${columns}">
-                <input
-                        type="radio"
-                        name="searchType"
-                        th:id="${column.key}"
-                        th:value="${column.key}"
-                        th:checked="${column.key == 'all'}"/>
-                <label th:for="${column.key}" th:text="${column.value}"></label>
-            </span>
+        <div class="container">
+            <nav th:fragment="navigation">
+                <form>
+                    <div class ="inputBox">
+                        <input type="text" placeholder="Search by" name="q">
+                    <select>
+                        "<option value='Recipe Name'>Recipe Name</option>" +
+                        "<option value='tag'>Tag</option>" +
+                        "<option value='Ingredients'>Ingredients</option>"
+                        "</select>
+                    <input type="text" placeholder="Search Term" name="q">
+                    <button type="submit">Search</button>
+                    </div>
+                </form>
+            </nav>
+        </div>
 
         </p>
 
-        <p>
-            <label for="searchTerm">Keyword:</label>
-            <input type="text" name="searchTerm" id="searchTerm" />
-        </p>
 
-        <input type="submit" value="Search" />
     </form>
 
     <hr />

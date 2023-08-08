@@ -36,13 +36,5 @@ public abstract class AbstractEntity {
     }
 
 
-    public abstract Object getAdvanceSearch();
 
-    public abstract Object getMyMenu();
-
-    public abstract Object getGroceryList();
-
-    public abstract Object getMyFavorite();
-
-    public abstract Object getRecentRecipes();
 }
