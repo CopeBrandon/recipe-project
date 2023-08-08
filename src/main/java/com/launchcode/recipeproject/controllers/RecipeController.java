@@ -1,22 +1,32 @@
 package com.launchcode.recipeproject.controllers;
 
+import com.launchcode.recipeproject.data.IngredientRepository;
+import com.launchcode.recipeproject.data.RecipeRepository;
+import com.launchcode.recipeproject.data.TagRepository;
+import com.launchcode.recipeproject.data.UserRepository;
+import com.launchcode.recipeproject.models.*;
 import com.launchcode.recipeproject.data.*;
 import com.launchcode.recipeproject.exceptions.ResourceNotFoundException;
 import com.launchcode.recipeproject.models.*;
 import com.launchcode.recipeproject.models.dto.RecipeIngredientDTO;
+import com.launchcode.recipeproject.services.ControllerServices;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +55,7 @@ public class RecipeController {
     private UserRepository userRepository;
 
     @Autowired
-    JpaUserDetailsService jpaUserDetailsService;
+    ControllerServices controllerServices;
 
     @GetMapping("create")
     public String displayCreateRecipeForm(Model model){
@@ -84,24 +94,21 @@ public class RecipeController {
             }
         }
 
-
         //Get user information and set it in the recipe
         User user; //TODO create a fake user until we turn on security
         Optional<User> result = userRepository.findByUsername("Temp_User");
         if (result.isPresent()){user = result.get();}
         else{user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER"); userRepository.save(user);}
-//        if (principal != null){ // TODO uncomment when security is turned on
-//            System.out.println(principal.getName());
-//            User user = jpaUserDetailsService.getUsername(principal.getName()); // send username, get back User or null
-//        }
-
+//        User user = controllerServices.getUser(principal); TODO uncomment when we are ready to turn on security
         form.getRecipe().setUser(user);
         user.addRecipe(form.getRecipe());
 
         // Add image path to Recipe and save the image
-        String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + form.getImage().getOriginalFilename();
-        Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
-        form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + form.getImage().getOriginalFilename());
+        if(form.getImage().getSize() != 0) { // check if image was uploaded
+            String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + form.getImage().getOriginalFilename();
+            Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
+            form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + form.getImage().getOriginalFilename()); // set image path in Recipe
+        }
 
         //Must save recipe object before ingredient due to One-to-many relationship
         recipeRepository.save(form.getRecipe());
@@ -113,13 +120,14 @@ public class RecipeController {
     }
 
     @GetMapping("view/{recipeId}")
-    public String displayRecipe(Model model, @PathVariable int recipeId){
+    public String displayRecipe(Model model, @PathVariable int recipeId, Principal principal){
         Optional optRecipe = recipeRepository.findById(recipeId);
         if (optRecipe.isPresent()){
             Recipe recipe = (Recipe)optRecipe.get();
             model.addAttribute("recipe", recipe);
             model.addAttribute("tags", tagRepository.findAll());
-            model.addAttribute("title", "View Recipe");
+            model.addAttribute("title", recipe.getName() + " - Recipe Refresh");
+            model.addAttribute("user", controllerServices.getUser(principal));
             return "recipe/view";
         } else {
             model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
@@ -294,4 +302,28 @@ public class RecipeController {
         model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
         return "recipe/notFound";
     }
+
+
+    @GetMapping("view/{recipeId}/like")
+    public String processUserLike(@PathVariable int recipeId, Principal principal){
+        Recipe recipe = controllerServices.getRecipe(recipeId); // returns a Recipe or null
+        User user = controllerServices.getUser(principal); // returns a User or null
+        UserLike userLike = new UserLike(user.getId()); // generate like
+        recipe.handleUserLike(userLike); // like or unlike
+        recipeRepository.save(recipe);
+
+        return "redirect:/recipe/view/" + recipe.getId();
+    }
+
+    @GetMapping("view/{recipeId}/rate")
+    public String processUserRating(@PathVariable int recipeId, @RequestParam String rating, Principal principal){
+        Recipe recipe = controllerServices.getRecipe(recipeId);
+        User user = controllerServices.getUser(principal);
+        UserRating userRating = new UserRating(user.getId(), Integer.parseInt(rating));
+        recipe.addUserRating(userRating); // add or change rating
+        recipeRepository.save(recipe);
+
+        return "redirect:/recipe/view/" + recipe.getId();
+    }
 }
+

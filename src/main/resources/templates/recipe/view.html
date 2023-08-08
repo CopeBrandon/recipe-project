@@ -44,5 +44,64 @@
 <script type="text/javascript" th:src="@{/JS/deletionConfirmation.js}"></script>
 
 
+<div>
+    <td th:text = "${recipe.userLikeCount()} + ' '"></td>
+    <td th:if="${user}">
+        <span th:if="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button class="btn btn-primary">Unlike</button></a></span>
+        <span th:unless="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button class="btn btn-primary">Like</button></a></span>
+    </td>
+    <td th:unless="${user}">
+        <span><button class="btn btn-primary" onclick="likeLogIn()">Like</button></span>
+        <span id="likeLogIn"></span>
+
+    </td>
+</div>
+
+<br>
+
+<div>
+    <td th:text = "${recipe.recipeRating()} + ' Stars : Reviewed by ' + ${recipe.userRatingCount()} + ' people'"></td>
+    <br>
+    <td>
+        <span th:if="${user}">
+            <th:block th:each="num : ${recipe.getRatingScale()}">
+            <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:if="${recipe.recipeRating()} >= ${num}" class="ratingButtonFull"></button></a>
+                <th:block th:unless="${recipe.recipeRating()} >= ${num}">
+                    <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:if="${recipe.recipeRating()} >= ${num} - .5"class="ratingButtonHalf"></button></a>
+                    <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:unless="${recipe.recipeRating()} >= ${num} - .5" class="ratingButtonEmpty"></button></a>
+                </th:block>
+            </th:block>
+        </span>
+        <span th:unless="${user}">
+            <th:block th:each="num : ${recipe.getRatingScale()}">
+            <button th:if="${recipe.recipeRating()} >= ${num}" class="ratingButtonFull" onclick="ratingLogIn()"></button>
+                <th:block th:unless="${recipe.recipeRating()} >= ${num}">
+                    <button th:if="${recipe.recipeRating()} >= ${num} - .5"class="ratingButtonHalf" onclick="ratingLogIn()"></button>
+                    <button th:unless="${recipe.recipeRating()} >= ${num} - .5" class="ratingButtonEmpty" onclick="ratingLogIn()"></button>
+                </th:block>
+            </th:block>
+        </span>
+        <span id="ratingLogIn"></span>
+
+        <script th:inline="javascript">
+        function likeLogIn(){
+            let span = document.getElementById('likeLogIn');
+            let a = document.createElement('a');
+            a.innerHTML="Please Log In!";
+            a.setAttribute('href', '/login');
+            span.appendChild(a);
+            }
+
+        function ratingLogIn(){
+            let span = document.getElementById('ratingLogIn');
+            let a = document.createElement('a');
+            a.innerHTML="Please Log In!";
+            a.setAttribute('href', '/login');
+            span.appendChild(a);
+            }
+        </script>
+    </td>
+</div>
+
 </body>
 </html>
