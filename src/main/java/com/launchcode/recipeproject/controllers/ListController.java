@@ -1,6 +1,8 @@
 package com.launchcode.recipeproject.controllers;
 
+import com.launchcode.recipeproject.data.IngredientRepository;
 import com.launchcode.recipeproject.data.RecipeRepository;
+import com.launchcode.recipeproject.data.TagRepository;
 import com.launchcode.recipeproject.models.Recipe;
 import com.launchcode.recipeproject.models.RecipeData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +18,25 @@ import java.util.HashMap;
 public class ListController {
     @Autowired
     private RecipeRepository recipeRepository;
+    @Autowired
+    private TagRepository tagRepository;
+
+    @Autowired
+    private IngredientRepository ingredientRepository;
 
     static HashMap<String, String> columnChoices = new HashMap<>();
 
     public ListController(){
         columnChoices.put("all", "All");
-        columnChoices.put("recipe", "Recipe");
+        columnChoices.put("name", "Name");
+        columnChoices.put("tags", "Tags");
+        columnChoices.put("ingredients", "Ingredients");
     }
     @RequestMapping("")
     public String list(Model model){
-        model.addAttribute("recipe", recipeRepository.findAll());
+        model.addAttribute("tags", tagRepository.findAll());
+        model.addAttribute("ingredients", ingredientRepository.findAll());
+
         return "List";
     }
     @RequestMapping(value = "recipe")
