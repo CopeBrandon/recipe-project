@@ -75,6 +75,31 @@ public class Ingredient extends AbstractEntity{
 
     //Other Methods ------------------------------------------------------
 
+    public Ingredient convertMeasurement(){
+
+        //converts drops/dashes into tsp. approx. 100 drops go into 1 tsp.
+        if (this.measurement.equals("drop") || this.measurement.equals("dash") && this.quantity > 50){
+            this.quantity = this.quantity / 100;
+            this.measurement = "tsp.";
+        }
+
+        //converts tsp to tbsp
+        if (this.measurement.equals("tsp.") && this.quantity > 3){
+            this.quantity = this.quantity / 3;
+            this.measurement =  "tbsp.";
+        }
+
+        //converts tbsp to cups
+        if (this.measurement.equals("tbsp.") && this.quantity > 8){
+            this.quantity = this.quantity / 16;
+            this.measurement = "cup";
+        }
+
+        this.quantity = (Math.round(this.quantity*100.00)) / 100.00;
+
+        return this;
+    }
+
     @Override
     public String toString() {
         return name;

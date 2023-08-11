@@ -290,8 +290,8 @@ public class RecipeController {
             int oldPortionNum = convertedRecipe.getPortionNum();
             for (Ingredient ingredient : convertedRecipe.getIngredientList()){
                 double convertedIngQuantity = (ingredient.getQuantity() / oldPortionNum) * newPortionNum;
-                double convertedIngQuantityRounded = (Math.round(convertedIngQuantity*100)) / (double)100;
-                ingredient.setQuantity(convertedIngQuantityRounded);
+                ingredient.setQuantity(convertedIngQuantity);
+                ingredient.convertMeasurement();
             }
             convertedRecipe.setPortionNum(newPortionNum);
             model.addAttribute("recipe", convertedRecipe);

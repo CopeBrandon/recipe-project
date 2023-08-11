@@ -36,7 +36,7 @@ let ingredientCount = initIngContainer.children.length
         // Adds options to the select element
         let defaultOption = document.createElement("option");
         defaultOption.text = "unit";
-        defaultOption.value = ""
+        defaultOption.value = "unit"
         measurementUnit.appendChild(defaultOption);
 
         let option1 = document.createElement("option");

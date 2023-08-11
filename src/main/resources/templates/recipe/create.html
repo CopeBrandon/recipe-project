@@ -11,30 +11,33 @@
 <h1 th:text="${title}"></h1>
 
 <br>
+<br>
 
+<div class="create-form">
 <form method="post" enctype="multipart/form-data" >
 
             <!--Recipe Title and serving size-->
     <div>
-        <label>Recipe Title:
+        <h4>Recipe Title:
             <input th:field="${form.recipe.name}">
             Serves:
             <input th:field="${form.recipe.portionNum}" size="1/2">
-        </label>
+        </h4>
         <p class="error" th:errors="${form.recipe.name}"></p>
         <p class="error" th:errors="${form.recipe.portionNum}"></p>
     </div>
+    <br>
 
             <!--Ingredients that are dynamically added by inline JS-->
-    <label>Ingredients:</label>
-    <br>
+    <h4>Ingredients:</h4>
+
     <div id="ingredientContainer">
         <th:block th:each="ingredient, iter : ${form.ingredients}">
             <span>
                 <input th:field="*{form.ingredients[__${iter.index}__].name}">
                 <input th:field="*{form.ingredients[__${iter.index}__].quantity}" size="3">
                 <select th:field="*{form.ingredients[__${iter.index}__].measurement}">
-                    <option value="">unit</option>
+                    <option value="unit">unit</option>
                     <option value="tsp.">tsp.</option>
                     <option value="tbsp.">tbsp.</option>
                     <option value="cup">cup(s)</option>
@@ -57,7 +60,7 @@
     <br>
             <!--Input for Instruction Field-->
 
-    <label>Instructions:</label>
+    <h4>Instructions:</h4>
     <br>
     <div id="instructionContainer">
         <th:block th:each="instruction, iter : ${form.instructions}">
@@ -78,22 +81,21 @@
     <br>
 
     <div>
-        <label>Add an Image:
-<!--            <input type="file" accept="image/*" name="image">-->
+        <h5>Add an Image:
             <input type="file" accept="image/*" th:field="${form.image}">
-        </label>
+        </h5>
     </div>
 
     <br>
 
     <div>
-        <label>Tags:
-            <input type="checkbox" name="form.tags"
+        <label class="container">Tags:
+            <input class="checkmark" type="checkbox" name="form.tags"
                    th:each="tag : ${tags}"
                    th:text="${tag.name}"
                    th:value="${tag.id}"
                    th:field="*{form.tags}"
-            />
+            ><br></input>
         </label>
     </div>
 
@@ -103,6 +105,7 @@
     <input type="submit" value="Submit">
     </div>
 </form>
+</div>
 
 <p>Can't find a tag that describes your recipe? <a th:href="@{/recipe/tags}">Create new tags here</a></p>
 
