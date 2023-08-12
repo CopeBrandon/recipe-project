@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
 <head th:replace="fragments :: head"></head>
 
 <body>
@@ -8,92 +8,105 @@
 
 <h1 th:text="${title}"></h1>
 
-<form method="post">
+<br>
+<br>
 
-    <!--Recipe Title and serving size-->
-    <div>
-        <label>Recipe Title:
-            <input th:field="${editForm.recipe.name}" th:value="${editForm.recipe.name}">
-            Serves:
-            <input th:field="${editForm.recipe.portionNum}"
-                   th:value="${editForm.recipe.portionNum}" size="1/2">
-        </label>
-        <p class="error" th:errors="${editForm.recipe.name}"></p>
-        <p class="error" th:errors="${editForm.recipe.portionNum}"></p>
-    </div>
+<div class="recipe-container">
+    <form method="post">
 
-    <!--Ingredients that are dynamically added by inline JS-->
-    <label>Ingredients:</label>
-    <br>
-    <div id="ingredientContainer">
-        <th:block th:each="ingredient, iter : ${editForm.ingredients}">
-            <span>
-                <input th:field="*{editForm.ingredients[__${iter.index}__].name}"
-                       th:value="${ingredient.name}">
-                <input th:field="*{editForm.ingredients[__${iter.index}__].quantity}"
-                       th:value="${ingredient.quantity}" size="3">
-                <select th:field="*{editForm.ingredients[__${iter.index}__].measurement}">
-                    <option value="unit">unit</option>
-                    <option value="tsp.">tsp.</option>
-                    <option value="tbsp.">tbsp.</option>
-                    <option value="cup">cup(s)</option>
-                    <option value="drop">drop(s)</option>
-                    <option value="dash">dash(s)</option>
-                </select>
-                <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].name}"></p>
-                <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].quantity}"></p>
-                <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].measurement}"></p>
-            <br>
-            </span>
-        </th:block>
-    </div>
-    <div id="newIngredientContainer"></div>
-    <div>
-        <button type="button" onclick="addIngredient()">Add Ingredient</button>
-        <button type="button" onclick="removeNewIngredient()">Remove Ingredient</button>
-    </div>
+        <!--Recipe Title and serving size-->
+        <div>
+            <h4>Recipe Title:
+                <input th:field="${editForm.recipe.name}" th:value="${editForm.recipe.name}">
+                Serves:
+                <input th:field="${editForm.recipe.portionNum}"
+                       th:value="${editForm.recipe.portionNum}" size="1/2">
+            </h4>
+            <p class="error" th:errors="${editForm.recipe.name}"></p>
+            <p class="error" th:errors="${editForm.recipe.portionNum}"></p>
+        </div>
 
-    <!--Input for Instruction Field-->
-    <label>Instructions:</label>
-    <br>
-    <div id="instructionContainer">
-        <th:block th:each="instruction, iter : ${editForm.instructions}">
-            <span>
-                <span th:text="${iter.index} + 1 + '. '"></span>
-                <input th:field="*{editForm.instructions[__${iter.index}__].details}"
-                    th:value="instruction.details">
-                <span class="error"  th:errors="*{editForm.instructions[__${iter.index}__].details}"></span>
+        <br>
+
+        <!--Ingredients that are dynamically added by inline JS-->
+        <h5>Ingredients:</h5>
+        <br>
+        <div id="ingredientContainer">
+            <th:block th:each="ingredient, iter : ${editForm.ingredients}">
+                <span>
+                    <input th:field="*{editForm.ingredients[__${iter.index}__].name}"
+                           th:value="${ingredient.name}">
+                    <input th:field="*{editForm.ingredients[__${iter.index}__].quantity}"
+                           th:value="${ingredient.quantity}" size="3">
+                    <select th:field="*{editForm.ingredients[__${iter.index}__].measurement}">
+                        <option value="unit">unit</option>
+                        <option value="tsp.">tsp.</option>
+                        <option value="tbsp.">tbsp.</option>
+                        <option value="cup">cup(s)</option>
+                        <option value="drop">drop(s)</option>
+                        <option value="dash">dash(s)</option>
+                    </select>
+                    <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].name}"></p>
+                    <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].quantity}"></p>
+                    <p class="error" th:errors="*{editForm.ingredients[__${iter.index}__].measurement}"></p>
                 <br>
-            </span>
-        </th:block>
-    </div>
-    <div id="newInstructionContainer"></div>
+                </span>
+            </th:block>
+        </div>
+        <div id="newIngredientContainer"></div>
 
-    <div>
-        <button type="button" onclick="addInstruction()">Add Instruction</button>
-        <button type="button" onclick="removeInstruction()">Remove Instruction</button>
-    </div>
+        <br>
 
-    <br>
+        <div>
+            <button class="btn btn-outline-success" type="button" onclick="addIngredient()">Add Ingredient</button>
+            <button class="btn btn-outline-danger" type="button" onclick="removeNewIngredient()">Remove Ingredient</button>
+        </div>
 
-    <div>
-        <label>Tags:
-            <input type="checkbox" name="editForm.tags"
-                   th:each="tag : ${tags}"
-                   th:text="${tag.name}"
-                   th:value="${tag.id}"
-                   th:field="*{editForm.tags}"
-            />
-        </label>
-    </div>
+        <br>
 
-    <br>
+        <!--Input for Instruction Field-->
+        <h5>Instructions:</h5>
+        <br>
+        <div id="instructionContainer">
+            <th:block th:each="instruction, iter : ${editForm.instructions}">
+                <span>
+                    <span th:text="${iter.index} + 1 + '. '"></span>
+                    <textarea class="instructions" th:field="*{editForm.instructions[__${iter.index}__].details}"
+                        th:value="instruction.details"></textarea>
+                    <span class="error"  th:errors="*{editForm.instructions[__${iter.index}__].details}"></span>
+                    <br>
+                </span>
+            </th:block>
+        </div>
+        <div id="newInstructionContainer"></div>
 
-    <div>
-        <input type="submit" value="Submit">
-    </div>
+        <br>
 
-</form>
+        <div>
+            <button class="btn btn-outline-success" type="button" onclick="addInstruction()">Add Instruction</button>
+            <button class="btn btn-outline-danger" type="button" onclick="removeInstruction()">Remove Instruction</button>
+        </div>
+
+        <br>
+
+        <div>
+            <h6>Tags:</h6>
+            <div th:each="tag : ${tags}"class="form-check">
+                <input class="form-check-input" type="checkbox" th:value="${tag.id}" th:field="*{editForm.tags}">
+                <label class="form-check-label" th:text="${tag.name}"></label>
+            </div>
+        </div>
+
+        <br>
+
+        <div>
+            <input class="btn btn-outline-primary" type="submit" value="Submit">
+        </div>
+
+    </form>
+</div>
+<br>
+<br>
 
 <script type="text/javascript" th:src="@{/JS/dynamicInputs.js}"></script>
 

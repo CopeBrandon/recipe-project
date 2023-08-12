@@ -17,19 +17,21 @@ let ingredientCount = initIngContainer.children.length
         ingredientName.placeholder = "Name";
         ingredientName.setAttribute("id", "ingredients" + ingredientCount + ".name");
         ingredientName.setAttribute("name", "ingredients[" + ingredientCount + "].name");
+        ingredientName.setAttribute("class", "ingredient-names")
         ingSpan.appendChild(ingredientName);
 
         // Creates ingredient quantity text box
         let ingredientQuantity = document.createElement("input");
         ingredientQuantity.type = "text";
         ingredientQuantity.placeholder = "Quantity";
-        ingredientQuantity.setAttribute("size", "3");
+        ingredientQuantity.setAttribute("class", "ingredient-quantity");
         ingredientQuantity.setAttribute("id", "ingredients" + ingredientCount + ".quantity");
         ingredientQuantity.setAttribute("name", "ingredients[" + ingredientCount + "].quantity");
         ingSpan.appendChild(ingredientQuantity);
 
         // Creates measurement select element
         let measurementUnit = document.createElement("select");
+        measurementUnit.setAttribute("class", "ingredient-measurement")
         measurementUnit.setAttribute("id", "ingredients" + ingredientCount + ".measurement");
         measurementUnit.setAttribute("name", "ingredients[" + ingredientCount + "].measurement");
 
@@ -120,14 +122,15 @@ let ingredientCount = initIngContainer.children.length
 
 
         //Create Instruction Inputs
-        let newInstruction = document.createElement("input");
+        let newInstruction = document.createElement("textarea");
         newInstruction.type = "text";
         newInstruction.setAttribute("id", "instructions" + instructionCount + ".details");
         newInstruction.setAttribute("name", "instructions[" + instructionCount + "].details");
+        newInstruction.setAttribute("class", "instructions")
         instructionSpan.appendChild(newInstruction);
 
-         let linebreak = document.createElement("br");
-         instructionSpan.appendChild(linebreak);
+        let linebreak = document.createElement("br");
+        instructionSpan.appendChild(linebreak);
 
         newInstructionContainer.appendChild(instructionSpan);
         instructionCount++;
@@ -149,5 +152,6 @@ let ingredientCount = initIngContainer.children.length
             instructionCount--;
         }
     }
+
 
 

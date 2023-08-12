@@ -13,23 +13,24 @@
 <br>
 <br>
 
-<div class="create-form">
+<div class="recipe-container">
 <form method="post" enctype="multipart/form-data" >
 
             <!--Recipe Title and serving size-->
     <div>
         <h4>Recipe Title:
-            <input th:field="${form.recipe.name}">
+            <input th:field="${form.recipe.name}" size="15">
             Serves:
             <input th:field="${form.recipe.portionNum}" size="1/2">
         </h4>
         <p class="error" th:errors="${form.recipe.name}"></p>
         <p class="error" th:errors="${form.recipe.portionNum}"></p>
     </div>
+
     <br>
 
             <!--Ingredients that are dynamically added by inline JS-->
-    <h4>Ingredients:</h4>
+    <h5>Ingredients:</h5>
 
     <div id="ingredientContainer">
         <th:block th:each="ingredient, iter : ${form.ingredients}">
@@ -44,9 +45,9 @@
                     <option value="drop">drop(s)</option>
                     <option value="dash">dash(s)</option>
                 </select>
-                <span class="error" th:errors="*{form.ingredients[__${iter.index}__].name}"></span>
-                <span class="error" th:errors="*{form.ingredients[__${iter.index}__].quantity}"></span>
-                <span class="error" th:errors="*{form.ingredients[__${iter.index}__].measurement}"></span>
+                <p class="error" th:errors="*{form.ingredients[__${iter.index}__].name}"></p>
+                <p class="error" th:errors="*{form.ingredients[__${iter.index}__].quantity}"></p>
+                <p class="error" th:errors="*{form.ingredients[__${iter.index}__].measurement}"></p>
                 <br>
             </span>
         </th:block>
@@ -54,19 +55,19 @@
     <div id="newIngredientContainer"></div>
     <br>
     <div>
-        <button type="button" onclick="addIngredient()">Add Ingredient</button>
-        <button type="button" onclick="removeIngredient()">Remove Ingredient</button>
+        <button class="btn btn-outline-success" type="button" onclick="addIngredient()">Add Ingredient</button>
+        <button class="btn btn-outline-danger" type="button" onclick="removeIngredient()">Remove Ingredient</button>
     </div>
     <br>
             <!--Input for Instruction Field-->
 
-    <h4>Instructions:</h4>
+    <h5>Instructions:</h5>
     <br>
     <div id="instructionContainer">
         <th:block th:each="instruction, iter : ${form.instructions}">
             <span>
                 <span th:text="${iter.index} + 1 + '. '"></span>
-                <input th:field="*{form.instructions[__${iter.index}__].details}">
+                <textarea class="instructions" th:field="*{form.instructions[__${iter.index}__].details}"></textarea>
                 <span class="error"  th:errors="*{form.instructions[__${iter.index}__].details}"></span>
                 <br>
             </span>
@@ -75,40 +76,41 @@
     <div id="newInstructionContainer"></div>
     <br>
     <div>
-        <button type="button" onclick="addInstruction()">Add Instruction</button>
-        <button type="button" onclick="removeInstruction()">Remove Instruction</button>
+        <button class="btn btn-outline-success" type="button" onclick="addInstruction()">Add Instruction</button>
+        <button class="btn btn-outline-danger" type="button" onclick="removeInstruction()">Remove Instruction</button>
     </div>
     <br>
 
     <div>
-        <h5>Add an Image:
+        <h6>Add an Image:
             <input type="file" accept="image/*" th:field="${form.image}">
-        </h5>
+        </h6>
     </div>
 
     <br>
 
     <div>
-        <label class="container">Tags:
-            <input class="checkmark" type="checkbox" name="form.tags"
-                   th:each="tag : ${tags}"
-                   th:text="${tag.name}"
-                   th:value="${tag.id}"
-                   th:field="*{form.tags}"
-            ><br></input>
-        </label>
+        <h6>Tags:</h6>
+        <div th:each="tag : ${tags}"class="form-check">
+            <input class="form-check-input" type="checkbox" th:value="${tag.id}" th:field="*{form.tags}">
+            <label class="form-check-label" th:text="${tag.name}"></label>
+        </div>
     </div>
 
     <br>
 
     <div>
-    <input type="submit" value="Submit">
+    <input class="btn btn-outline-primary" type="submit" value="Submit">
     </div>
+
+    <br>
+
+    <p>Can't find a tag that describes your recipe? <a th:href="@{/recipe/tags}">Create new tags here</a></p>
+
 </form>
 </div>
 
-<p>Can't find a tag that describes your recipe? <a th:href="@{/recipe/tags}">Create new tags here</a></p>
-
+<br>
 <!--JavaScript meant to add additional Text Boxes-->
 <script type="text/javascript" th:src="@{/JS/dynamicInputs.js}"></script>
 
