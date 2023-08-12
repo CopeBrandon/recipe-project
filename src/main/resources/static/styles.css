@@ -24,3 +24,7 @@
     padding: 10px
 }
 
+.bg-success.bs-navbar-padding{
+    padding-top: 0;
+    padding-bottom: 0;
+}
