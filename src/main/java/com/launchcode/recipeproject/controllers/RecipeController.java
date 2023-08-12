@@ -115,4 +115,10 @@ public class RecipeController {
         }
 
     }
+
+    //TESTING
+    @PostMapping("view/{recipeId}")
+    public String processRecipe(Model model, @PathVariable int recipeID){
+        return "recipe/view/" + recipeID;
+    }
 }

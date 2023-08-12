@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 public class Comment extends AbstractEntity {
-
+    //TESTING
     @Size(min = 1, max = 30)
     @NotBlank
     private String name;

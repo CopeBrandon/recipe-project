@@ -1,5 +1,6 @@
 package com.launchcode.recipeproject.models.dto;
 
+import com.launchcode.recipeproject.models.Comment;
 import com.launchcode.recipeproject.models.Ingredient;
 import com.launchcode.recipeproject.models.Recipe;
 import com.launchcode.recipeproject.models.Tag;
@@ -18,6 +19,8 @@ public class RecipeIngredientDTO{
 
     @NotNull
     private ArrayList<Ingredient> ingredients;
+
+    private ArrayList<Comment> comments;
 
     private MultipartFile image;
 
@@ -49,6 +52,16 @@ public class RecipeIngredientDTO{
     public void addIngredient(Ingredient ingredient){
         this.ingredients.add(ingredient);
     }
+
+    //TESTING
+    public ArrayList<Comment> getComments() { return comments; }
+
+    public void setComments(ArrayList<Comment> comments) { this.comments = comments; }
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+    }
+    //TESTING
 
     public MultipartFile getImage() {
         return image;
