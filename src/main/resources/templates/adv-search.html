@@ -4,8 +4,7 @@
     <meta charset="UTF-8"/>
     <title></title>
 </head>
-<!-- add , addSearchBox() -->
-<body onload="addSearchBox()">
+<body onload="addSearchBox(), addSearchBox()">
 
 <div class="container body-content">
 
@@ -86,7 +85,7 @@
         function removeSearchBox() {
             let searchBox = document.getElementById("newSearchBox");
 
-            if(searchBoxCount > 1) {
+            if(searchBoxCount > 2) {
                 searchBox.removeChild(searchBox.lastElementChild);
                 searchBox.removeChild(searchBox.lastElementChild);
                 searchBox.removeChild(searchBox.lastElementChild);
@@ -105,19 +104,21 @@
             <td>
                 <p>
                     Name:
-                    <a th:href="@{'/view/' + ${recipe.id}}" th:text="${recipe.name}"></a>
+                    <a th:href="@{'/recipe/view/' + ${recipe.id}}" th:text="${recipe.name}"></a>
                 </p>
                 <p>
                     Ingredients:
-                <p th:text="${recipe.ingredientList}"></p>
+                    <ul th:each="ingredient : ${recipe.ingredientList}">
+                        <li th:text="${ingredient.name}">
+                        </li>
+                    </ul>
                 </p>
                 <p>
                     tags:
-                <ul th:each="tag : ${recipe.tags}">
-                    <li>
-                        <a th:href="@{'/tags/view/' + ${tag.id}}" th:text="${tag.name}"></a>
-                    </li>
-                </ul>
+                    <ul th:each="tag : ${recipe.tags}">
+                        <li th:text="${tag.name}">
+                        </li>
+                    </ul>
                 </p>
 
             </td>
