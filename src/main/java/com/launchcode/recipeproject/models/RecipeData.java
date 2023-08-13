@@ -1,10 +1,6 @@
 package com.launchcode.recipeproject.models;
 
-import org.springframework.security.util.FieldUtils;
-
 import java.util.ArrayList;
-
-import static org.springframework.security.util.FieldUtils.getFieldValue;
 
 public class RecipeData {
 
@@ -46,7 +42,7 @@ public class RecipeData {
                     return theValue;
                 }
 
-                public static ArrayList<Recipe> findByValue(String value, Iterable < Recipe > allRecipes){
+                public static ArrayList<Recipe> findByValue(String value, Iterable<Recipe> allRecipes){
                     String lower_val = value.toLowerCase();
 
                     ArrayList<Recipe> results = new ArrayList<>();
