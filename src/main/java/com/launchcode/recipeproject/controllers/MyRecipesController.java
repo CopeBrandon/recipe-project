@@ -30,7 +30,7 @@ public class MyRecipesController {
         System.out.println(user);
         int userId = user.getId();
         System.out.println(userId);
-        model.addAttribute("recipes", recipeRepository.findByUserId(userId));
+        model.addAttribute("recipes", recipeRepository.findByUserId(3));
         System.out.println(recipeRepository.findByUserId(userId));
         return "/profile/myRecipes";
     }

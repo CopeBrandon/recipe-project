@@ -73,6 +73,12 @@ header {
     width: 100%;
     position: fixed;
     margin-top: -5px;
-    margin-bottom: -20px;
+    margin-bottom: -10px;
 }
+
+.mainBody {
+    padding-top: 150px;
+    padding-left: 250px;
+}
+
 

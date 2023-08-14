@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments :: head">
 </head>
 <body>
-<header th:replace="fragments :: header"></header>
-<div th:replace="fragments :: sidebar"></div>
-<h1>My Recipes</h1>
-<div th:each="recipe : ${recipes}">
-    <img th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"/>
-    <a th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 th:text="${recipe.name}">Recipe Title</h3></a>
-
-</div>
+    <header th:replace="fragments :: header"></header>
+    <div th:replace="fragments :: sidebar"></div>
+    <div class="mainBody">
+        <table class="table">
+           <thead id="myRecipesTitle">
+            <tr>
+                <th class="text-center h1 p-3">My Recipes</th>
+            </tr>
+            </thead>
+            <tr th:each="recipe : ${recipes}">
+                <td><img th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"/></td>
+                <td><a th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 th:text="${recipe.name}">Recipe Title</h3></a></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
