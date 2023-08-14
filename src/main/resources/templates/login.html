@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <title th:text="${title}"></title>
-</head>
+<head th:replace="fragments :: head"></head>
+
 <body>
-<h1 th:text="${title}"></h1>
-<div th:if="${param.error}">
-    Invalid username and password.</div>
-<div th:if="${param.logout}">
-    You have been logged out.</div>
-<form th:action="@{/login}" method="post">
-    <div>
-        <input type="text" name="username" placeholder="Username"/>
-    </div>
-    <div>
-        <input type="password" name="password" placeholder="Password"/>
-    </div>
-    <input type="submit" value="Log in" />
-</form>
-<p>
-    <a th:href="@{/register}">No Account? Register Here.</a>
-</p>
-<p>
-    <a th:href="@{/oauth2/authorization/github}">Login with Github</a>
-</p>
-<p>
-    <a th:href="@{/oauth2/authorization/google}">Login with Google</a>
-</p>
+<header th:replace="fragments :: header"></header>
+<div class="recipe-container">
+    <h1 th:text="${title}"></h1>
+    <div th:if="${param.error}">
+        Invalid username and password.</div>
+    <div th:if="${param.logout}">
+        You have been logged out.</div>
+    <form th:action="@{/login}" method="post">
+        <div>
+            <input type="text" name="username" placeholder="Username"/>
+        </div>
+        <div>
+            <input type="password" name="password" placeholder="Password"/>
+        </div>
+        <input type="submit" value="Log in" />
+    </form>
+    <p>
+        <a th:href="@{/register}">No Account? Register Here.</a>
+    </p>
+    <p>
+        <a th:href="@{/oauth2/authorization/github}">Login with Github</a>
+    </p>
+    <p>
+        <a th:href="@{/oauth2/authorization/google}">Login with Google</a>
+    </p>
+</div>
 </body>
 </html>
