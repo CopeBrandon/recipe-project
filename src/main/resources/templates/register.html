@@ -1,30 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8"/> <!-- Note the closing '/' character -->
-    <title th:text="${title}"></title>
-</head>
-<body>
-<h1 th:text="${title}"></h1>
-<form method = "post">
-    <label>Email:
-        <input type="email" th:field="${registrationDTO.email}">
-        <p th:errors="${registrationDTO.email}"></p>
-    </label>
-    <label>Username:
-        <input th:field="${registrationDTO.username}">
-        <p th:errors="${registrationDTO.username}"></p>
-    </label>
-    <label>Password:
-        <input type="password" th:field="${registrationDTO.password}">
-        <p th:errors="${registrationDTO.password}"></p>
-    </label>
-    <label>Verify Password:
-        <input type="password" th:field="${registrationDTO.verifyPassword}">
-        <p th:errors="${registrationDTO.verifyPassword}"></p>
-    </label>
-    <input type="submit" value="Register" />
-</form>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
 
+<body>
+<header th:replace="fragments :: header"></header>
+<div class="login-register-container">
+    <div class="login-register-form">
+        <p>
+            <h1 th:text="${title}"></h1>
+        </p>
+        <form class="form-group" method = "post">
+            <div>
+                <input class="form-control" type="email" placeholder="Email" th:field="${registrationDTO.email}">
+                <p th:errors="${registrationDTO.email}"></p>
+            </div>
+            <br>
+            <div>
+                <input class="form-control" placeholder="Username" th:field="${registrationDTO.username}">
+                <p th:errors="${registrationDTO.username}"></p>
+            </div>
+            <br>
+            <div>
+                <input class="form-control" type="password" placeholder="Password "th:field="${registrationDTO.password}">
+                <p th:errors="${registrationDTO.password}"></p>
+            </div>
+            <br>
+            <div>
+                <input class="form-control" type="password" placeholder="Verify Password"th:field="${registrationDTO.verifyPassword}">
+                <p th:errors="${registrationDTO.verifyPassword}"></p>
+            </div>
+            <br>
+            <input class="btn btn-primary" type="submit" value="Register" />
+        </form>
+    </div>
+</div>
 </body>
 </html>

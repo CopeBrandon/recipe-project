@@ -100,3 +100,22 @@
     -moz-box-shadow: 0px 0px 19px -7px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 19px -7px rgba(0,0,0,0.75);
 }
+
+.login-register-container {
+    width: 50%;
+    border: 2px solid;
+    padding: 60px;
+    margin: auto;
+    margin-top: 100px;
+    -webkit-box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    overflow-wrap: break-word;
+}
+
+.login-register-form {
+        width: 100%;
+        padding: 60px;
+        margin: auto;;
+        overflow-wrap: break-word;
+}
