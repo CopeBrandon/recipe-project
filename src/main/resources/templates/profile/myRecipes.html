@@ -8,5 +8,10 @@
 <header th:replace="fragments :: header"></header>
 <div th:replace="fragments :: sidebar"></div>
 <h1>My Recipes</h1>
+<div th:each="recipe : ${recipes}">
+    <img th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"/>
+    <a th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 th:text="${recipe.name}">Recipe Title</h3></a>
+
+</div>
 </body>
 </html>

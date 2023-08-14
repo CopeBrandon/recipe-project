@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
+import java.security.Principal;
+import com.launchcode.recipeproject.services.ControllerServices;
 
 @Controller
 public class MyRecipesController {
@@ -19,9 +21,17 @@ public class MyRecipesController {
     @Autowired
     private RecipeRepository recipeRepository;
 
-    @GetMapping("/profile/myRecipes")
-    public String displayMyRecipes(Model model){
+    @Autowired
+    ControllerServices controllerServices;
 
+    @GetMapping("/profile/myRecipes")
+    public String displayMyRecipes(Model model, Principal principal){
+        User user = controllerServices.getUser(principal);
+        System.out.println(user);
+        int userId = user.getId();
+        System.out.println(userId);
+        model.addAttribute("recipes", recipeRepository.findByUserId(userId));
+        System.out.println(recipeRepository.findByUserId(userId));
         return "/profile/myRecipes";
     }
 }
