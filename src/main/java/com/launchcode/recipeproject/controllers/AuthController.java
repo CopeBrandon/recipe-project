@@ -55,10 +55,12 @@ public class AuthController {
     @GetMapping("/login")
     public String displayLogin(HttpServletRequest request, HttpServletResponse response, Model model){
         String path = request.getHeader("referer");
-        if (!path.contains("register")) { // don't create a login/register loop
-            Cookie cookie = new Cookie("referringUrl", path);
-            cookie.setMaxAge(86400); // one day
-            response.addCookie(cookie);
+        if (path != null) {
+            if (!path.contains("register")) { // don't create a login/register loop
+                Cookie cookie = new Cookie("referringUrl", path);
+                cookie.setMaxAge(86400); // one day
+                response.addCookie(cookie);
+            }
         }
         model.addAttribute("title", "Login!");
         return "login";
