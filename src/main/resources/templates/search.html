@@ -43,29 +43,16 @@
         <tr th:each="recipe : ${recipes}">
             <td>
                 <p>
-                    Recipe Id:
-                    <a th:href="@{'/view/' + ${recipe.id}}" th:text="${recipe.id}"></a>
-                </p>
-                <p th:text="${'Name: ' + recipe.name}"></p>
-                <p>
                     Name:
-                    <a th:href="@{'/names/view/' + ${recipe.name.id}}" th:text="${recipe.name}"></a>
+                    <a th:href="@{'/recipe/view/' + ${recipe.id}}" th:text="${recipe.name}"></a>
                 </p>
                 <p>
-                    IngredientList:
-                <ul th:each="ingredientlist : ${recipe.ingredientLists}">
-                    <li>
-                        <a th:href="@{'/ingredientLists/view/' + ${ingredientList.id}}" th:text="${ingredientList.name}"></a>
-                    </li>
-                </ul>
-                </p>
+                    Ingredients:
+                <p th:text="${recipe.ingredientLists}"></p>
+
                 <p>
                     Tags:
-                <ul th:each="tags : ${recipe.tags}">
-                    <li>
-                        <a th:href="@{'/tag/view/' + ${tag.id}}" th:text="${tag.name}"></a>
-                    </li>
-                </ul>
+                <a th:each="tag : ${recipe.tags}" th:href="@{'/tags/view/' + ${tag.id}}" th:text="${tag.name}"></a>
                 </p>
 
             </td>

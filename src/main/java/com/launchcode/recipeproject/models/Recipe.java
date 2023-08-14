@@ -42,10 +42,10 @@ public abstract class Recipe extends AbstractEntity {
 
     private String imagePath;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private final List<UserLike> userLikes = new ArrayList<>();
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private final List<UserRating> userRatings = new ArrayList<>();
 
     public Recipe(String name, String instructions, Integer portionNum, User user) {
@@ -55,15 +55,6 @@ public abstract class Recipe extends AbstractEntity {
         this.user = user;
     }
 
-    public Recipe() {
-    }
-
-
-    //Getters and Setters----------------------------------------------------------
-
-    public String getName() {
-        return name;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -127,9 +118,9 @@ public abstract class Recipe extends AbstractEntity {
 
     //Other Methods---------------------------------------------------------------
 
-    public void handleUserLike(UserLike userLike){
-        for(UserLike like : userLikes){ //remove like if present
-            if (like.getUserId() == userLike.getUserId()){ //int == int
+    public void handleUserLike(UserLike userLike) {
+        for (UserLike like : userLikes) { //remove like if present
+            if (like.getUserId() == userLike.getUserId()) { //int == int
                 this.userLikes.remove(userLikes.indexOf(like));
                 return;
             }
@@ -137,13 +128,13 @@ public abstract class Recipe extends AbstractEntity {
         this.userLikes.add(userLike); //add like if not present
     }
 
-    public Integer userLikeCount(){
+    public Integer userLikeCount() {
         return this.userLikes.size();
     }
 
-    public Boolean userLiked(int userId){
-        for(UserLike like : userLikes){
-            if (like.getUserId() == userId){ //int == int
+    public Boolean userLiked(int userId) {
+        for (UserLike like : userLikes) {
+            if (like.getUserId() == userId) { //int == int
                 return true;
             }
         }
@@ -151,12 +142,12 @@ public abstract class Recipe extends AbstractEntity {
     }
 
     public List<Integer> getRatingScale() {
-        return new ArrayList<>(Arrays.asList(1,2,3,4,5));
+        return new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
     }
 
-    public void addUserRating(UserRating userRating){
-        for(UserRating rating : userRatings){
-            if (rating.getUserId()  == userRating.getUserId()){
+    public void addUserRating(UserRating userRating) {
+        for (UserRating rating : userRatings) {
+            if (rating.getUserId() == userRating.getUserId()) {
                 userRatings.set(userRatings.indexOf(rating), userRating); // update a rating
                 return;
             }
@@ -164,15 +155,15 @@ public abstract class Recipe extends AbstractEntity {
         this.userRatings.add(userRating); // add if not present
     }
 
-    public double recipeRating(){
+    public double recipeRating() {
         double sum = 0.0;
-        for (UserRating rating : userRatings){
+        for (UserRating rating : userRatings) {
             sum += rating.getUserRating();
         }
-        return (double) Math.round((sum / userRatings.size()) * 10)/10; // round to one decimal place
+        return (double) Math.round((sum / userRatings.size()) * 10) / 10; // round to one decimal place
     }
 
-    public int userRatingCount(){
+    public int userRatingCount() {
         return userRatings.size();
     }
 
@@ -182,4 +173,5 @@ public abstract class Recipe extends AbstractEntity {
     }
 
 
-    }
+}
+
