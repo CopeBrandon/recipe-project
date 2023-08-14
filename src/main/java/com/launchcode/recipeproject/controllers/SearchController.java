@@ -29,30 +29,6 @@ public class SearchController {
     @Autowired
     private RecipeRepository RecipeRepository;
 
-    @RequestMapping ("search")
-    public String search(Model model) {
-        model.addAttribute("columns", columnChoices);
-        return "search";
-    }
-
-    @PostMapping ("search/results")
-    public String displaySearchResults(Model model , @RequestParam String searchType, @RequestParam String searchTerm) {
-
-        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
-        if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")){
-            recipes.addAll((Collection<? extends Recipe>) RecipeRepository.findAll());
-        } else {
-            recipes.addAll(RecipeData.findByColumnAndValue(searchType, searchTerm, (ArrayList<Recipe>) RecipeRepository.findAll()));
-        }
-
-        model.addAttribute("columns", columnChoices);
-        model.addAttribute("title", "Recipes with " + columnChoices.get(searchType) + ": " + searchTerm);
-        model.addAttribute("recipes", recipes);
-
-        return "search";
-
-    }
-
     @RequestMapping ("adv-search")
     public String advancedSearch(Model model) {
         model.addAttribute("columns", columnChoices);
