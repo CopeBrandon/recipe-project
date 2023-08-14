@@ -43,9 +43,10 @@
         position: fixed;
         top: 10%;
         height: 100%;
+        margin-top: -4px;
 }
 
-#search {
+#sidebarSearch {
      padding-right: 50px;
 }
 
@@ -67,3 +68,11 @@
     padding-top: 0;
     padding-bottom: 0;
 }
+
+header {
+    width: 100%;
+    position: fixed;
+    margin-top: -5px;
+    margin-bottom: -20px;
+}
+
