@@ -1,13 +1,7 @@
 package com.launchcode.recipeproject.controllers;
 
-import com.launchcode.recipeproject.data.IngredientRepository;
-import com.launchcode.recipeproject.data.RecipeRepository;
-import com.launchcode.recipeproject.data.TagRepository;
-import com.launchcode.recipeproject.data.UserRepository;
-import com.launchcode.recipeproject.models.Ingredient;
-import com.launchcode.recipeproject.models.Recipe;
-import com.launchcode.recipeproject.models.Tag;
-import com.launchcode.recipeproject.models.User;
+import com.launchcode.recipeproject.data.*;
+import com.launchcode.recipeproject.models.*;
 import com.launchcode.recipeproject.models.dto.RecipeIngredientDTO;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +34,9 @@ public class RecipeController {
 
     @Autowired
     private IngredientRepository ingredientRepository;
+    //TESTING
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Autowired
     private TagRepository tagRepository;
@@ -118,7 +115,21 @@ public class RecipeController {
 
     //TESTING
     @PostMapping("view/{recipeId}")
-    public String processRecipe(Model model, @PathVariable int recipeID){
-        return "recipe/view/" + recipeID;
+    public String processRecipe(Model model, @RequestParam String commentName, @RequestParam String commentComment, @PathVariable int recipeId){
+        Optional optRecipe = recipeRepository.findById(recipeId);
+        Recipe recipe = (Recipe)optRecipe.get();
+
+        Comment comment = new Comment();
+        comment.setName(commentName);
+        comment.setComment(commentComment);
+        comment.setRecipe(recipe);
+
+        commentRepository.save(comment);
+
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("tags", tagRepository.findAll());
+        model.addAttribute("title", "View Recipe");
+
+        return "recipe/view";
     }
 }

@@ -2,13 +2,10 @@ package com.launchcode.recipeproject.models;
 
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class Comment extends AbstractEntity {

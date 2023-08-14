@@ -29,12 +29,24 @@
 <hr />
 
 <!--TESTING-->
-<div id="newCommentBox"></div>
-
-<div>
-    <input type="submit" value="Add Comment" /></br>
+<div th:each="comment : ${recipe.comments}" class="comment_box">
+    <div class="inside_comment">
+        <div class="comment_user" text="comment.name"></div>
+    </div>
+    <div class="comment_body">
+        <p text="comment.comment"></p>
+    </div>
 </div>
-</br>
+
+<form method="post">
+    <div id="newCommentBox"></div>
+
+    <div>
+        <input type="submit" value="Add Comment" /></br>
+    </div>
+    </br>
+</form>
+
 
 <script th:inline="javascript">
     function addComment() {
@@ -43,6 +55,7 @@
         let commentName = document.createElement("input");
         commentName.type = "text";
         commentName.placeholder = "Name";
+        commentName.setAttribute("name", "commentName");
         commentBox.appendChild(commentName);
 
         let linebreak = document.createElement("br");
@@ -51,6 +64,7 @@
         let commentComment = document.createElement("textarea");
         commentComment.type = "text";
         commentComment.placeholder = "Comment";
+        commentComment.setAttribute("name", "commentComment");
         commentBox.appendChild(commentComment);
 
     }

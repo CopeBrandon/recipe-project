@@ -89,6 +89,11 @@ public class Recipe extends AbstractEntity{
         this.ingredientList.add(ingredient);
     }
 
+    //TESTING
+    public List<Comment> getComments() { return comments; }
+
+    public void addComments(Comment comment) { this.comments.add(comment); }
+
     public List<Tag> getTags() {
         return tags;
     }
