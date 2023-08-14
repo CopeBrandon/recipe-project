@@ -1,6 +1,9 @@
 package com.launchcode.recipeproject.models;
 
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,19 +18,21 @@ import java.util.List;
  */
 
 @Entity
+@SQLDelete(sql = "UPDATE recipe SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class Recipe extends AbstractEntity{
 
-    @NotBlank
-    @Size(min = 1, max = 75, message = "Recipe name must not exceed 75 characters")
+    @NotBlank(message = "*Recipe name required")
+    @Size(max = 75, message = "*Recipe name must not exceed 75 characters")
     private String name;
 
-    @NotBlank
-    private String instructions;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<Instruction> instructions = new ArrayList<>();
 
-    @NotNull
+    @NotNull(message = "*Portion number required")
     private Integer portionNum;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private final List<Ingredient> ingredientList = new ArrayList<>();
 
     @ManyToMany
@@ -42,15 +47,16 @@ public class Recipe extends AbstractEntity{
 
     private String imagePath;
 
+    private boolean deleted = Boolean.FALSE;
+
     @OneToMany(cascade=CascadeType.ALL)
     private final List<UserLike> userLikes = new ArrayList<>();
 
     @OneToMany(cascade=CascadeType.ALL)
     private final List<UserRating> userRatings = new ArrayList<>();
 
-    public Recipe(String name, String instructions, Integer portionNum, User user) {
+    public Recipe(String name, Integer portionNum, User user) {
         this.name = name;
-        this.instructions = instructions;
         this.portionNum = portionNum;
         this.user = user;
     }
@@ -68,11 +74,11 @@ public class Recipe extends AbstractEntity{
         this.name = name;
     }
 
-    public String getInstructions() {
+    public List<Instruction> getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(String instructions) {
+    public void setInstructions(List<Instruction> instructions) {
         this.instructions = instructions;
     }
 
@@ -91,6 +97,8 @@ public class Recipe extends AbstractEntity{
     public void addIngredient(Ingredient ingredient){
         this.ingredientList.add(ingredient);
     }
+
+    public void addInstruction(Instruction instruction) {this.instructions.add(instruction);}
 
     public List<Tag> getTags() {
         return tags;
@@ -122,6 +130,14 @@ public class Recipe extends AbstractEntity{
 
     public String getRELATIVE_PATH() {
         return RELATIVE_PATH;
+    }
+
+    public void clearIngredients(){
+        this.ingredientList.clear();
+    }
+
+    public void clearTags(){
+        this.tags.clear();
     }
 
     //Other Methods---------------------------------------------------------------

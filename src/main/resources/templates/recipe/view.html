@@ -13,18 +13,36 @@
 <div>
     <img th:src="@{${recipe.imagePath}}">
     <h3 th:text="${recipe.name}">Recipe title</h3>
-    <label>Serves: </label><label th:text="${recipe.portionNum}"></label>
+    <label>Serves:
+        <form method="post" th:action="@{/recipe/convert/__${recipe.id}__}">
+            <input size="1" th:value="${recipe.portionNum}" id="portionNum" name="portionNum">
+            <button type="submit">Convert</button>
+        </form>
+    </label>
     <br>
-    <ul th:each="ingredient : ${recipe.ingredientList}">
-        <li th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
+    <ul>
+        <li th:each="ingredient : ${recipe.ingredientList}" th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
             Ingredient, amount, measurement
         </li>
     </ul>
     <br>
-    <p th:text="${recipe.instructions}">Instructions</p>
+    <ol>
+        <li th:each="instruction : ${recipe.instructions}" th:text="${instruction}" ></li>
+    </ol>
 </div>
 
-<div th:replace="fragments :: tags"></div>
+<div th:replace="fragments :: recipe-tags"></div>
+
+<a th:href="@{/recipe/edit/__${recipe.id}__}">
+    <button type="button">Edit</button>
+</a>
+
+<a th:href="@{/recipe/delete/__${recipe.id}__}" onclick="confirmDeletion()">
+    <button type="button">Delete</button>
+</a>
+
+<script type="text/javascript" th:src="@{/JS/deletionConfirmation.js}"></script>
+
 
 <div>
     <td th:text = "${recipe.userLikeCount()} + ' '"></td>
