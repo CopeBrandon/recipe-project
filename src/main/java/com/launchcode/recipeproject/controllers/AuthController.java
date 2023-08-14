@@ -10,6 +10,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
@@ -49,7 +53,10 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String displayLogin(Model model){
+    public String displayLogin(HttpServletRequest request, HttpServletResponse response, Model model){
+        Cookie cookie = new Cookie("referringUrl", request.getHeader("referer"));
+        cookie.setMaxAge(86400); // one day
+        response.addCookie(cookie);
         model.addAttribute("title", "Login Form");
         return "login";
     }

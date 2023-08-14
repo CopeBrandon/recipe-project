@@ -1,12 +1,15 @@
 package com.launchcode.recipeproject.models.dto;
 
 import com.launchcode.recipeproject.models.Ingredient;
+import com.launchcode.recipeproject.models.Instruction;
 import com.launchcode.recipeproject.models.Recipe;
 import com.launchcode.recipeproject.models.Tag;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sean Feuerhelm
@@ -14,14 +17,20 @@ import java.util.ArrayList;
 
 public class RecipeIngredientDTO{
     @NotNull
+    @Valid
     private Recipe recipe;
 
     @NotNull
-    private ArrayList<Ingredient> ingredients;
+    @Valid
+    private List<Ingredient> ingredients;
+
+    private List<Tag> tags;
 
     private MultipartFile image;
 
-    private ArrayList<Tag> tags;
+    @NotNull
+    @Valid
+    private List<Instruction> instructions;
 
     public RecipeIngredientDTO(Recipe recipe) {
         this.recipe = recipe;
@@ -38,11 +47,11 @@ public class RecipeIngredientDTO{
         this.recipe = recipe;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -58,15 +67,23 @@ public class RecipeIngredientDTO{
         this.image = image;
     }
 
-    public ArrayList<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
     public void addTag(Tag tag){
         this.tags.add(tag);
+    }
+
+    public List<Instruction> getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(List<Instruction> instructions) {
+        this.instructions = instructions;
     }
 }
