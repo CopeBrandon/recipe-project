@@ -5,7 +5,7 @@
 <body>
 <header th:replace="fragments :: header"></header>
 <h1 th:text="${title}"></h1>
-<div id="top9container">
+<div id="top9container" class="home-middle">
     <th:block th:each="recipe, iter : ${top9}">
         <div class="top9element">
             <img th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}">

@@ -24,7 +24,7 @@
     <p th:text="${recipe.instructions}">Instructions</p>
 </div>
 
-<div th:replace="fragments :: tags"></div>
+<div th:replace="fragments :: all-tags"></div>
 
 <div>
     <td th:text = "${recipe.userLikeCount()} + ' '"></td>
