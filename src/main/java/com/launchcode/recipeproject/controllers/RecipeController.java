@@ -115,16 +115,19 @@ public class RecipeController {
 
     //TESTING
     @PostMapping("view/{recipeId}")
-    public String processRecipe(Model model, @RequestParam String commentName, @RequestParam String commentComment, @PathVariable int recipeId){
+    public String processRecipe(Model model, @RequestParam(required=true) String commentName,
+                                @RequestParam(required=true) String commentComment, @PathVariable int recipeId){
         Optional optRecipe = recipeRepository.findById(recipeId);
         Recipe recipe = (Recipe)optRecipe.get();
-
         Comment comment = new Comment();
-        comment.setName(commentName);
-        comment.setComment(commentComment);
-        comment.setRecipe(recipe);
 
-        commentRepository.save(comment);
+        if (commentName != "" || commentComment != "") {
+            comment.setName(commentName);
+            comment.setComment(commentComment);
+            comment.setRecipe(recipe);
+
+            commentRepository.save(comment);
+        }
 
         model.addAttribute("recipe", recipe);
         model.addAttribute("tags", tagRepository.findAll());
