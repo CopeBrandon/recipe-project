@@ -37,13 +37,12 @@
         <p th:text="${comment.comment}"></p>
     </div>
 </div>
-</br>
 
-<form id="myForm" method="post">
+<form method="post">
     <div id="newCommentBox"></div>
 
     <div>
-        <input type="submit" value="Add Comment" /></br>
+        <input type="submit" value="Add Comment"/>
     </div>
     </br>
 </form>
@@ -51,8 +50,8 @@
 
 <script th:inline="javascript">
     function addComment() {
-        document.getElementById("myForm").reset();
         let commentBox = document.getElementById("newCommentBox");
+        commentBox.value = "";
 
         let commentName = document.createElement("input");
         commentName.type = "text";
