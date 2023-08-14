@@ -1,3 +1,42 @@
+#top9container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.top9element{
+    flex-basis: 33.333333%;
+}
+
+.ratingButtonEmpty {
+    background:url(/images/star.png) no-repeat;
+    cursor:pointer;
+    width: 20px;
+    height: 20px;
+    border: none;
+}
+
+.ratingButtonEmpty:hover {
+    background:url(/images/star_filled.png) no-repeat;
+}
+
+.ratingButtonFull {
+    background:url(/images/star_filled.png) no-repeat;
+    cursor:pointer;
+    width: 20px;
+    height: 20px;
+    border: none;
+}
+
+.ratingButtonHalf {
+    background:url(/images/star_filled_half.png) no-repeat;
+    cursor:pointer;
+    width: 20px;
+    height: 20px;
+    border: none;
+}
+.ratingButtonHalf:hover {
+    background:url(/images/star_filled.png) no-repeat;
+}
+
 .sidebar {
         background-color: #D3D3D3;
         width: 180px;
@@ -22,5 +61,9 @@
 
 .sidebar-list-item {
     padding: 10px
+}
+
+.error {
+  color: red;
 }
 

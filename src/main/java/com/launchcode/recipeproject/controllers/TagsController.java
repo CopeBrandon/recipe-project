@@ -12,17 +12,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("recipe/tags")
 public class TagsController {
+
+    //New Tags can be added @ localhost8080/recipe/tags
 
     @Autowired
     TagRepository tagRepository;
 
     @GetMapping
     public String displayCreateTagForm(Model model){
-        model.addAttribute("title", "Create Tag");
+        model.addAttribute("title", "Create Tags");
         model.addAttribute("tags", tagRepository.findAll());
         model.addAttribute(new Tag());
         return "recipe/tags";
@@ -33,7 +36,18 @@ public class TagsController {
                                        Errors errors, Model model){
         if (errors.hasErrors()){
             model.addAttribute("title", "Create Tags");
+            model.addAttribute("tags", tagRepository.findAll());
+            model.addAttribute("tag", tag);
             return "recipe/tags";
+        }
+        ArrayList<Tag> allTags = (ArrayList<Tag>) tagRepository.findAll();
+        for (Tag existingTag : allTags){
+            if (tag.getName().equals(existingTag.getName())){
+                model.addAttribute("title", "Create Tags");
+                model.addAttribute("tags", tagRepository.findAll());
+                model.addAttribute("tag", tag);
+                return "recipe/tags";
+            }
         }
 
         //Makes tags uniform
