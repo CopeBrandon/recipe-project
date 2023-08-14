@@ -49,7 +49,7 @@ public class AuthController {
         User user = new User(registrationDTO.getUsername(),registrationDTO.getEmail(),registrationDTO.getPassword(), roles);
         userRepository.save(user); // rewrite this section if we choose to use Roles
 
-        return "redirect:";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
