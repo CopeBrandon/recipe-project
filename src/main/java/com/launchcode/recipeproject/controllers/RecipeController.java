@@ -58,7 +58,7 @@ public class RecipeController {
     ControllerServices controllerServices;
 
     @GetMapping("create")
-    public String displayCreateRecipeForm(Model model){
+    public String displayCreateRecipeForm(Model model) {
         model.addAttribute("title", "Create Recipe");
         model.addAttribute("form", new RecipeIngredientDTO());
         model.addAttribute("tags", tagRepository.findAll());
@@ -66,9 +66,9 @@ public class RecipeController {
     }
 
     @PostMapping("create")
-    public String processCreateRecipeForm(@ModelAttribute ("form") @Valid RecipeIngredientDTO form,
-                                          Errors errors, Model model, Principal principal) throws IOException{
-        if(errors.hasErrors()){
+    public String processCreateRecipeForm(@ModelAttribute("form") @Valid RecipeIngredientDTO form,
+                                          Errors errors, Model model, Principal principal) throws IOException {
+        if (errors.hasErrors()) {
             model.addAttribute("title", "Create Recipe");
             model.addAttribute("form", form);
             model.addAttribute("tags", tagRepository.findAll());
@@ -76,57 +76,58 @@ public class RecipeController {
         }
 
         //For Loop to connect all ingredient objects to the recipe objects
-        for (Ingredient ingredient : form.getIngredients()){
+        for (Ingredient ingredient : form.getIngredients()) {
             ingredient.setRecipe(form.getRecipe());
             form.getRecipe().addIngredient(ingredient);
         }
 
-        for (Instruction instruction : form.getInstructions()){
+        for (Instruction instruction : form.getInstructions()) {
             instruction.setRecipe(form.getRecipe());
             form.getRecipe().addInstruction(instruction);
         }
 
         //For Loop to connect the tags to the recipe
         ArrayList<Tag> allTags = (ArrayList<Tag>) tagRepository.findAll();
-        if (allTags.size() > 0){
-            for (Tag tag : form.getTags()){
+        if (allTags.size() > 0) {
+            for (Tag tag : form.getTags()) {
                 form.getRecipe().addTag(tag);
             }
-        //For Loop to connect the tags to the recipe (had to Comment out to work)
-        for (Tag tag : form.getTags()){
-            form.getRecipe().addTag(tag);
         }
 
-        //Get user information and set it in the recipe
-        User user; //TODO create a fake user until we turn on security
-        Optional<User> result = userRepository.findByUsername("Temp_User");
-        if (result.isPresent()){user = result.get();}
-        else{user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER"); userRepository.save(user);}
+            //Get user information and set it in the recipe
+            User user; //TODO create a fake user until we turn on security
+            Optional<User> result = userRepository.findByUsername("Temp_User");
+            if (result.isPresent()) {
+                user = result.get();
+            } else {
+                user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER");
+                userRepository.save(user);
+            }
 //        User user = controllerServices.getUser(principal); TODO uncomment when we are ready to turn on security
-        form.getRecipe().setUser(user);
-        user.addRecipe(form.getRecipe());
+            form.getRecipe().setUser(user);
+            user.addRecipe(form.getRecipe());
 
-        // Add image path to Recipe and save the image
-        if(form.getImage().getSize() != 0) { // check if image was uploaded
-            String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + form.getImage().getOriginalFilename();
-            Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
-            form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + form.getImage().getOriginalFilename()); // set image path in Recipe
+            // Add image path to Recipe and save the image
+            if (form.getImage().getSize() != 0) { // check if image was uploaded
+                String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + form.getImage().getOriginalFilename();
+                Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
+                form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + form.getImage().getOriginalFilename()); // set image path in Recipe
+            }
+
+            //Must save recipe object before ingredient due to One-to-many relationship
+            recipeRepository.save(form.getRecipe());
+            ingredientRepository.saveAll(form.getIngredients());
+            instructionRepository.saveAll(form.getInstructions());
+            userRepository.save(user);
+
+            return "redirect:view/" + form.getRecipe().getId();
         }
-
-        //Must save recipe object before ingredient due to One-to-many relationship
-        recipeRepository.save(form.getRecipe());
-        ingredientRepository.saveAll(form.getIngredients());
-        instructionRepository.saveAll(form.getInstructions());
-        userRepository.save(user);
-
-        return "redirect:view/" + form.getRecipe().getId();
-    }
 
     @GetMapping("view/{recipeId}")
-    public String displayRecipe(Model model, @PathVariable int recipeId, Principal principal){
+    public String displayRecipe(Model model, @PathVariable int recipeId, Principal principal) {
         Optional optRecipe = recipeRepository.findById(recipeId);
-        if (optRecipe.isPresent()){
-            Recipe recipe = (Recipe)optRecipe.get();
+        if (optRecipe.isPresent()) {
+            Recipe recipe = (Recipe) optRecipe.get();
             model.addAttribute("recipe", recipe);
             model.addAttribute("tags", tagRepository.findAll());
             model.addAttribute("title", recipe.getName() + " - Recipe Refresh");
@@ -142,12 +143,12 @@ public class RecipeController {
     //Editing Controllers ------------------------------------------------------
 
     @GetMapping("edit/{recipeId}")
-    public String displayEditForm (Model model, @PathVariable int recipeId){
+    public String displayEditForm(Model model, @PathVariable int recipeId) {
 
         Optional optRecipe = recipeRepository.findById(recipeId);
 
-        if (optRecipe.isPresent()){
-            Recipe recipeToEdit = (Recipe)optRecipe.get();
+        if (optRecipe.isPresent()) {
+            Recipe recipeToEdit = (Recipe) optRecipe.get();
             RecipeIngredientDTO editForm = new RecipeIngredientDTO();
             editForm.setRecipe(recipeToEdit);
             editForm.setTags(recipeToEdit.getTags());
@@ -164,11 +165,11 @@ public class RecipeController {
     }
 
     @PostMapping("edit/{recipeId}")
-    public String updateRecipe(@ModelAttribute ("editForm") @Valid RecipeIngredientDTO recipeDetails,
+    public String updateRecipe(@ModelAttribute("editForm") @Valid RecipeIngredientDTO recipeDetails,
                                Errors errors, Model model,
-                               @PathVariable int recipeId){
+                               @PathVariable int recipeId) {
 
-        if(errors.hasErrors()){
+        if (errors.hasErrors()) {
             model.addAttribute("title", "Edit Recipe");
             model.addAttribute("editForm", recipeDetails);
             model.addAttribute("tags", tagRepository.findAll());
@@ -177,9 +178,9 @@ public class RecipeController {
 
         //Check if entry is in database, if not, throws exception
         Optional optRecipe = recipeRepository.findById(recipeId);
-        if (optRecipe.isPresent()){
+        if (optRecipe.isPresent()) {
             //Converts optional into a recipe object
-            Recipe recipeToEdit = (Recipe)optRecipe.get();
+            Recipe recipeToEdit = (Recipe) optRecipe.get();
 
             //Separates DTO into more readable objects
             Recipe editedRecipe = recipeDetails.getRecipe();
@@ -194,7 +195,7 @@ public class RecipeController {
             //For each loop for updating each individual ingredient with getters and setters
             int indexIng = 0;
             for (Ingredient ing : recipeToEdit.getIngredientList()) {
-                if (indexIng == editedIngs.size()){
+                if (indexIng == editedIngs.size()) {
                     recipeToEdit.getIngredientList().remove(indexIng);
                     break;
                 } else {
@@ -226,8 +227,8 @@ public class RecipeController {
 
             //Updates existing instructions
             int indexInst = 0;
-            for (Instruction inst : recipeToEdit.getInstructions()){
-                if (indexInst == editedInsts.size()){
+            for (Instruction inst : recipeToEdit.getInstructions()) {
+                if (indexInst == editedInsts.size()) {
                     recipeToEdit.getInstructions().remove(indexInst);
                     break;
                 } else {
@@ -269,64 +270,17 @@ public class RecipeController {
             //redirects you to the updated view page
             return "redirect:../view/" + recipeId;
         } else {
-           throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
+            throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
         }
     }
 
     @GetMapping("delete/{recipeId}")
-    private String deleteRecipe (@PathVariable int recipeId, Model model){
+    private String deleteRecipe(@PathVariable int recipeId, Model model) {
         Optional optRecipe = recipeRepository.findById(recipeId);
-        if (optRecipe.isPresent()){
+        if (optRecipe.isPresent()) {
             recipeRepository.deleteById(recipeId);
         }
         model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
         return "recipe/notFound";
     }
-
-    @PostMapping("convert/{recipeId}")
-    private String convertRecipe (@PathVariable int recipeId,
-                                  @ModelAttribute("portionNum") int newPortionNum,
-                                  Model model){
-        Optional optRecipe = recipeRepository.findById(recipeId);
-        if (optRecipe.isPresent()){
-            Recipe convertedRecipe = (Recipe) optRecipe.get();
-            int oldPortionNum = convertedRecipe.getPortionNum();
-            for (Ingredient ingredient : convertedRecipe.getIngredientList()){
-                double convertedIngQuantity = (ingredient.getQuantity() / oldPortionNum) * newPortionNum;
-                double convertedIngQuantityRounded = (Math.round(convertedIngQuantity*100)) / (double)100;
-                ingredient.setQuantity(convertedIngQuantityRounded);
-            }
-            convertedRecipe.setPortionNum(newPortionNum);
-            model.addAttribute("recipe", convertedRecipe);
-            model.addAttribute("title", "Converted Recipe");
-            model.addAttribute("tags", tagRepository.findAll());
-            return "recipe/view";
-        }
-        model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
-        return "recipe/notFound";
-    }
-
-
-    @GetMapping("view/{recipeId}/like")
-    public String processUserLike(@PathVariable int recipeId, Principal principal){
-        Recipe recipe = controllerServices.getRecipe(recipeId); // returns a Recipe or null
-        User user = controllerServices.getUser(principal); // returns a User or null
-        UserLike userLike = new UserLike(user.getId()); // generate like
-        recipe.handleUserLike(userLike); // like or unlike
-        recipeRepository.save(recipe);
-
-        return "redirect:/recipe/view/" + recipe.getId();
-    }
-
-    @GetMapping("view/{recipeId}/rate")
-    public String processUserRating(@PathVariable int recipeId, @RequestParam String rating, Principal principal){
-        Recipe recipe = controllerServices.getRecipe(recipeId);
-        User user = controllerServices.getUser(principal);
-        UserRating userRating = new UserRating(user.getId(), Integer.parseInt(rating));
-        recipe.addUserRating(userRating); // add or change rating
-        recipeRepository.save(recipe);
-
-        return "redirect:/recipe/view/" + recipe.getId();
-    }
 }
-
