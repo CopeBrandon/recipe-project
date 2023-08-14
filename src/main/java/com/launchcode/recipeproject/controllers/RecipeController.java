@@ -275,8 +275,6 @@ public class RecipeController {
         }
     }
 
-    }
-
     //TESTING
     @PostMapping("view/{recipeId}")
     public String processRecipe(Model model, @RequestParam(required=true) String commentName,
@@ -299,7 +297,7 @@ public class RecipeController {
 
         return "recipe/view";
     }
-}
+
     @GetMapping("delete/{recipeId}")
     private String deleteRecipe (@PathVariable int recipeId, Model model){
         Optional optRecipe = recipeRepository.findById(recipeId);
