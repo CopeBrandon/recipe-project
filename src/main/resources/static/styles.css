@@ -67,3 +67,42 @@
   color: red;
 }
 
+.recipe-container {
+    width: 50%;
+    border: 2px solid;
+    padding: 60px;
+    margin: auto;
+    -webkit-box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    background: url(/images/noise-form-white.png);
+    overflow-wrap: break-word;
+}
+
+.instructions{
+    width: 60%;
+    height: 60px;
+}
+
+.ingredient-names {
+    width: 35%;
+}
+
+.ingredient-quantity{
+    width: 15%;
+}
+
+.ingredient-measurement{
+    width: 15%;
+}
+
+.recipe-image{
+    width: 35%;
+    margin: auto;
+    float: right;
+    -webkit-box-shadow: 0px 0px 19px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 19px -7px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 19px -7px rgba(0,0,0,0.75);
+    border-radius:var(--bs-border-radius-xxl);
+}
+
