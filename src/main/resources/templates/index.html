@@ -8,21 +8,18 @@
 <div id="top9container" class="home-middle">
     <th:block th:each="recipe, iter : ${top9}">
         <div class="top9element">
-            <img th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}">
+            <a th:href="@{'/recipe/view/' + ${recipe.getId()}}"><img th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"></a>
             <a th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 th:text="${recipe.name}">Recipe Title</h3></a>
             <label>Serves:&nbsp;</label><label th:text="${recipe.portionNum}"></label>
             <br>
-            <ul th:each="ingredient : ${recipe.ingredientList}">
-                <li th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
-                    Ingredient, amount, measurement
-                </li>
-            </ul>
+            <div th:replace="fragments :: rating"></div>
             <br>
         </div>
     </th:block>
 </div>
 
 <div th:replace="fragments :: sidebar"></div>
+
 
 </body>
 </html>
