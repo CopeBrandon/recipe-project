@@ -6,6 +6,7 @@
     <header th:replace="fragments :: header"></header>
     <div th:replace="fragments :: sidebar"></div>
     <div class="mainBody">
+        <button type="button" class="btn btn-secondary btn-lg"><a th:href="@{'/recipe/create'}"></a>Add Recipe</button>
         <table class="table">
            <thead id="myRecipesTitle">
             <tr>

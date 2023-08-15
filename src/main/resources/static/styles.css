@@ -43,7 +43,7 @@
         position: fixed;
         top: 10%;
         height: 100%;
-        margin-top: -4px;
+        margin-top: 10px;
 }
 
 #sidebarSearch {
@@ -73,7 +73,7 @@ header {
     width: 100%;
     position: fixed;
     margin-top: -5px;
-    margin-bottom: -10px;
+    margin-bottom: 0px;
 }
 
 .mainBody {
