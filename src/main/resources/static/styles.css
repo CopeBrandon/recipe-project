@@ -20,8 +20,8 @@ width: 75%;
 .ratingButtonEmpty {
     background:url(/images/star.png) no-repeat;
     cursor:pointer;
-    width: 20px;
-    height: 20px;
+    width: 37px;
+    height: 36px;
     border: none;
 }
 
@@ -32,16 +32,16 @@ width: 75%;
 .ratingButtonFull {
     background:url(/images/star_filled.png) no-repeat;
     cursor:pointer;
-    width: 20px;
-    height: 20px;
+    width: 37px;
+    height: 36px;
     border: none;
 }
 
 .ratingButtonHalf {
     background:url(/images/star_filled_half.png) no-repeat;
     cursor:pointer;
-    width: 20px;
-    height: 20px;
+    width: 37px;
+    height: 36px;
     border: none;
 }
 .ratingButtonHalf:hover {

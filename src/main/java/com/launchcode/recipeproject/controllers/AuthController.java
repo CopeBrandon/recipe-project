@@ -56,7 +56,7 @@ public class AuthController {
     public String displayLogin(HttpServletRequest request, HttpServletResponse response, Model model){
         String path = request.getHeader("referer");
         if (path != null) {
-            if (!path.contains("register")) { // don't create a login/register loop
+            if (!path.contains("register") && !path.contains("login")) { // don't create a login/register loop
                 Cookie cookie = new Cookie("referringUrl", path);
                 cookie.setMaxAge(86400); // one day
                 response.addCookie(cookie);

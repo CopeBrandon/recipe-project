@@ -66,20 +66,28 @@
         <span id="ratingLogIn"></span>
 
         <script th:inline="javascript">
+        let likeLoginCount = 0;
+        let ratingLoginCount = 0;
         function likeLogIn(){
-            let span = document.getElementById('likeLogIn');
-            let a = document.createElement('a');
-            a.innerHTML="Please Log In!";
-            a.setAttribute('href', '/login');
-            span.appendChild(a);
+            if (likeLoginCount < 1){
+                let span = document.getElementById('likeLogIn');
+                let a = document.createElement('a');
+                a.innerHTML="Please Log In!";
+                a.setAttribute('href', '/login');
+                span.appendChild(a);
+                likeLoginCount++;
+                }
             }
 
         function ratingLogIn(){
-            let span = document.getElementById('ratingLogIn');
-            let a = document.createElement('a');
-            a.innerHTML="Please Log In!";
-            a.setAttribute('href', '/login');
-            span.appendChild(a);
+            if (ratingLoginCount < 1){
+                let span = document.getElementById('ratingLogIn');
+                let a = document.createElement('a');
+                a.innerHTML="Please Log In!";
+                a.setAttribute('href', '/login');
+                span.appendChild(a);
+                ratingLoginCount++;
+                }
             }
         </script>
     </td>
