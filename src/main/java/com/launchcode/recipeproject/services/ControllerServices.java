@@ -46,7 +46,7 @@ public class ControllerServices {
                     return user;
                 }
             }
-            // check for a google oauth2 user
+            // check for a google oauth2 usergit 
             if (((OAuth2AuthenticationToken) principal).getAuthorizedClientRegistrationId().equals("google")) {
                 result = userRepository.findByUsername(username + "@gmail.com");
                 if (result.isPresent()) {

@@ -35,12 +35,10 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated() // authenticate all other requests
                         )
                 .userDetailsService(jpaUserDetailsService) // this is where spring security looks up the user and imports a SecurityUser
-//                .httpBasic(Customizer.withDefaults())  // default login
                 .formLogin(form -> form // custom form
                         .loginPage("/login")
                         .successHandler(authenticationSuccessHandler)
                         .permitAll())
-//                .oauth2Login(Customizer.withDefaults()) // default oauth2
                 .oauth2Login(form -> form // custom form
                         .loginPage("/login")
                         .successHandler(authenticationSuccessHandler) // set up a User with OAuth2 data
