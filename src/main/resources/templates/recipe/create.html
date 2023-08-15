@@ -11,144 +11,108 @@
 <h1 th:text="${title}"></h1>
 
 <br>
+<br>
 
+<div class="recipe-container">
 <form method="post" enctype="multipart/form-data" >
 
             <!--Recipe Title and serving size-->
     <div>
-        <label>Recipe Title:
-            <input th:field="${form.recipe.name}">
+        <h4>Recipe Title:
+            <input th:field="${form.recipe.name}" size="15">
             Serves:
             <input th:field="${form.recipe.portionNum}" size="1/2">
-        </label>
+        </h4>
+        <p class="error" th:errors="${form.recipe.name}"></p>
+        <p class="error" th:errors="${form.recipe.portionNum}"></p>
     </div>
+
+    <br>
 
             <!--Ingredients that are dynamically added by inline JS-->
-    <label>Ingredients:</label>
+    <h5>Ingredients:</h5>
+
+    <div id="ingredientContainer">
+        <th:block th:each="ingredient, iter : ${form.ingredients}">
+            <span>
+                <input th:field="*{form.ingredients[__${iter.index}__].name}">
+                <input th:field="*{form.ingredients[__${iter.index}__].quantity}" size="3">
+                <select th:field="*{form.ingredients[__${iter.index}__].measurement}">
+                    <option value="unit">unit</option>
+                    <option value="tsp.">tsp.</option>
+                    <option value="tbsp.">tbsp.</option>
+                    <option value="cup">cup(s)</option>
+                    <option value="drop">drop(s)</option>
+                    <option value="dash">dash(s)</option>
+                </select>
+                <p class="error" th:errors="*{form.ingredients[__${iter.index}__].name}"></p>
+                <p class="error" th:errors="*{form.ingredients[__${iter.index}__].quantity}"></p>
+                <p class="error" th:errors="*{form.ingredients[__${iter.index}__].measurement}"></p>
+                <br>
+            </span>
+        </th:block>
+    </div>
     <div id="newIngredientContainer"></div>
-
+    <br>
+    <div>
+        <button class="btn btn-outline-success" type="button" onclick="addIngredient()">Add Ingredient</button>
+        <button class="btn btn-outline-danger" type="button" onclick="removeIngredient()">Remove Ingredient</button>
+    </div>
+    <br>
             <!--Input for Instruction Field-->
-    <div>
-        <label>Instructions:
-            <input th:field="${form.recipe.instructions}">
-        </label>
-    </div>
 
+    <h5>Instructions:</h5>
+    <br>
+    <div id="instructionContainer">
+        <th:block th:each="instruction, iter : ${form.instructions}">
+            <span>
+                <span th:text="${iter.index} + 1 + '. '"></span>
+                <textarea class="instructions" th:field="*{form.instructions[__${iter.index}__].details}"></textarea>
+                <span class="error"  th:errors="*{form.instructions[__${iter.index}__].details}"></span>
+                <br>
+            </span>
+        </th:block>
+    </div>
+    <div id="newInstructionContainer"></div>
+    <br>
+    <div>
+        <button class="btn btn-outline-success" type="button" onclick="addInstruction()">Add Instruction</button>
+        <button class="btn btn-outline-danger" type="button" onclick="removeInstruction()">Remove Instruction</button>
+    </div>
     <br>
 
     <div>
-        <label>Add an Image:
-<!--            <input type="file" accept="image/*" name="image">-->
+        <h6>Add an Image:
             <input type="file" accept="image/*" th:field="${form.image}">
-        </label>
+        </h6>
     </div>
 
     <br>
 
     <div>
-        <label>Tags:
-            <input type="checkbox" name="form.tags"
-                   th:each="tag : ${tags}"
-                   th:text="${tag.name}"
-                   th:value="${tag.id}"
-                   th:field="*{form.tags}"
-            />
-        </label>
+        <h6>Tags:</h6>
+        <div th:each="tag : ${tags}"class="form-check">
+            <input class="form-check-input" type="checkbox" th:value="${tag.id}" th:field="*{form.tags}">
+            <label class="form-check-label" th:text="${tag.name}"></label>
+        </div>
     </div>
 
     <br>
 
     <div>
-    <button type="button" onclick="addIngredient()">Add Ingredient</button>
-    <button type="button" onclick="removeIngredient()">Remove Ingredient</button>
-    <input type="submit" value="Submit">
+    <input class="btn btn-outline-primary" type="submit" value="Submit">
     </div>
+
+    <br>
+
+    <p>Can't find a tag that describes your recipe? <a th:href="@{/recipe/tags}">Create new tags here</a></p>
+
 </form>
+</div>
 
-<p>Can't find a tag that describes your recipe? <a th:href="@{/recipe/tags}">Create new tags here</a></p>
-
-
+<br>
 <!--JavaScript meant to add additional Text Boxes-->
-<script th:inline="javascript">
-       let ingredientCount = 0;
+<script type="text/javascript" th:src="@{/JS/dynamicInputs.js}"></script>
 
-    function addIngredient() {
-        let container = document.getElementById("newIngredientContainer");
-
-        // Creates ingredient name text box
-        let ingredientName = document.createElement("input");
-        ingredientName.type = "text";
-        ingredientName.placeholder = "Name";
-        ingredientName.setAttribute("id", "ingredients" + ingredientCount + ".name");
-        ingredientName.setAttribute("name", "ingredients[" + ingredientCount + "].name");
-        container.appendChild(ingredientName);
-
-        // Creates ingredient quantity text box
-        let ingredientQuantity = document.createElement("input");
-        ingredientQuantity.type = "text";
-        ingredientQuantity.placeholder = "Quantity";
-        ingredientQuantity.setAttribute("size", "3");
-        ingredientQuantity.setAttribute("id", "ingredients" + ingredientCount + ".quantity");
-        ingredientQuantity.setAttribute("name", "ingredients[" + ingredientCount + "].quantity");
-        container.appendChild(ingredientQuantity);
-
-        // Creates measurement select element
-        let measurementUnit = document.createElement("select");
-        measurementUnit.setAttribute("id", "ingredients" + ingredientCount + ".measurement");
-        measurementUnit.setAttribute("name", "ingredients[" + ingredientCount + "].measurement");
-
-        // Adds options to the select element
-        let defaultOption = document.createElement("option");
-        defaultOption.text = "unit";
-        measurementUnit.appendChild(defaultOption);
-
-        let option1 = document.createElement("option");
-        option1.text = "tsp.";
-        option1.value = "tsp.";
-        measurementUnit.appendChild(option1);
-
-        let option2 = document.createElement("option");
-        option2.text = "tbsp.";
-        option2.value = "tbsp.";
-        measurementUnit.appendChild(option2);
-
-        let option3 = document.createElement("option");
-        option3.text = "cup(s)";
-        option3.value = "cup";
-        measurementUnit.appendChild(option3);
-
-        let option4 = document.createElement("option");
-        option4.text = "drop(s)";
-        option4.value = "drop";
-        measurementUnit.appendChild(option4);
-
-        let option5 = document.createElement("option");
-        option5.text = "dash(s)";
-        option5.value = "dash";
-        measurementUnit.appendChild(option5);
-
-        container.appendChild(measurementUnit);
-
-        // Creates line break after new ingredient
-        let linebreak = document.createElement("br");
-        container.appendChild(linebreak);
-
-        ingredientCount++;
-    }
-
-    addIngredient();
-
-    function removeIngredient() {
-        let container = document.getElementById("newIngredientContainer");
-
-        if (ingredientCount > 0) {
-            container.removeChild(container.lastElementChild);
-            container.removeChild(container.lastElementChild);
-            container.removeChild(container.lastElementChild);
-            container.removeChild(container.lastElementChild);
-            ingredientCount--;
-        }
-    }
-  </script>
 </body>
 </html>
