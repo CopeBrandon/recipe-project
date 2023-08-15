@@ -64,6 +64,12 @@
     padding: 10px
 }
 
+.error {
+  color: red;
+}
+
+
+
 .bg-success.bs-navbar-padding{
     padding-top: 0;
     padding-bottom: 0;
