@@ -3,21 +3,23 @@
 <head th:replace="fragments :: head">
 </head>
 <body>
-    <header th:replace="fragments :: header"></header>
-    <div th:replace="fragments :: sidebar"></div>
+    <header>
+        <nav th:replace="fragments :: header"></nav>
+        <div th:replace="fragments :: sidebar"></div>
+    </header>
     <div class="mainBody">
         <button type="button" class="btn btn-secondary btn-lg"><a th:href="@{'/recipe/create'}"></a>Add Recipe</button>
-        <table class="table">
-           <thead id="myRecipesTitle">
-            <tr>
-                <th class="text-center h1 p-3">My Recipes</th>
-            </tr>
-            </thead>
-            <tr th:each="recipe : ${recipes}">
-                <td><img th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"/></td>
-                <td><a th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 th:text="${recipe.name}">Recipe Title</h3></a></td>
-            </tr>
-        </table>
+        <h1 id="myRecipesTitle" class="text-center h1 p-3">My Recipes</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" th:each="recipe : ${recipes}">
+                    <div>
+                        <img class="myRecipeImg rounded img-thumbnail" th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"/>
+                        <a th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 th:text="${recipe.name}">Recipe Title</h3></a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
