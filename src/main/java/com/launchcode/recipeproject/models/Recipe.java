@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Entity
-public abstract class Recipe extends AbstractEntity {
+public class Recipe extends AbstractEntity {
 
     @NotBlank
     @Size(min = 1, max = 75, message = "Recipe name must not exceed 75 characters")

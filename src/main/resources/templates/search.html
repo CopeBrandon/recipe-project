@@ -44,17 +44,20 @@
             <td>
                 <p>
                     Name:
-                    <a th:href="@{'/recipe/view/' + ${recipe.id}}" th:text="${recipe.name}"></a>
+                    <span th:text="${recipe.name}"></span>
                 </p>
                 <p>
                     Ingredients:
-                <p th:text="${recipe.ingredientLists}"></p>
+                <ul>
+                <li th:each text="${recipe.ingredientList}"></li>
 
+            </ul>
                 <p>
                     Tags:
-                <a th:each="tag : ${recipe.tags}" th:href="@{'/tags/view/' + ${tag.id}}" th:text="${tag.name}"></a>
+                <ul>
+                <li th:each text="${recipe.tags}"></li>
                     </p>
-
+                </ul>
             </td>
         </tr>
     </table>
