@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Instruction extends AbstractEntity{
 
     @NotBlank (message = "*Instruction details required")
-    @Size(max = 255, message = "*Each step must not exceed 255 characters.")
+//    @Size(max = 255, message = "*Each step must not exceed 255 characters.")
     private String details;
 
     @ManyToOne (cascade = CascadeType.ALL)
