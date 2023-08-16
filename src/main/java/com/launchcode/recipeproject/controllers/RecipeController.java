@@ -105,7 +105,7 @@ public class RecipeController {
             Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
             form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + imageName); // set image path in Recipe
         } else{
-            form.getRecipe().setImagePath("/uploads/static/images/recipe/placeholder.jpg");
+            form.getRecipe().setImagePath("/static/images/placeholder.jpg");
 
         }
 
