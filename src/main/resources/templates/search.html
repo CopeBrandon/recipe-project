@@ -4,7 +4,7 @@
 </head>
 <body>
 
-<div class="container body-content">
+<div class="container mine">
 
     <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
 
@@ -32,7 +32,7 @@
         </p>
 
         <input type="submit" value="Search" />
-        <a href=" /adv-search">Advanced Search</a>
+
 
     </form>
 
@@ -49,13 +49,14 @@
                 <p>
                     Ingredients:
                 <ul>
-                <li th:each text="${recipe.ingredientList}"></li>
-
+                <li th:each="ingredient:${recipe.ingredientList}"></li>
+                </p>
             </ul>
+
                 <p>
                     Tags:
                 <ul>
-                <li th:each text="${recipe.tags}"></li>
+                <li th:each="tag:${recipe.tags}"></li>
                     </p>
                 </ul>
             </td>
@@ -63,5 +64,15 @@
     </table>
 
 </div>
-
 </body>
+</html>
+
+
+
+
+
+
+
+
+
+

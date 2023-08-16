@@ -1,5 +1,6 @@
 package com.launchcode.recipeproject.data;
 
+import com.launchcode.recipeproject.models.Ingredient;
 import com.launchcode.recipeproject.models.Recipe;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
@@ -12,9 +13,12 @@ import java.util.Optional;
 public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
 
 
-
     List<Recipe> findTop9ByOrderByIdDesc();
+
     Optional<Recipe> findById(Integer id);
-    List<Recipe>findAll();
+
+    List<Recipe> findAll();
+
+
 }
 
