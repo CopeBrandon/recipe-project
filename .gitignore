@@ -37,4 +37,5 @@ out/
 .vscode/
 
 ### Java Project ###
-/src/main/uploads/static/images/recipe/**
+### ignore images ###
+recipe/**
