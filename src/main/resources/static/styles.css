@@ -88,8 +88,14 @@ header {
 }
 
 .myRecipeImg {
-    width: 100%;
+    width: 300px;
+    height: 300px;
     object-fit: cover;
+}
+
+img-link {
+    color: black;
+    text-decoration: none;
 }
 
 
