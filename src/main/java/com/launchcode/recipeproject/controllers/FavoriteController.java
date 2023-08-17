@@ -5,6 +5,7 @@ import com.launchcode.recipeproject.data.IngredientRepository;
 import com.launchcode.recipeproject.data.RecipeRepository;
 import com.launchcode.recipeproject.data.TagRepository;
 import com.launchcode.recipeproject.models.Favorite;
+import com.launchcode.recipeproject.models.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,20 +13,26 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
 
-@RequestMapping("favorite")
+@RequestMapping("favorites")
 public class FavoriteController {
     @Autowired
     FavoriteRepository favoriteRepository;
 
+    @Autowired
+    RecipeRepository recipeRepository;
+
     @GetMapping("add")
     public String displayAddFavoriteForm(Model model) {
-        model.addAttribute(new Favorite());
-        return "favorite/add";
+        model.addAttribute("form", recipeRepository.findAll());
+        model.addAttribute("recipes", recipeRepository.findAll());
+        return "favorites/add";
     }
+
 
     @GetMapping("")
     public String index(Model model) {
@@ -46,16 +53,14 @@ public class FavoriteController {
         return "redirect:";
     }
 
-
-
     @GetMapping("view/{favoriteId}")
     public String displayViewFavorite(Model model, @PathVariable int favoriteId) {
-
         Optional optFavorite = favoriteRepository.findById(favoriteId);
         if (optFavorite.isPresent()) {
             Favorite favorite = (Favorite) optFavorite.get();
             model.addAttribute("favorite", favorite);
-            return "favorite/view";
+             model.addAttribute("recipe", recipeRepository.findAll());
+            return "favorites/view";
         } else {
             return "redirect:../";
 

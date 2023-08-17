@@ -48,15 +48,20 @@
                 </p>
                 <p>
                     Ingredients:
-                <ul>
-                <li th:each="ingredient:${recipe.ingredientList}"></li>
+                <ul th:each="ingredient : ${recipe.ingredientList}">
+                    <li th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
+                        Ingredient, amount, measurement
+                    </li>
+
                 </p>
             </ul>
 
                 <p>
                     Tags:
-                <ul>
-                <li th:each="tag:${recipe.tags}"></li>
+                <ul th:each="tag:${recipe.tags}">
+                <li th:text="${tag.name}">
+                    Ingredient, amount, measurement
+                </li>
                     </p>
                 </ul>
             </td>

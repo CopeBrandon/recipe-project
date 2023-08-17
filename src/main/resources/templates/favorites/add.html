@@ -4,13 +4,14 @@
 <body class="container  body-content">
 <h1>Add Favorite</h1>
 
-<nav th:replace="fragments :: page-header"></nav>
-
-<form method="post" style="max-width:600px;">
-    <div class="form-group">
-        <label th:for="name">Recipe Name</label>
-        <input class="form-control" th:field="${favorite.name}" />
-        <span th:errors="${favorite.name}" class="error"></span>
+<form method="post" enctype="multipart/form-data" >
+    <div>
+        <label>Recipes:
+            <input type="checkbox" name="form.favorites"
+                   th:each="recipe : ${recipes}"
+                   th:text="${recipe.name}"
+            />
+        </label>
     </div>
 
     <input type="submit" value="Add Favorite" />

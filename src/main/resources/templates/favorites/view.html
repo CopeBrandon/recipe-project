@@ -10,7 +10,7 @@
 <div class="favorite-listing">
     <p th:text="${'Name: ' + recipe.name}"></p>
 
-    <p> Favorites:
+    <h1> Favorites:</h1>
     <ul>
         <li th:each="recipe : ${favorite.recipes}">
             <a th:href="@{'/view/'}" + th:text="${recipe.name}"></a>
@@ -18,3 +18,5 @@
     </ul>
     </p>
 </div>
+</body>
+</html>

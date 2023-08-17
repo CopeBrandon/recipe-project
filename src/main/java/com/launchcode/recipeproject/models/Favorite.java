@@ -1,7 +1,6 @@
 package com.launchcode.recipeproject.models;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +8,12 @@ import java.util.List;
 @Entity
 public class Favorite extends AbstractEntity {
 
-    @OneToMany
+  /*  @OneToMany
     private List<Recipe> favorites = new ArrayList<>();
 
-    public Favorite() {
 
-    }
+
+
 
     public List<Recipe> getFavorites() {
         return favorites;
@@ -24,7 +23,7 @@ public class Favorite extends AbstractEntity {
         this.favorites = favorites;
     }
 }
-
-
+*/
+}
 
 
