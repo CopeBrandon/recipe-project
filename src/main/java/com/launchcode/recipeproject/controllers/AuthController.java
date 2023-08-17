@@ -25,13 +25,13 @@ public class AuthController {
     @GetMapping("/register")
     public String displayRegistrationForm(Model model){
         model.addAttribute("registrationDTO", new RegistrationDTO());
-        model.addAttribute("title", "Registration Form");
+        model.addAttribute("title", "Register Here!");
         return "register";
     }
 
     @PostMapping("/register")
     public String processRegistrationForm(@ModelAttribute @Valid RegistrationDTO registrationDTO, Errors errors, Model model){
-        model.addAttribute("title", "Registration Form");
+        model.addAttribute("title", "Register Here!");
         if (errors.hasErrors()){
             return "register";
         }
@@ -49,15 +49,20 @@ public class AuthController {
         User user = new User(registrationDTO.getUsername(),registrationDTO.getEmail(),registrationDTO.getPassword(), roles);
         userRepository.save(user); // rewrite this section if we choose to use Roles
 
-        return "redirect:";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
     public String displayLogin(HttpServletRequest request, HttpServletResponse response, Model model){
-        Cookie cookie = new Cookie("referringUrl", request.getHeader("referer"));
-        cookie.setMaxAge(86400); // one day
-        response.addCookie(cookie);
-        model.addAttribute("title", "Login Form");
+        String path = request.getHeader("referer");
+        if (path != null) {
+            if (!path.contains("register") && !path.contains("login")) { // don't create a login/register loop
+                Cookie cookie = new Cookie("referringUrl", path);
+                cookie.setMaxAge(86400); // one day
+                response.addCookie(cookie);
+            }
+        }
+        model.addAttribute("title", "Login!");
         return "login";
     }
 

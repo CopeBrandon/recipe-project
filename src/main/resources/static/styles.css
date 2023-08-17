@@ -1,16 +1,43 @@
+.home-middle {
+    margin: auto;
+    margin-left: 180px;
+    padding:10px;
+    padding-top: 32px;
+    width: 75%;
+}
+
 #top9container{
     display: flex;
     flex-wrap: wrap;
 }
+
 .top9element{
-    flex-basis: 33.333333%;
+    flex-basis: 33.33333333333333%;
+    margin-bottom: 5px;
+}
+
+.top9inner{
+    height: 100%;
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid;
+    -webkit-box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    background: url(/images/noise-form-white.png);
+    overflow-wrap: break-word;
+}
+
+.top9element img{
+  max-width: 100%;
+  height: auto;
 }
 
 .ratingButtonEmpty {
     background:url(/images/star.png) no-repeat;
     cursor:pointer;
-    width: 20px;
-    height: 20px;
+    width: 37px;
+    height: 36px;
     border: none;
 }
 
@@ -21,18 +48,19 @@
 .ratingButtonFull {
     background:url(/images/star_filled.png) no-repeat;
     cursor:pointer;
-    width: 20px;
-    height: 20px;
+    width: 37px;
+    height: 36px;
     border: none;
 }
 
 .ratingButtonHalf {
     background:url(/images/star_filled_half.png) no-repeat;
     cursor:pointer;
-    width: 20px;
-    height: 20px;
+    width: 37px;
+    height: 36px;
     border: none;
 }
+
 .ratingButtonHalf:hover {
     background:url(/images/star_filled.png) no-repeat;
 }
@@ -48,6 +76,9 @@
 
 #sidebarSearch {
      padding-right: 50px;
+}
+#adv-search {
+     padding-right: 25px;
 }
 
 .sidebar-list {
@@ -107,7 +138,27 @@
     border-radius:var(--bs-border-radius-xxl);
 }
 
+.login-register-buffer{
+    padding-top:100px;
+}
 
+.login-register-container {
+    width: 50%;
+    border: 2px solid;
+    padding: 60px;
+    margin: auto;
+    -webkit-box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 20px -7px rgba(0,0,0,0.75);
+    overflow-wrap: break-word;
+}
+
+.login-register-form {
+        width: 100%;
+        padding: 60px;
+        margin: auto;;
+        overflow-wrap: break-word;
+}
 
 .bg-success.bs-navbar-padding{
     padding-top: 0;
@@ -136,10 +187,6 @@ img-link {
     color: black;
     text-decoration: none;
 }
-
-
-
-
 
 
 
