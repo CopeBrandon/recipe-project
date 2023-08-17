@@ -1,23 +1,22 @@
 package com.launchcode.recipeproject.models;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class RecipeData {
 
-    public static ArrayList<Recipe> findByColumnAndValue(String column, String value, Iterable<Recipe> allRecipes) {
+// Changed Iterable to ArrayList for allRecipes
+    public static ArrayList<Recipe> findByColumnAndValue(String column, String value, ArrayList<Recipe> allRecipes) {
 
         ArrayList<Recipe> results = new ArrayList<>();
 
-
-        if (value.toLowerCase().equals("all")) {
+        if (value.toLowerCase().equals("all")){
             return (ArrayList<Recipe>) allRecipes;
         }
 
-        if (column.equals("all")) {
+        if (column.equals("all")){
             results = findByValue(value, allRecipes);
             return results;
         }
-
         for (Recipe recipe : allRecipes) {
 
             String aValue = getFieldValue(recipe, column);
@@ -25,43 +24,44 @@ public class RecipeData {
             if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
                 results.add(recipe);
             }
-
         }
+
         return results;
     }
 
-                public static String getFieldValue (Recipe recipe, String fieldName){
-                    String theValue;
-                    if (fieldName.equals("name")) {
-                        theValue = recipe.getName();
-                    } else if (fieldName.equals("tag")) {
-                        theValue = recipe.getTags().toString();
-                    } else {
-                        theValue = recipe.getIngredientList().toString();
-                    }
-                    return theValue;
-                }
+    public static String getFieldValue(Recipe recipe, String fieldName) {
+        String theValue;
+        if (fieldName.equals("name")){
+            theValue = recipe.getName();
+        } else if (fieldName.equals("ingredients")){
+            theValue = recipe.getIngredientList().toString();
+        } else {
+            theValue = recipe.getTags().toString();
+        }
 
-                public static ArrayList<Recipe> findByValue(String value, Iterable<Recipe> allRecipes){
-                    String lower_val = value.toLowerCase();
+        return theValue;
+    }
 
-                    ArrayList<Recipe> results = new ArrayList<>();
+    public static ArrayList<Recipe> findByValue(String value, ArrayList<Recipe> allRecipes) {
+        String lower_val = value.toLowerCase();
 
-                    for (Recipe recipe : allRecipes) {
+        ArrayList<Recipe> results = new ArrayList<>();
 
-                        if (recipe.getName().toLowerCase().contains(lower_val)) {
-                            results.add(recipe);
-                        } else if (recipe.getTags().toString().toLowerCase().contains(lower_val)) {
-                            results.add(recipe);
-                        } else if (recipe.getIngredientList().toString().toLowerCase().contains(lower_val)) {
-                            results.add(recipe);
-                        } else if (recipe.toString().toLowerCase().contains(lower_val)) {
-                            results.add(recipe);
-                        }
-                    }
+        for (Recipe recipe : allRecipes) {
 
-                    return results;
-                }
+            if (recipe.getName().toLowerCase().contains(lower_val)) {
+                results.add(recipe);
+            } else if (recipe.getIngredientList().toString().toLowerCase().contains(lower_val)) {
+                results.add(recipe);
+            } else if (recipe.getTags().toString().toLowerCase().contains(lower_val)) {
+                results.add(recipe);
+            } else if (recipe.toString().toLowerCase().contains(lower_val)) {
+                results.add(recipe);
             }
 
+        }
 
+        return results;
+    }
+
+}

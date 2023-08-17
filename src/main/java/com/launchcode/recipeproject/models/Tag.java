@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Tag extends AbstractEntity {
+public class Tag extends AbstractEntity{
 
     @Size(max = 30, message = "*Tags must not exceed 30 characters")
     @NotBlank (message = "*Tag name required for submission")
@@ -21,14 +21,13 @@ public class Tag extends AbstractEntity {
         this.name = name;
     }
 
-    public Tag() {
-    }
+    public Tag() {}
 
     public String getName() {
         return name;
     }
 
-    public String getDisplayName() {
+    public String getDisplayName(){
         return "#" + name + " ";
     }
 
@@ -40,9 +39,9 @@ public class Tag extends AbstractEntity {
         return recipes;
     }
 
-    public void addRecipe(Recipe recipe) {
-        this.recipes.add(recipe);
-    }
+    public void addRecipe(Recipe recipe){this.recipes.add(recipe);}
 
+    @Override
+    public String toString() { return name; }
 
 }
