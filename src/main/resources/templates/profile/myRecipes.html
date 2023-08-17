@@ -3,22 +3,23 @@
 <head th:replace="fragments :: head">
 </head>
 <body>
-<header>
-    <nav th:replace="fragments :: header"></nav>
-    <div th:replace="fragments :: sidebar"></div>
-</header>
-<div class="mainBody">
-    <h1 id="myMenuTitle" class="text-center display-6 p-3">My Menu</h1>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4" th:each="recipe : ${recipes}">
-                <div>
-                    <img class="myRecipeImg rounded" th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"/>
-                    <a class="img-link" th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 class="h5" th:text="${recipe.name}">Recipe Title</h3></a>
+    <header>
+        <nav th:replace="fragments :: header"></nav>
+        <div th:replace="fragments :: sidebar"></div>
+    </header>
+    <div class="mainBody">
+        <a th:href="@{'/recipe/create'}"<button type="button" class="btn btn-secondary btn-lg">Add Recipe</button></a>
+        <h1 id="myRecipesTitle" class="text-center display-6 p-3">My Recipes</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" th:each="recipe : ${recipes}">
+                    <div>
+                        <img class="myRecipeImg rounded" th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"/>
+                        <a class="img-link" th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 class="h5" th:text="${recipe.name}">Recipe Title</h3></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>
