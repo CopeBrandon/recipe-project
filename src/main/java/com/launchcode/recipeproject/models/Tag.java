@@ -10,8 +10,8 @@ import java.util.List;
 @Entity
 public class Tag extends AbstractEntity {
 
-    @Size(min = 1, max = 30)
-    @NotBlank
+    @Size(max = 30, message = "*Tags must not exceed 30 characters")
+    @NotBlank (message = "*Tag name required for submission")
     private String name;
 
     @ManyToMany(mappedBy = "tags")
