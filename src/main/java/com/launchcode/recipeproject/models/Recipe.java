@@ -35,6 +35,10 @@ public class Recipe extends AbstractEntity{
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private final List<Ingredient> ingredientList = new ArrayList<>();
 
+    //TESTING
+    @OneToMany(mappedBy = "recipe")
+    private final List<Comment> comments = new ArrayList<>();
+
     @ManyToMany
     private final List<Tag> tags = new ArrayList<>();
 
@@ -99,6 +103,11 @@ public class Recipe extends AbstractEntity{
     }
 
     public void addInstruction(Instruction instruction) {this.instructions.add(instruction);}
+
+    //TESTING
+    public List<Comment> getComments() { return comments; }
+
+    public void addComments(Comment comment) { this.comments.add(comment); }
 
     public List<Tag> getTags() {
         return tags;

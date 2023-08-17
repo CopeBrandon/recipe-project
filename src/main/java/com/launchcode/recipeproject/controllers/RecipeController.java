@@ -8,6 +8,8 @@ import com.launchcode.recipeproject.models.*;
 import com.launchcode.recipeproject.data.*;
 import com.launchcode.recipeproject.exceptions.ResourceNotFoundException;
 import com.launchcode.recipeproject.models.*;
+import com.launchcode.recipeproject.data.*;
+import com.launchcode.recipeproject.models.*;
 import com.launchcode.recipeproject.models.dto.RecipeIngredientDTO;
 import com.launchcode.recipeproject.services.ControllerServices;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
@@ -44,6 +46,9 @@ public class RecipeController {
 
     @Autowired
     private IngredientRepository ingredientRepository;
+    //TESTING
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Autowired
     private InstructionRepository instructionRepository;
@@ -271,6 +276,29 @@ public class RecipeController {
         } else {
            throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
         }
+    }
+
+    //TESTING
+    @PostMapping("view/{recipeId}")
+    public String processRecipe(Model model, @RequestParam(required=true) String commentName,
+                                @RequestParam(required=true) String commentComment, @PathVariable int recipeId){
+        Optional optRecipe = recipeRepository.findById(recipeId);
+        Recipe recipe = (Recipe)optRecipe.get();
+        Comment comment = new Comment();
+
+        if (commentName != "" || commentComment != "") {
+            comment.setName(commentName);
+            comment.setComment(commentComment);
+            comment.setRecipe(recipe);
+
+            commentRepository.save(comment);
+        }
+
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("tags", tagRepository.findAll());
+        model.addAttribute("title", "View Recipe");
+
+        return "recipe/view";
     }
 
     @GetMapping("delete/{recipeId}")
