@@ -27,9 +27,11 @@ public class MyRecipesController {
     @GetMapping("/profile/myRecipes")
     public String displayMyRecipes(Model model, Principal principal){
         User user = controllerServices.getUser(principal);
-        System.out.println(user);
+        if (user == null) {
+            model.addAttribute("title", "login");
+            return "/login";
+        }
         int userId = user.getId();
-        System.out.println(userId);
         model.addAttribute("recipes", recipeRepository.findByUserId(userId));
         return "/profile/myRecipes";
     }
