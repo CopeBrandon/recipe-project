@@ -75,6 +75,20 @@ public class RecipeController {
             return "recipe/create";
         }
 
+        //Get user information and set it in the recipe
+//        User user; //TODO create a fake user until we turn on security
+//        Optional<User> result = userRepository.findByUsername("Temp_User");
+//        if (result.isPresent()){user = result.get();}
+//        else{user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER"); userRepository.save(user);}
+//        TODO uncomment when we are ready to turn on security
+        User user = controllerServices.getUser(principal);
+        if (user == null){
+            model.addAttribute("title", "Login");
+            return "/login";
+        }
+        form.getRecipe().setUser(user);
+        user.addRecipe(form.getRecipe());
+
         //For Loop to connect all ingredient objects to the recipe objects
         for (Ingredient ingredient : form.getIngredients()){
             ingredient.setRecipe(form.getRecipe());
@@ -94,15 +108,7 @@ public class RecipeController {
             }
         }
 
-        //Get user information and set it in the recipe
-//        User user; //TODO create a fake user until we turn on security
-//        Optional<User> result = userRepository.findByUsername("Temp_User");
-//        if (result.isPresent()){user = result.get();}
-//        else{user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER"); userRepository.save(user);}
-//        TODO uncomment when we are ready to turn on security
-        User user = controllerServices.getUser(principal);
-        form.getRecipe().setUser(user);
-        user.addRecipe(form.getRecipe());
+
 
         // Add image path to Recipe and save the image
         if(form.getImage().getSize() != 0) { // check if image was uploaded
