@@ -3,6 +3,7 @@ package com.launchcode.recipeproject.models;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,10 @@ public class User extends AbstractEntity{
     private String roles; // comma separated list of roles "ROLE_USER,ROLE_ADMIN" default is "ROLE_USER"
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // static so all classes can use
+//jen//
 
+    @ManyToMany(mappedBy="favUsers")
+    private final List<Recipe>favRecipes = new ArrayList<>();
     @OneToMany
     private final List<Recipe> recipes = new ArrayList<>();
 
@@ -32,9 +36,15 @@ public class User extends AbstractEntity{
         this.roles = roles;
     }
 
+    public List<Recipe> getFavRecipes() {
+        return favRecipes;
+    }
+
     public Boolean isPasswordMatching(String password){
         return passwordEncoder.matches(password,passwordHash); // can't use .equals because of salting
     }
+
+
 
     public void setPassword(String password) {
         this.passwordHash = passwordEncoder.encode(password);

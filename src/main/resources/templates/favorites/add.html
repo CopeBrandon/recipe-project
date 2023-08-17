@@ -7,10 +7,11 @@
 <form method="post" enctype="multipart/form-data" >
     <div>
         <label>Recipes:
-            <input type="checkbox" name="form.favorites"
-                   th:each="recipe : ${recipes}"
-                   th:text="${recipe.name}"
-            />
+            <input type="checkbox"
+                   th:each="recipe : ${recipes}" th:value="${recipe}"
+                   th:text="${recipe.name}"/>
+
+
         </label>
     </div>
 

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Controller
@@ -48,7 +49,7 @@ public class ListController {
             recipes = recipeRepository.findAll();
             model.addAttribute("title", "All Recipe");
         } else {
-            recipes = RecipeData.findByColumnAndValue(column, value, recipeRepository.findAll());
+            recipes = RecipeData.findByColumnAndValue(column, value, (ArrayList<Recipe>)(recipeRepository.findAll()));
             model.addAttribute("title", "Recipes with " + columnChoices.get(column) + ": " + value);
         }
         model.addAttribute("recipes", recipes);

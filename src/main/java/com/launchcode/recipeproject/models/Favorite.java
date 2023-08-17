@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Favorite extends AbstractEntity {
+public class Favorite extends AbstractEntity {}
 
-  /*  @OneToMany
-    private List<Recipe> favorites = new ArrayList<>();
+   /*@OneToMany
+    private List<recipes> favorites = new ArrayList<>();
 
 
 
@@ -24,6 +24,6 @@ public class Favorite extends AbstractEntity {
     }
 }
 */
-}
+
 
 
