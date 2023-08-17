@@ -15,4 +15,6 @@ public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
 
     List<Recipe> findTop9ByOrderByIdDesc();
     Optional<Recipe> findById(Integer id);
+
+    List<Recipe> findByUserId(Integer id);
 }
