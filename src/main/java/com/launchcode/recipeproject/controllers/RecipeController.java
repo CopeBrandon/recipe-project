@@ -100,11 +100,12 @@ public class RecipeController {
         }
 
         //Get user information and set it in the recipe
-        User user; //TODO create a fake user until we turn on security
-        Optional<User> result = userRepository.findByUsername("Temp_User");
-        if (result.isPresent()){user = result.get();}
-        else{user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER"); userRepository.save(user);}
-//        User user = controllerServices.getUser(principal); TODO uncomment when we are ready to turn on security
+//        User user; //TODO create a fake user until we turn on security
+//        Optional<User> result = userRepository.findByUsername("Temp_User");
+//        if (result.isPresent()){user = result.get();}
+//        else{user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER"); userRepository.save(user);}
+//        TODO uncomment when we are ready to turn on security
+        User user = controllerServices.getUser(principal);
         form.getRecipe().setUser(user);
         user.addRecipe(form.getRecipe());
 
@@ -113,6 +114,8 @@ public class RecipeController {
             String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + form.getImage().getOriginalFilename();
             Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
             form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + form.getImage().getOriginalFilename()); // set image path in Recipe
+        } else{
+            form.getRecipe().setImagePath("/uploads/static/images/placeholder.jpg");
         }
 
         //Must save recipe object before ingredient due to One-to-many relationship
@@ -318,8 +321,8 @@ public class RecipeController {
             int oldPortionNum = convertedRecipe.getPortionNum();
             for (Ingredient ingredient : convertedRecipe.getIngredientList()){
                 double convertedIngQuantity = (ingredient.getQuantity() / oldPortionNum) * newPortionNum;
-                double convertedIngQuantityRounded = (Math.round(convertedIngQuantity*100)) / (double)100;
-                ingredient.setQuantity(convertedIngQuantityRounded);
+                ingredient.setQuantity(convertedIngQuantity);
+                ingredient.convertMeasurement();
             }
             convertedRecipe.setPortionNum(newPortionNum);
             model.addAttribute("recipe", convertedRecipe);

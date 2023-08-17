@@ -9,99 +9,104 @@
 <h1 th:text="${title}"></h1>
 
 <br>
+<br>
 
-<div>
-    <img th:src="@{${recipe.imagePath}}">
-    <h3 th:text="${recipe.name}">Recipe title</h3>
-    <label>Serves:
-        <form method="post" th:action="@{/recipe/convert/__${recipe.id}__}">
-            <input size="1" th:value="${recipe.portionNum}" id="portionNum" name="portionNum">
-            <button type="submit">Convert</button>
-        </form>
-    </label>
+<div class="recipe-container">
+        <img class="recipe-image" th:src="@{${recipe.imagePath}}">
+        <h3 th:text="${recipe.name}">Recipe title</h3>
+        <label>Serves:
+            <a>
+                <form method="post" th:action="@{/recipe/convert/__${recipe.id}__}">
+                    <input size="1" th:value="${recipe.portionNum}" id="portionNum" name="portionNum">
+                    <button type="submit" class="btn btn-secondary btn-sm">Convert</button>
+                </form>
+            </a>
+        </label>
+        <br>
+        <br>
+        <ul>
+            <li th:each="ingredient : ${recipe.ingredientList}" th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
+                Ingredient, amount, measurement
+            </li>
+        </ul>
+        <br>
+        <ol>
+            <li th:each="instruction : ${recipe.instructions}" th:text="${instruction}" ></li>
+        </ol>
+
+
+    <div th:replace="fragments :: recipe-tags"></div>
+
+    <div>
+        <a th:href="@{/recipe/edit/__${recipe.id}__}" class="btn btn-outline-success" role="button">Edit</a>
+        <a th:href="@{/recipe/delete/__${recipe.id}__}" onclick="confirmDeletion()" class="btn btn-outline-danger" role="button">Delete</a>
+    </div>
     <br>
-    <ul>
-        <li th:each="ingredient : ${recipe.ingredientList}" th:text="${ingredient.name} + ': ' + ${ingredient.quantity} + ' ' + ${ingredient.measurement}">
-            Ingredient, amount, measurement
-        </li>
-    </ul>
+
+    <div>
+        <td th:text = "${recipe.userLikeCount()} + ' '"></td>
+        <td th:if="${user}">
+            <span th:if="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button class="btn btn-primary">Unlike</button></a></span>
+            <span th:unless="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button class="btn btn-primary">Like</button></a></span>
+        </td>
+        <td th:unless="${user}">
+            <span><button class="btn btn-primary" onclick="likeLogIn()">Like</button></span>
+            <span id="likeLogIn"></span>
+
+        </td>
+    </div>
+
     <br>
-    <ol>
-        <li th:each="instruction : ${recipe.instructions}" th:text="${instruction}" ></li>
-    </ol>
-</div>
 
-<div th:replace="fragments :: recipe-tags"></div>
+    <div>
+        <td th:text = "${recipe.recipeRating()} + ' Stars : Reviewed by ' + ${recipe.userRatingCount()} + ' people'"></td>
+        <br>
+        <td>
+            <span th:if="${user}">
+                <th:block th:each="num : ${recipe.getRatingScale()}">
+                <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:if="${recipe.recipeRating()} >= ${num}" class="ratingButtonFull"></button></a>
+                    <th:block th:unless="${recipe.recipeRating()} >= ${num}">
+                        <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:if="${recipe.recipeRating()} >= ${num} - .5"class="ratingButtonHalf"></button></a>
+                        <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:unless="${recipe.recipeRating()} >= ${num} - .5" class="ratingButtonEmpty"></button></a>
+                    </th:block>
+                </th:block>
+            </span>
+            <span th:unless="${user}">
+                <th:block th:each="num : ${recipe.getRatingScale()}">
+                <button th:if="${recipe.recipeRating()} >= ${num}" class="ratingButtonFull" onclick="ratingLogIn()"></button>
+                    <th:block th:unless="${recipe.recipeRating()} >= ${num}">
+                        <button th:if="${recipe.recipeRating()} >= ${num} - .5"class="ratingButtonHalf" onclick="ratingLogIn()"></button>
+                        <button th:unless="${recipe.recipeRating()} >= ${num} - .5" class="ratingButtonEmpty" onclick="ratingLogIn()"></button>
+                    </th:block>
+                </th:block>
+            </span>
+            <span id="ratingLogIn"></span>
 
-<a th:href="@{/recipe/edit/__${recipe.id}__}">
-    <button type="button">Edit</button>
-</a>
+            <script th:inline="javascript">
+            function likeLogIn(){
+                let span = document.getElementById('likeLogIn');
+                let a = document.createElement('a');
+                a.innerHTML="Please Log In!";
+                a.setAttribute('href', '/login');
+                span.appendChild(a);
+                }
 
-<a th:href="@{/recipe/delete/__${recipe.id}__}" onclick="confirmDeletion()">
-    <button type="button">Delete</button>
-</a>
-
-<script type="text/javascript" th:src="@{/JS/deletionConfirmation.js}"></script>
-
-
-<div>
-    <td th:text = "${recipe.userLikeCount()} + ' '"></td>
-    <td th:if="${user}">
-        <span th:if="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button class="btn btn-primary">Unlike</button></a></span>
-        <span th:unless="${recipe.userLiked(user.getId())}"><a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/like'}"><button class="btn btn-primary">Like</button></a></span>
-    </td>
-    <td th:unless="${user}">
-        <span><button class="btn btn-primary" onclick="likeLogIn()">Like</button></span>
-        <span id="likeLogIn"></span>
-
-    </td>
+            function ratingLogIn(){
+                let span = document.getElementById('ratingLogIn');
+                let a = document.createElement('a');
+                a.innerHTML="Please Log In!";
+                a.setAttribute('href', '/login');
+                span.appendChild(a);
+                }
+            </script>
+        </td>
+    </div>
 </div>
 
 <br>
 
-<div>
-    <td th:text = "${recipe.recipeRating()} + ' Stars : Reviewed by ' + ${recipe.userRatingCount()} + ' people'"></td>
-    <br>
-    <td>
-        <span th:if="${user}">
-            <th:block th:each="num : ${recipe.getRatingScale()}">
-            <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:if="${recipe.recipeRating()} >= ${num}" class="ratingButtonFull"></button></a>
-                <th:block th:unless="${recipe.recipeRating()} >= ${num}">
-                    <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:if="${recipe.recipeRating()} >= ${num} - .5"class="ratingButtonHalf"></button></a>
-                    <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:unless="${recipe.recipeRating()} >= ${num} - .5" class="ratingButtonEmpty"></button></a>
-                </th:block>
-            </th:block>
-        </span>
-        <span th:unless="${user}">
-            <th:block th:each="num : ${recipe.getRatingScale()}">
-            <button th:if="${recipe.recipeRating()} >= ${num}" class="ratingButtonFull" onclick="ratingLogIn()"></button>
-                <th:block th:unless="${recipe.recipeRating()} >= ${num}">
-                    <button th:if="${recipe.recipeRating()} >= ${num} - .5"class="ratingButtonHalf" onclick="ratingLogIn()"></button>
-                    <button th:unless="${recipe.recipeRating()} >= ${num} - .5" class="ratingButtonEmpty" onclick="ratingLogIn()"></button>
-                </th:block>
-            </th:block>
-        </span>
-        <span id="ratingLogIn"></span>
 
-        <script th:inline="javascript">
-        function likeLogIn(){
-            let span = document.getElementById('likeLogIn');
-            let a = document.createElement('a');
-            a.innerHTML="Please Log In!";
-            a.setAttribute('href', '/login');
-            span.appendChild(a);
-            }
-
-        function ratingLogIn(){
-            let span = document.getElementById('ratingLogIn');
-            let a = document.createElement('a');
-            a.innerHTML="Please Log In!";
-            a.setAttribute('href', '/login');
-            span.appendChild(a);
-            }
-        </script>
-    </td>
-</div>
+<script type="text/javascript" th:src="@{/JS/deletionConfirmation.js}"></script>
 
 <hr />
 
