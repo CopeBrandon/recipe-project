@@ -4,8 +4,11 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${title}">Recipe Refresh</title>
+    <link href="/styles.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <link href="/bootstrap-social.css" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>
 </head>
 <body>
 <header th:fragment="header">
@@ -25,31 +28,28 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/viewAll">View All Recipes</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/recipe/create">Add Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
                 </ul>
             </div>
             <div>
                 <ul class="navbar-nav ml-auto me-3">
                     <li class="nav-item">
+                        <a class="nav-link" id="adv-search" href="/adv-search">Advanced Search</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" id="sidebarSearch" href="/search">Search</a>
+
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
-
-<div th:fragment="tags">
-    <ul th:each="tag: ${tags}">
-        <li th:text="${tag.name}"></li>
-    </ul>
-</div>
-
-    <div class="container">
-        <nav th:fragment="navigation">
-
-</nav>
-    </div>
-
 
 <div th:fragment="sidebar" class="sidebar">
     <h3 class="h3 text-center pt-5 pb-4">Welcome</h3>
@@ -70,6 +70,56 @@
             <a class="sidebar-link" href="/profile/changePassword">Change Password</a>
         </li>
     </ul>
+</div>
+
+<div th:fragment="all-tags">
+    <ul th:each="tag: ${tags}">
+        <li th:text="${tag.name}"></li>
+    </ul>
+</div>
+<div th:fragment="recipe-tags">
+    <ul th:each="tag: ${recipe.tags}">
+        <li th:text="${tag.name}"></li>
+    </ul>
+</div>
+
+<div th:fragment="rating">
+    <td th:text = "${recipe.recipeRating()} + ' Stars : Reviewed by ' + ${recipe.userRatingCount()} + ' people'"></td>
+    <br>
+    <td>
+            <span th:if="${user}">
+                <th:block th:each="num : ${recipe.getRatingScale()}">
+                <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:if="${recipe.recipeRating()} >= ${num}" class="ratingButtonFull"></button></a>
+                    <th:block th:unless="${recipe.recipeRating()} >= ${num}">
+                        <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:if="${recipe.recipeRating()} >= ${num} - .5"class="ratingButtonHalf"></button></a>
+                        <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:unless="${recipe.recipeRating()} >= ${num} - .5" class="ratingButtonEmpty"></button></a>
+                    </th:block>
+                </th:block>
+            </span>
+        <span th:unless="${user}">
+                <th:block th:each="num : ${recipe.getRatingScale()}">
+                <button th:if="${recipe.recipeRating()} >= ${num}" class="ratingButtonFull" onclick="ratingLogIn()"></button>
+                    <th:block th:unless="${recipe.recipeRating()} >= ${num}">
+                        <button th:if="${recipe.recipeRating()} >= ${num} - .5"class="ratingButtonHalf" onclick="ratingLogIn()"></button>
+                        <button th:unless="${recipe.recipeRating()} >= ${num} - .5" class="ratingButtonEmpty" onclick="ratingLogIn()"></button>
+                    </th:block>
+                </th:block>
+            </span>
+        <span id="ratingLogIn"></span>
+    </td>
+    <script th:inline="javascript">
+        let ratingLoginCount = 0;
+        function ratingLogIn(){
+            if (ratingLoginCount < 1){
+                let span = document.getElementById('ratingLogIn');
+                let a = document.createElement('a');
+                a.innerHTML="Please Log In!";
+                a.setAttribute('href', '/login');
+                span.appendChild(a);
+                ratingLoginCount++;
+                }
+            }
+    </script>
 </div>
 
 </body>

@@ -47,9 +47,9 @@ public class Recipe extends AbstractEntity{
     @ManyToOne
     private User user;
 
-    private final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/uploads/static/images/recipe";
+    private final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/uploads/static/images/recipe/";
 
-    private final String RELATIVE_PATH = "/uploads/static/images/recipe";
+    private final String RELATIVE_PATH = "/uploads/static/images/recipe/";
 
     private String imagePath;
 
