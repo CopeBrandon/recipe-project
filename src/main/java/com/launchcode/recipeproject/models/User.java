@@ -80,6 +80,10 @@ public class User extends AbstractEntity{
         this.recipes.add(recipe);
     }
 
+    public void addMenuRecipe(Recipe recipe) { this.menuRecipes.add(recipe);}
+
+    public void deleteMenuRecipe(Recipe recipe) { this.menuRecipes.remove(recipe);}
+
     public List<Recipe> getMenuRecipes() {
         return menuRecipes;
     }

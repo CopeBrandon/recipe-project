@@ -139,6 +139,51 @@ public class RecipeController {
 
     }
 
+    @PostMapping("view/{recipeId}/addMenuItem")
+    public String addMenuItem(Model model, Principal principal, @PathVariable int recipeId){
+        User user = controllerServices.getUser(principal);
+
+        if (user == null) {
+            model.addAttribute("title", "login");
+            return "/login";
+        }
+
+        Optional optRecipe = recipeRepository.findById(recipeId);
+
+        if (optRecipe.isPresent()) {
+            Recipe recipe = (Recipe) optRecipe.get();
+            user.getMenuRecipes().add(recipe);
+            userRepository.save(user);
+            return "recipe/view";
+        } else {
+            model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
+            return "recipe/notFound";
+        }
+    }
+
+    @PostMapping("view/{recipeId}/removeMenuItem")
+    public String removeMenuItem(Model model, Principal principal, @PathVariable int recipeId) {
+        User user = controllerServices.getUser(principal);
+
+        if (user == null) {
+            model.addAttribute("title", "login");
+            return "/login";
+        }
+
+        Optional optRecipe = recipeRepository.findById(recipeId);
+
+        if (optRecipe.isPresent()) {
+            Recipe recipe = (Recipe) optRecipe.get();
+            user.getMenuRecipes().remove(recipe);
+            userRepository.save(user);
+            return "recipe/view";
+        } else {
+            model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
+            return "recipe/notFound";
+        }
+
+    }
+
     //Editing Controllers ------------------------------------------------------
 
     @GetMapping("edit/{recipeId}")

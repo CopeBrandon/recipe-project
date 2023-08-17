@@ -7,11 +7,8 @@ import com.launchcode.recipeproject.models.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import javax.validation.Valid;
 import java.security.Principal;
 import com.launchcode.recipeproject.services.ControllerServices;
 
@@ -22,18 +19,23 @@ public class MenuController {
     private RecipeRepository recipeRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     ControllerServices controllerServices;
 
     @GetMapping("/profile/menu")
     public String displayMenu(Model model, Principal principal){
         User user = controllerServices.getUser(principal);
+
         if (user == null) {
             model.addAttribute("title", "login");
             return "/login";
         }
-        int userId = user.getId();
-        model.addAttribute("recipes", recipeRepository.findByUserId(userId));
+
+        List<Recipe> menuRecipes = user.getMenuRecipes();
+        model.addAttribute("menuRecipes", menuRecipes);
         return "/profile/myRecipes";
     }
 }
-}
+
