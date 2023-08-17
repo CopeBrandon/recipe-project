@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments :: head">
 </head>
 <body>
-<h1>Welcome!</h1>
+<header>
+    <nav th:replace="fragments :: header"></nav>
+    <div th:replace="fragments :: sidebar"></div>
+</header>
+<div class="mainBody">
+    <h1 id="myMenuTitle" class="text-center display-6 p-3">My Menu</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4" th:each="recipe : ${recipes}">
+                <div>
+                    <img class="myRecipeImg rounded" th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"/>
+                    <a class="img-link" th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 class="h5" th:text="${recipe.name}">Recipe Title</h3></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

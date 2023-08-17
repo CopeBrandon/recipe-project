@@ -3,6 +3,7 @@ package com.launchcode.recipeproject.models;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,9 @@ public class User extends AbstractEntity{
 
     @OneToMany
     private final List<Recipe> recipes = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "menuUsers")
+    private final List<Recipe> menuRecipes = new ArrayList<>();
 
     public User(){}
 
@@ -74,6 +78,10 @@ public class User extends AbstractEntity{
 
     public void addRecipe(Recipe recipe){
         this.recipes.add(recipe);
+    }
+
+    public List<Recipe> getMenuRecipes() {
+        return menuRecipes;
     }
 
     @Override
