@@ -10,18 +10,21 @@ import java.util.List;
 public class Favorite extends AbstractEntity {
 
     @OneToMany
-    private List<Recipe> recipes = new ArrayList<>();
+    private List<Recipe> favorites = new ArrayList<>();
 
     public Favorite() {
 
     }
-    public List<Recipe> getRecipes() {
-        return recipes;
+
+    public List<Recipe> getFavorites() {
+        return favorites;
     }
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
+
+    public void setFavorites(List<Recipe> recipes) {
+        this.favorites = favorites;
     }
 }
+
 
 
 
