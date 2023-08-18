@@ -300,6 +300,7 @@ public class RecipeController {
                     recipeToEdit.addInstruction(newInst);
                 }
             }
+
             //Clear existing tags before Adding the updated tags
             recipeToEdit.clearTags();
             if (recipeDetails.getTags() != null) {

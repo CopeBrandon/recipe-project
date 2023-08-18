@@ -42,11 +42,6 @@ public class Recipe extends AbstractEntity{
     @ManyToMany
     private final List<Tag> tags = new ArrayList<>();
 
-    @ManyToMany
-    private final List<User> menuUsers = new ArrayList<>();
-
-    @ManyToMany
-    private List<User> favUsers= new ArrayList<>();
     @ManyToOne
     private User user;
 
@@ -144,10 +139,6 @@ public class Recipe extends AbstractEntity{
 
     public String getRELATIVE_PATH() {
         return RELATIVE_PATH;
-    }
-
-    public List<User> getMenuUsers() {
-        return menuUsers;
     }
 
     public void clearIngredients(){
