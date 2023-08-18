@@ -35,13 +35,13 @@ public class SearchController {
 
     @PostMapping ("adv-search/results")
     public String displayAdvancedSearchResults(Model model , @RequestParam String searchType,
-                                               @RequestParam String searchTerm, @RequestParam String andOr) {
+                                               @RequestParam String searchTerm, @RequestParam int andOr) {
 
-        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        ArrayList<Recipe> recipes = new ArrayList<>();
 
-        if (andOr == "and") {
+        if (andOr == 0) {
             recipes = findAnd(searchType, searchTerm);
-        } else {
+        } else if (andOr == 1) {
             recipes = findOr(searchType, searchTerm);
         }
 
