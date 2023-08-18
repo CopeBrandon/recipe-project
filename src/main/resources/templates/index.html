@@ -3,6 +3,10 @@
 <head th:replace="fragments :: head"></head>
 
 <body>
+<h1 th:text="${title}"></h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
 <header th:replace="fragments :: header"></header>
 <h1 th:text="${title}"></h1>
 <div id="top9container" class="home-middle">
