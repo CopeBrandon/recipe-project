@@ -42,8 +42,6 @@ public class Recipe extends AbstractEntity{
     @ManyToMany
     private final List<Tag> tags = new ArrayList<>();
 
-    @ManyToMany
-    private List<User> favUsers= new ArrayList<>();
     @ManyToOne
     private User user;
 
