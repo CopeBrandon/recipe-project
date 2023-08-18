@@ -53,8 +53,8 @@ public class FavoriteController {
     @PostMapping("add")
     public String processAddFavoriteForm(@ModelAttribute @Valid Recipe newRecipe,
                                          Errors errors, Model mode, Principal principal) {
-
         if (errors.hasErrors()) {
+            System.out.println(errors);
             return "favorites/add";
         }
 
@@ -62,7 +62,7 @@ public class FavoriteController {
         User user = controllerServices.getUser(principal);
         user.getFavRecipes().add(newRecipe);
         userRepository.save(user);
-        return "redirect:";
+        return "favorites";
     }
     @RequestMapping(value = "recipe")
     public String listRecipesByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value){
