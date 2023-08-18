@@ -101,7 +101,12 @@
             </script>
         </td>
     </div>
-</div>
+    <br>
+    <a>
+        <form method="post" th:action="@{/recipe/view/__{recipeId}__/addMenuItem">
+            <button type="submit" class="btn btn-secondary btn-sm">Add to Menu</button>
+        </form>
+    </a>
 
 <br>
 

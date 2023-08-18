@@ -35,7 +35,7 @@ public class MenuController {
 
         List<Recipe> menuRecipes = user.getMenuRecipes();
         model.addAttribute("menuRecipes", menuRecipes);
-        return "/profile/myRecipes";
+        return "/profile/menu";
     }
 }
 
