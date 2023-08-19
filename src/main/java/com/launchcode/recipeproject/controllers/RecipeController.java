@@ -153,11 +153,15 @@ public class RecipeController {
 
         if (optRecipe.isPresent()) {
             Recipe recipe = (Recipe) optRecipe.get();
-            user.getMenuRecipes().add(recipe);
+            recipe.addMenuUser(user);
+            user.addMenuRecipe(recipe);
             userRepository.save(user);
+            recipeRepository.save(recipe);
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("message", "Recipe add to Menu");
             return "recipe/view";
         } else {
-            model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
+            model.addAttribute("title", "Recipe does not exist");
             return "recipe/notFound";
         }
     }

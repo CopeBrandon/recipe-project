@@ -156,6 +156,9 @@ public class Recipe extends AbstractEntity{
         return menuUsers;
     }
 
+    public void addMenuUser(User user){
+        this.menuUsers.add(user);
+    }
 //Other Methods---------------------------------------------------------------
 
     public void handleUserLike(UserLike userLike){
