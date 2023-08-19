@@ -23,7 +23,7 @@ import static com.launchcode.recipeproject.controllers.ListController.columnChoi
 
 //Copied everything over from 4techjobs
 @Controller
-@RequestMapping
+@RequestMapping("search")
 public class SearchController {
 
     @Autowired
@@ -63,5 +63,27 @@ public class SearchController {
         return "adv-search";
 
     }
+    @RequestMapping ("")
+    public String search(Model model) {
+        model.addAttribute("columns", columnChoices);
+        return "search";
 
+    }
+
+    @PostMapping("results")
+    public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm){
+        Iterable<Recipe> recipes;
+        if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")) {
+            recipes= RecipeRepository.findAll();
+        } else {
+            recipes = RecipeData.findByColumnAndValue(searchType, searchTerm, (ArrayList<Recipe>) RecipeRepository.findAll());
+
+        }
+        model.addAttribute("columns", columnChoices);
+        model.addAttribute("title", "Recipes with  " + columnChoices.get(searchType) + ": " + searchTerm);
+        model.addAttribute("recipes", recipes);
+
+        return "search";
+
+    }
 }
