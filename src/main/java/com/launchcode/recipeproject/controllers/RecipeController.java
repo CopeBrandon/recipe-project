@@ -153,13 +153,18 @@ public class RecipeController {
 
         if (optRecipe.isPresent()) {
             Recipe recipe = (Recipe) optRecipe.get();
-            recipe.addMenuUser(user);
-            user.addMenuRecipe(recipe);
-            userRepository.save(user);
-            recipeRepository.save(recipe);
-            model.addAttribute("recipe", recipe);
-            model.addAttribute("message", "Recipe add to Menu");
+            if (!user.getMenuRecipes().contains(recipe)){
+                recipe.addMenuUser(user);
+                user.addMenuRecipe(recipe);
+                userRepository.save(user);
+                recipeRepository.save(recipe);
+                model.addAttribute("recipe", recipe);
+                model.addAttribute("message", "Recipe added to Menu");
+            } else {
+                model.addAttribute("message", "Recipe is already in the menu");
+            }
             return "recipe/view";
+
         } else {
             model.addAttribute("title", "Recipe does not exist");
             return "recipe/notFound";

@@ -47,6 +47,7 @@
         <form method="post" th:action="@{'/recipe/view/' + ${recipe.getId()} + '/addMenuItem'}">
             <button type="submit" class="btn btn-secondary btn-sm">Add to Menu</button>
         </form>
+        <div th:if="${message}" th:text="${message}" class="message"></div>
     </a>
     <br>
     <div>
