@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https//www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8"/>
-    <title></title>
-</head>
+<head th:replace="fragments :: head"></head>
+
 <body onload="addSearchBox(), addSearchBox()">
+
+<header th:replace="fragments :: header"></header>
 
 <div class="container body-content">
 
+    <br>
+    <br>
+    <br>
+    <br>
+
     <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
+
 
     <!-- Determines the route for the post method that will go with the SearchController(SC) and ListController(LC) if needed-->
     <form th:action="@{/adv-search/results}" method = "post">
@@ -16,12 +22,13 @@
 
         <!-- This the normal search box and can add up to 5 of them -->
         <div id="newSearchBox"></div>
-        <button type="button" onclick="addSearchBox()">Add Parameter</button>
-        <button type="button" onclick="removeSearchBox()">Remove Parameter</button>
+        <br>
+        <button class="btn btn-outline-success" type="button" onclick="addSearchBox()">Add Parameter</button>
+        <button class="btn btn-outline-danger" type="button" onclick="removeSearchBox()">Remove Parameter</button>
         </br></br>
 
         <div>
-            <input type="submit" value="Search" /></br>
+            <input class="btn btn-outline-primary" type="submit" value="Search" /></br>
             <!-- should go to the normal search page -->
             <a href="/search">Normal Search</a>
         </div>
@@ -62,11 +69,18 @@
 
                 searchBox.appendChild(searchType);
 
+                //Creates spacing between select box and the word "keyword"
+                let spacing = document.createElement("span");
+                spacing.innerHTML = " ";
+                searchBox.appendChild(spacing);
+
+
                 // Creates label
                 let keyword = document.createElement("label");
                 keyword.for = "searchTerm";
                 keyword.innerHTML = " Keyword: ";
                 searchBox.appendChild(keyword);
+
 
                 // Creates the text box for searchTerm
                 let searchTerm = document.createElement("input");
@@ -90,6 +104,7 @@
                 searchBox.removeChild(searchBox.lastElementChild);
                 searchBox.removeChild(searchBox.lastElementChild);
                 searchBox.removeChild(searchBox.lastElementChild);
+                searchBox.removeChild(searchBox.lastElementChild);
                 searchBoxCount--;
             }
 
@@ -99,33 +114,36 @@
     <hr />
 
     <!-- Search Results and how are they going to look show up after submit -->
-    <table class="recipe-listing">
-        <tr th:each="recipe : ${recipes}">
-            <td>
-                <p>
-                    Name:
-                    <a th:href="@{'/recipe/view/' + ${recipe.id}}" th:text="${recipe.name}"></a>
-                </p>
-                <p>
-                    Ingredients:
-                    <ul th:each="ingredient : ${recipe.ingredientList}">
-                        <li th:text="${ingredient.name}">
-                        </li>
-                    </ul>
-                </p>
-                <p>
-                    tags:
-                    <ul th:each="tag : ${recipe.tags}">
-                        <li th:text="${tag.name}">
-                        </li>
-                    </ul>
-                </p>
+    <div id="top9container" class="search-middle">
+        <th:block th:each="recipe : ${recipes}">
+            <div class="top9element">
+                <div class="top9inner">
+                    <a th:href="@{'/recipe/view/' + ${recipe.getId()}}"><img th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"></a>
+                    <h3>
+                        <a th:href="@{'/recipe/view/' + ${recipe.id}}" th:text="${recipe.name}"></a>
+                    </h3>
+                    <p>
+                        Ingredients:
+                        <ul>
+                            <li th:each="ingredient : ${recipe.ingredientList}" th:text="${ingredient.name}"></li>
+                        </ul>
+                    </p>
+                    <p>
+                        tags:
+                        <ul>
+                            <li th:each="tag : ${recipe.tags}" th:text="${tag.name}"></li>
+                        </ul>
+                    </p>
 
-            </td>
-        </tr>
-    </table>
+                </div>
+            </div>
+        </th:block>
+    </div>
 
 </div>
+
+<br>
+<br>
 
 </body>
 </html>
