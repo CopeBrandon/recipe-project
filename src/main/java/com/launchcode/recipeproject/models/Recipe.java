@@ -42,6 +42,9 @@ public class Recipe extends AbstractEntity{
     @ManyToMany
     private final List<Tag> tags = new ArrayList<>();
 
+    @ManyToMany
+    private final List<User> menuUsers = new ArrayList<>();
+
     @ManyToOne
     private User user;
 
@@ -149,7 +152,11 @@ public class Recipe extends AbstractEntity{
         this.tags.clear();
     }
 
-    //Other Methods---------------------------------------------------------------
+    public List<User> getMenuUsers() {
+        return menuUsers;
+    }
+
+//Other Methods---------------------------------------------------------------
 
     public void handleUserLike(UserLike userLike){
         for(UserLike like : userLikes){ //remove like if present

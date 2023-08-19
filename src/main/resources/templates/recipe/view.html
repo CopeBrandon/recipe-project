@@ -43,6 +43,12 @@
     </div>
     <br>
 
+    <a>
+        <form method="post" th:action="@{'/recipe/view/' + ${recipe.getId()} + '/addMenuItem'}">
+            <button type="submit" class="btn btn-secondary btn-sm">Add to Menu</button>
+        </form>
+    </a>
+    <br>
     <div>
         <td th:text = "${recipe.userLikeCount()} + ' '"></td>
         <td th:if="${user}">
@@ -95,12 +101,6 @@ function likeLogIn(){
             </script>
         </td>
     </div>
-    <br>
-    <a>
-        <form method="post" th:action="@{/recipe/view/__{recipeId}__/addMenuItem">
-            <button type="submit" class="btn btn-secondary btn-sm">Add to Menu</button>
-        </form>
-    </a>
 
 <br>
 
