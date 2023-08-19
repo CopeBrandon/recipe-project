@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+
+</head>
+<body>
+
+<div class="container body-content">
+    <h1 th:text="${title}"></h1>
+  <table>
+      <tr th:each="favorite : ${favorites}">
+          <td>
+              <p th:value="${favorite.recipe}">
+      <span th:text="${favorite.recipe}"></span>
+      </p>
+  </td>
+      </tr>
+  </table>
+    <a href="/favorites/add"><button type="button">Add a Favorite Recipe</button></a>
+</div>
+</body>
+</html>

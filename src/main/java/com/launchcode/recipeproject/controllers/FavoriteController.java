@@ -29,16 +29,14 @@ public class FavoriteController {
     @Autowired
     RecipeRepository recipeRepository;
 
-    @Autowired
-    ControllerServices controllerServices;
 
-
-    @Autowired
-    UserRepository userRepository;
+    //@Autowired
+    //UserRepository userRepository;
 
     @GetMapping("add")
     public String displayAddFavoriteForm(Model model) {
-        model.addAttribute("recipe", new Recipe());
+        model.addAttribute("title", "Add Favorite");
+        model.addAttribute(new Favorite());
         model.addAttribute("recipes", recipeRepository.findAll());
         return "favorites/add";
     }
@@ -46,40 +44,25 @@ public class FavoriteController {
 
     @GetMapping("")
     public String index(Model model) {
+        model.addAttribute("title", "Favorite Recipe");
         model.addAttribute("favorite", favoriteRepository.findAll());
+        model.addAttribute("recipe", recipeRepository.findAll());
         return "favorites/index";
     }
 
     @PostMapping("add")
-    public String processAddFavoriteForm(@ModelAttribute @Valid Recipe newRecipe,
-                                         Errors errors, Model mode, Principal principal) {
+    public String processAddFavoriteForm(@ModelAttribute @Valid Favorite newFavorite,
+                                         Errors errors, Model model) {
         if (errors.hasErrors()) {
-            System.out.println(errors);
+            model.addAttribute("title", "Add Favorite");
+            model.addAttribute("recipes", recipeRepository.findAll());
             return "favorites/add";
         }
-
-
-        User user = controllerServices.getUser(principal);
-        user.getFavRecipes().add(newRecipe);
-        userRepository.save(user);
-        return "favorites";
-    }
-    @RequestMapping(value = "recipe")
-    public String listRecipesByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value){
-        Iterable <Recipe> recipes;
-        if (column.toLowerCase().equals("all")){
-            recipes = recipeRepository.findAll();
-            model.addAttribute("title", "All Recipe");
-        } else {
-            recipes = RecipeData.findByColumnAndValue(column, value, (ArrayList<Recipe>)(recipeRepository.findAll()));
-            model.addAttribute("title", "Recipes with " + columnChoices.get(column) + ": " + value);
-        }
-        model.addAttribute("recipes", recipes);
-
-        return "list-recipes";
-    }
+        favoriteRepository.save(newFavorite);
+        return "redirect:";
 
     }
+}
 
 
 

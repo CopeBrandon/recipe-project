@@ -42,6 +42,10 @@ public class Recipe extends AbstractEntity{
     @ManyToMany
     private final List<Tag> tags = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "recipe_id")
+    private List<Favorite> favorites = new ArrayList<>();
+
     @ManyToOne
     private User user;
 
