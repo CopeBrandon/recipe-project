@@ -21,7 +21,7 @@ import static com.launchcode.recipeproject.controllers.ListController.columnChoi
 
 @Controller
 
-@RequestMapping("favorites")
+@RequestMapping("profile/favorites")
 public class FavoriteController {
     @Autowired
     FavoriteRepository favoriteRepository;
@@ -30,39 +30,57 @@ public class FavoriteController {
     RecipeRepository recipeRepository;
 
 
-    //@Autowired
-    //UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    ControllerServices controllerServices;
 
     @GetMapping("add")
     public String displayAddFavoriteForm(Model model) {
         model.addAttribute("title", "Add Favorite");
         model.addAttribute(new Favorite());
         model.addAttribute("recipes", recipeRepository.findAll());
-        return "favorites/add";
+        return "profile/favorites/add";
     }
 
 
-    @GetMapping("")
+    /*@GetMapping("")
     public String index(Model model) {
         model.addAttribute("title", "Favorite Recipe");
         model.addAttribute("favorite", favoriteRepository.findAll());
         model.addAttribute("recipe", recipeRepository.findAll());
-        return "favorites/index";
+        return "profile/favorites/index";
     }
-
+*/
     @PostMapping("add")
-    public String processAddFavoriteForm(@ModelAttribute @Valid Favorite newFavorite,
+    public String processAddFavoriteForm(@ModelAttribute @Valid Favorite newFavorite, Principal principal,
                                          Errors errors, Model model) {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Favorite");
             model.addAttribute("recipes", recipeRepository.findAll());
-            return "favorites/add";
+            return "profile/favorites/add";
         }
         favoriteRepository.save(newFavorite);
         return "redirect:";
 
     }
+
+    @GetMapping("")
+    public String displayMyFavorites(Model model, Principal principal){
+        User user = controllerServices.getUser(principal);
+        if (user == null) {
+            model.addAttribute("title", "login");
+            return "/login";
+        }
+        int userId = user.getId();
+        model.addAttribute("title", " My Favorite Recipes");
+        model.addAttribute("favorites", favoriteRepository.findAll());
+        return "profile/favorites/index";
+    }
 }
+
+
 
 
 

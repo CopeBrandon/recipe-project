@@ -13,10 +13,13 @@ public class Favorite extends AbstractEntity {
     @ManyToOne
     private Recipe recipe;
 
-    public Favorite(Recipe recipe) {
-        super();
-        this.recipe = recipe;
+    @ManyToOne
+    private User user;
 
+    public Favorite(User user, Recipe recipe) {
+        super();
+        this.user = user;
+        this.recipe= recipe;
     }
 
     public Favorite() {
