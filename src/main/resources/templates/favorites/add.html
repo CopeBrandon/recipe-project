@@ -2,20 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 <body class="container  body-content">
-<h1>Add Favorite</h1>
 
-<form method="post" enctype="multipart/form-data" >
+<h1>Favorites</h1>
+
+<form method="post">
+
     <div>
-        <label>Recipes:
-            <input type="checkbox"
-                   th:each="recipe : ${recipes}" th:value="${recipe}"
-                   th:text="${recipe.name}"/>
+        <label th:for="recipe">Recipe</label>
+        <select th:field="${favorite.recipe}">
+            <option th:each="recipe : ${recipes}"
+            th:value="${recipe.id}"
+            th:text="${recipe.name}"></option>
+        </select>
+</div>
+<br>
+<input type="submit" value="Add to Favorites" />
 
-
-        </label>
-    </div>
-
-    <input type="submit" value="Add Favorite" />
 </form>
 
 </body>

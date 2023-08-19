@@ -6,14 +6,17 @@
 <body>
 
 <div class="container body-content">
-    <h2>Favorites</h2>
-    <ul>
-        <li th:each="favorite : ${favorites}">
-            <a th:href="@{'/favorites/view/'}" + th:text="${recipe.name}"></a>
-        </li>
-    </ul>
-    <a th:href="@{'/favorites/add'}">Add Favorites</a>
-
+    <h1 th:text="${title}"></h1>
+  <table>
+      <tr th:each="favorite : ${favorites}">
+          <td>
+              <p th:value="${favorite.recipe}">
+      <span th:text="${favorite.recipe}"></span>
+      </p>
+  </td>
+      </tr>
+  </table>
+    <a href="/favorites/add"><button type="button">Add a Favorite Recipe</button></a>
 </div>
 </body>
 </html>

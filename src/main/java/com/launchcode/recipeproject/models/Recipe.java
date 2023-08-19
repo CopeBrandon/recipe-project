@@ -42,8 +42,10 @@ public class Recipe extends AbstractEntity{
     @ManyToMany
     private final List<Tag> tags = new ArrayList<>();
 
-    @ManyToMany
-    private List<User> favUsers= new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "recipe_id")
+    private List<Favorite> favorites = new ArrayList<>();
+
     @ManyToOne
     private User user;
 
@@ -71,6 +73,15 @@ public class Recipe extends AbstractEntity{
 
 
     //Getters and Setters----------------------------------------------------------
+
+
+    public List<Favorite> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<Favorite> favorites) {
+        this.favorites = favorites;
+    }
 
     public String getName() {
         return name;

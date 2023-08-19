@@ -22,8 +22,8 @@ public class User extends AbstractEntity{
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // static so all classes can use
 //jen//
 
-    @ManyToMany(mappedBy="favUsers")
-    private final List<Recipe>favRecipes = new ArrayList<>();
+    //@ManyToMany(mappedBy="favUsers")
+    //private final List<Recipe>favRecipes = new ArrayList<>();
     @OneToMany
     private final List<Recipe> recipes = new ArrayList<>();
 
@@ -34,10 +34,6 @@ public class User extends AbstractEntity{
         this.email = email;
         this.passwordHash = passwordEncoder.encode(password);
         this.roles = roles;
-    }
-
-    public List<Recipe> getFavRecipes() {
-        return favRecipes;
     }
 
     public Boolean isPasswordMatching(String password){
