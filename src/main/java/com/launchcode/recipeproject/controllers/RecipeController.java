@@ -159,14 +159,14 @@ public class RecipeController {
                 user.addMenuRecipe(recipe);
                 userRepository.save(user);
                 recipeRepository.save(recipe);
-                model.addAttribute("title", recipe.getName() + " - Recipe Refresh");
-                model.addAttribute("recipe", recipe);
-                model.addAttribute("tags", tagRepository.findAll());
-                model.addAttribute("user", controllerServices.getUser(principal));
                 model.addAttribute("message", "Recipe added to Menu");
             } else {
                 model.addAttribute("message", "Recipe is already in the menu");
             }
+            model.addAttribute("title", recipe.getName() + " - Recipe Refresh");
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("tags", tagRepository.findAll());
+            model.addAttribute("user", controllerServices.getUser(principal));
             return "recipe/view";
 
         } else {
