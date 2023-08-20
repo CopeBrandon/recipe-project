@@ -80,6 +80,14 @@ public class RecipeController {
             return "recipe/create";
         }
 
+        User user = controllerServices.getUser(principal);
+        if (user == null){
+            model.addAttribute("title", "Login");
+            return "/login";
+        }
+        form.getRecipe().setUser(user);
+        user.addRecipe(form.getRecipe());
+
         //For Loop to connect all ingredient objects to the recipe objects
         for (Ingredient ingredient : form.getIngredients()){
             ingredient.setRecipe(form.getRecipe());
@@ -99,9 +107,7 @@ public class RecipeController {
             }
         }
 
-        User user = controllerServices.getUser(principal); // this will probably cause an error if the user is not signed in. this path will eventually be restricted to users.
-        form.getRecipe().setUser(user);
-        user.addRecipe(form.getRecipe());
+
 
         // Add image path to Recipe and save the image
         if(form.getImage().getSize() != 0) { // check if image was uploaded
@@ -132,9 +138,72 @@ public class RecipeController {
             model.addAttribute("tags", tagRepository.findAll());
             model.addAttribute("title", recipe.getName() + " - Recipe Refresh");
             model.addAttribute("user", controllerServices.getUser(principal));
+            model.addAttribute("message", "");
             return "recipe/view";
         } else {
             model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
+            return "recipe/notFound";
+        }
+
+    }
+
+    @PostMapping("view/{recipeId}/addMenuItem")
+    public String addMenuItem(Model model, Principal principal, @PathVariable int recipeId){
+        User user = controllerServices.getUser(principal);
+
+        if (user == null) {
+            model.addAttribute("title", "login");
+            return "/login";
+        }
+
+        Optional optRecipe = recipeRepository.findById(recipeId);
+
+        if (optRecipe.isPresent()) {
+            Recipe recipe = (Recipe) optRecipe.get();
+            if (!user.getMenuRecipes().contains(recipe)){
+                recipe.addMenuUser(user);
+                user.addMenuRecipe(recipe);
+                userRepository.save(user);
+                recipeRepository.save(recipe);
+                model.addAttribute("message", "Recipe added to Menu");
+            } else {
+                model.addAttribute("message", "Recipe is already in the menu");
+            }
+            model.addAttribute("title", recipe.getName() + " - Recipe Refresh");
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("tags", tagRepository.findAll());
+            model.addAttribute("user", controllerServices.getUser(principal));
+
+            return "recipe/view";
+
+        } else {
+            model.addAttribute("title", "Recipe does not exist");
+            return "recipe/notFound";
+        }
+    }
+
+    @PostMapping("view/{recipeId}/removeMenuItem")
+    public String removeMenuItem(Model model, Principal principal, @PathVariable int recipeId) {
+        User user = controllerServices.getUser(principal);
+
+        if (user == null) {
+            model.addAttribute("title", "login");
+            return "/login";
+        }
+
+        Optional optRecipe = recipeRepository.findById(recipeId);
+
+        if (optRecipe.isPresent()) {
+            Recipe recipe = (Recipe) optRecipe.get();
+            user.removeMenuRecipe(recipe);
+            recipe.removeMenuUser(user);
+            userRepository.save(user);
+            recipeRepository.save(recipe);
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("menuRecipes", user.getMenuRecipes());
+            return "/profile/menu";
+        } else {
+            model.addAttribute("title", "Recipe does not exist");
             return "recipe/notFound";
         }
 

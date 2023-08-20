@@ -1,8 +1,6 @@
 package com.launchcode.recipeproject.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Objects;
@@ -11,6 +9,7 @@ import java.util.Objects;
 public class Instruction extends AbstractEntity{
 
     @NotBlank (message = "*Instruction details required")
+    @Column(columnDefinition = "TEXT")
 //    @Size(max = 255, message = "*Each step must not exceed 255 characters.")
     private String details;
 

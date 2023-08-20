@@ -46,6 +46,9 @@ public class Recipe extends AbstractEntity{
     @JoinColumn(name = "recipe_id")
     private List<Favorite> favorites = new ArrayList<>();
 
+    @ManyToMany
+    private final List<User> menuUsers = new ArrayList<>();
+
     @ManyToOne
     private User user;
 
@@ -162,7 +165,18 @@ public class Recipe extends AbstractEntity{
         this.tags.clear();
     }
 
-    //Other Methods---------------------------------------------------------------
+    public List<User> getMenuUsers() {
+        return menuUsers;
+    }
+
+    public void addMenuUser(User user){
+        this.menuUsers.add(user);
+    }
+
+    public void removeMenuUser(User user) {
+        this.menuUsers.remove(user);
+    }
+//Other Methods---------------------------------------------------------------
 
     public void handleUserLike(UserLike userLike){
         for(UserLike like : userLikes){ //remove like if present
