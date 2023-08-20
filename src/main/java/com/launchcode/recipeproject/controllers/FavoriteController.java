@@ -22,7 +22,6 @@ import static com.launchcode.recipeproject.controllers.ListController.columnChoi
 @Controller
 @RequestMapping("profile/favorites")
 public class FavoriteController {
-
     @Autowired
     FavoriteRepository favoriteRepository;
 

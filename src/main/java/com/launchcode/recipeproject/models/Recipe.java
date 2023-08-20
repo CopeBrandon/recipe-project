@@ -74,6 +74,15 @@ public class Recipe extends AbstractEntity{
 
     //Getters and Setters----------------------------------------------------------
 
+
+    public List<Favorite> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<Favorite> favorites) {
+        this.favorites = favorites;
+    }
+
     public String getName() {
         return name;
     }
