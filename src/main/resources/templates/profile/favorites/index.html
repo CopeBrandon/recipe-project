@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head">
-
+    <nav th:replace="fragments :: header"></nav>
+    <div th:replace="fragments :: sidebar"></div>
 </head>
 <body>
 
+
+
 <div class="container body-content">
     <h1 th:text="${title}"></h1>
-  <table>
-      <tr th:each="favorite : ${favorites}">
-          <td>
-              <p th:value="${favorite.recipe}">
-      <span th:text="${favorite.recipe}"></span>
-      </p>
-  </td>
-      </tr>
-  </table>
-    <a href="favorites/add"><button type="button">Add a Favorite Recipe</button></a>
+
+    <div style="margin-top: 8em;
+                margin-left:auto;
+                margin-right:auto;
+                text-align: center;">
+        <h2>My Favorite Recipe</h2>
+    </div>
+
+
+
+    <div style="margin: 0 auto; text-align: right;">
+        <a href="favorites/add">
+            <button type="button" style="display: block; margin: 0 auto; background-color: #ffffff; border: 2px solid green; color: green; padding: 10px 20px; font-size: 16px;">Add a Favorite Recipe</button>
+        </a>
+    </div>
+
+    <div style="margin: 0 auto; text-align: right;">
+        <table>
+            <tr th:each="favorite : ${favorites}">
+                <td>
+                    <p th:value="${favorite.recipe}">
+                        <span th:text="${favorite.recipe}"></span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 </div>
 </body>
 </html>

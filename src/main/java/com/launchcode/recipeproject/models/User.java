@@ -19,7 +19,7 @@ public class User extends AbstractEntity{
     private String roles; // comma separated list of roles "ROLE_USER,ROLE_ADMIN" default is "ROLE_USER"
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // static so all classes can use
-//jen//
+
 
     @OneToMany
     private final List<Recipe> recipes = new ArrayList<>();
