@@ -167,6 +167,7 @@ public class RecipeController {
             model.addAttribute("recipe", recipe);
             model.addAttribute("tags", tagRepository.findAll());
             model.addAttribute("user", controllerServices.getUser(principal));
+
             return "recipe/view";
 
         } else {
@@ -193,6 +194,7 @@ public class RecipeController {
             userRepository.save(user);
             recipeRepository.save(recipe);
             model.addAttribute("recipe", recipe);
+            model.addAttribute("menuRecipes", user.getMenuRecipes());
             return "/profile/menu";
         } else {
             model.addAttribute("title", "Recipe does not exist");
