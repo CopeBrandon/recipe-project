@@ -31,12 +31,7 @@ public class HomeController {
     public String displayIndex(Model model, Principal principal){
         model.addAttribute("title", "Recipe Refresh");
         model.addAttribute("top9", recipeRepository.findTop9ByOrderByIdDesc());
-
-    // example of how to bring a user in from an authenticated session
-        //TODO remove later, this is just an example
-        User user = controllerServices.getUser(principal); // get back User or null
-        System.out.println(user);
-
+        model.addAttribute("user", controllerServices.getUser(principal));
         return "index";
     }
 

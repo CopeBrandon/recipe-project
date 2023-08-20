@@ -1,31 +1,50 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <title th:text="${title}"></title>
-</head>
+<head th:replace="fragments :: head"></head>
+
 <body>
-<h1 th:text="${title}"></h1>
-<div th:if="${param.error}">
-    Invalid username and password.</div>
-<div th:if="${param.logout}">
-    You have been logged out.</div>
-<form th:action="@{/login}" method="post">
-    <div>
-        <input type="text" name="username" placeholder="Username"/>
+
+<header th:replace="fragments :: header"></header>
+
+<div class="login-register-buffer">
+    <div class="login-register-container">
+        <div class="login-register-form">
+            <p>
+                <h1 th:text="${title}"></h1>
+            </p>
+            <div th:if="${param.error}">
+                Invalid username and password.
+            </div>
+            <div th:if="${param.logout}">
+                You have been logged out.
+            </div>
+            <form class="form-group" th:action="@{/login}" method="post">
+                <div>
+                    <input class="form-control" type="text" name="username" placeholder="Username"/>
+                </div>
+                <br>
+                <div>
+                    <input class="form-control" type="password" name="password" placeholder="Password"/>
+                </div>
+                <br>
+                <input class="btn btn-primary" type="submit" value="Log in" />
+            </form>
+            <br>
+            <p>
+                <a th:href="@{/register}">No Account? Register Here.</a>
+            </p>
+            <p>
+                <a th:href="@{/oauth2/authorization/github}" class="btn btn-block btn-social btn-github">
+                    <span class="fa fa-github"></span> Sign in with GitHub
+                </a>
+            </p>
+            <p>
+                <a th:href="@{/oauth2/authorization/google}" class="btn btn-block btn-social btn-google-plus">
+                    <span class="fa fa-google-plus"></span> Sign in with Google
+                </a>
+            </p>
+        </div>
     </div>
-    <div>
-        <input type="password" name="password" placeholder="Password"/>
-    </div>
-    <input type="submit" value="Log in" />
-</form>
-<p>
-    <a th:href="@{/register}">No Account? Register Here.</a>
-</p>
-<p>
-    <a th:href="@{/oauth2/authorization/github}">Login with Github</a>
-</p>
-<p>
-    <a th:href="@{/oauth2/authorization/google}">Login with Google</a>
-</p>
+</div>
 </body>
 </html>

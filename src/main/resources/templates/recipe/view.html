@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 
-<body>
+<body onload="addComment()">
 
 <header th:replace="fragments :: header"></header>
 
@@ -57,56 +57,76 @@
     </div>
 
     <br>
-
-    <div>
-        <td th:text = "${recipe.recipeRating()} + ' Stars : Reviewed by ' + ${recipe.userRatingCount()} + ' people'"></td>
-        <br>
-        <td>
-            <span th:if="${user}">
-                <th:block th:each="num : ${recipe.getRatingScale()}">
-                <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:if="${recipe.recipeRating()} >= ${num}" class="ratingButtonFull"></button></a>
-                    <th:block th:unless="${recipe.recipeRating()} >= ${num}">
-                        <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:if="${recipe.recipeRating()} >= ${num} - .5"class="ratingButtonHalf"></button></a>
-                        <a th:href="@{'/recipe/view/' + ${recipe.getId()} + '/rate?rating=' + ${num}}"><button th:unless="${recipe.recipeRating()} >= ${num} - .5" class="ratingButtonEmpty"></button></a>
-                    </th:block>
-                </th:block>
-            </span>
-            <span th:unless="${user}">
-                <th:block th:each="num : ${recipe.getRatingScale()}">
-                <button th:if="${recipe.recipeRating()} >= ${num}" class="ratingButtonFull" onclick="ratingLogIn()"></button>
-                    <th:block th:unless="${recipe.recipeRating()} >= ${num}">
-                        <button th:if="${recipe.recipeRating()} >= ${num} - .5"class="ratingButtonHalf" onclick="ratingLogIn()"></button>
-                        <button th:unless="${recipe.recipeRating()} >= ${num} - .5" class="ratingButtonEmpty" onclick="ratingLogIn()"></button>
-                    </th:block>
-                </th:block>
-            </span>
-            <span id="ratingLogIn"></span>
-
-            <script th:inline="javascript">
-            function likeLogIn(){
-                let span = document.getElementById('likeLogIn');
-                let a = document.createElement('a');
-                a.innerHTML="Please Log In!";
-                a.setAttribute('href', '/login');
-                span.appendChild(a);
-                }
-
-            function ratingLogIn(){
-                let span = document.getElementById('ratingLogIn');
-                let a = document.createElement('a');
-                a.innerHTML="Please Log In!";
-                a.setAttribute('href', '/login');
-                span.appendChild(a);
-                }
-            </script>
-        </td>
-    </div>
+    <div th:replace="fragments :: rating"></div>
 </div>
 
-<br>
+
+
+
+<script th:inline="javascript">
+let likeLoginCount = 0;
+function likeLogIn(){
+    if (likeLoginCount < 1){
+        let span = document.getElementById('likeLogIn');
+        let a = document.createElement('a');
+        a.innerHTML="Please Log In!";
+        a.setAttribute('href', '/login');
+        span.appendChild(a);
+        likeLoginCount++;
+        }
+    }
+</script>
 
 
 <script type="text/javascript" th:src="@{/JS/deletionConfirmation.js}"></script>
+
+
+<hr />
+
+<!--TESTING-->
+<div th:each="comment : ${recipe.comments}" class="comment_box">
+    <div class="inside_comment">
+        <div class="comment_user" th:text="${comment.name}"></div>
+    </div>
+    <div class="comment_body">
+        <p th:text="${comment.comment}"></p>
+    </div>
+</div>
+
+<form method="post">
+    <div id="newCommentBox"></div>
+
+    <div>
+        <input type="submit" value="Add Comment"/>
+    </div>
+    </br>
+</form>
+
+
+<script th:inline="javascript">
+    function addComment() {
+        let commentBox = document.getElementById("newCommentBox");
+        commentBox.value = "";
+
+        let commentName = document.createElement("input");
+        commentName.type = "text";
+        commentName.placeholder = "Name";
+        commentName.setAttribute("name", "commentName");
+        commentName.setAttribute("value", "");
+        commentBox.appendChild(commentName);
+
+        let linebreak = document.createElement("br");
+        commentBox.appendChild(linebreak);
+
+        let commentComment = document.createElement("textarea");
+        commentComment.type = "text";
+        commentComment.placeholder = "Comment";
+        commentComment.setAttribute("name", "commentComment");
+        commentComment.setAttribute("value", "");
+        commentBox.appendChild(commentComment);
+
+    }
+</script>
 
 </body>
 </html>

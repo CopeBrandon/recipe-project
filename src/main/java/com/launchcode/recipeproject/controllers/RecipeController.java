@@ -8,6 +8,8 @@ import com.launchcode.recipeproject.models.*;
 import com.launchcode.recipeproject.data.*;
 import com.launchcode.recipeproject.exceptions.ResourceNotFoundException;
 import com.launchcode.recipeproject.models.*;
+import com.launchcode.recipeproject.data.*;
+import com.launchcode.recipeproject.models.*;
 import com.launchcode.recipeproject.models.dto.RecipeIngredientDTO;
 import com.launchcode.recipeproject.services.ControllerServices;
 import com.launchcode.recipeproject.services.JpaUserDetailsService;
@@ -44,6 +46,9 @@ public class RecipeController {
 
     @Autowired
     private IngredientRepository ingredientRepository;
+    //TESTING
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Autowired
     private InstructionRepository instructionRepository;
@@ -94,22 +99,19 @@ public class RecipeController {
             }
         }
 
-        //Get user information and set it in the recipe
-        User user; //TODO create a fake user until we turn on security
-        Optional<User> result = userRepository.findByUsername("Temp_User");
-        if (result.isPresent()){user = result.get();}
-        else{user = new User("Temp_User", "Temp_User_Email@none.com", "Temp_Pass", "ROLE_USER"); userRepository.save(user);}
-//        User user = controllerServices.getUser(principal); TODO uncomment when we are ready to turn on security
+        User user = controllerServices.getUser(principal); // this will probably cause an error if the user is not signed in. this path will eventually be restricted to users.
         form.getRecipe().setUser(user);
         user.addRecipe(form.getRecipe());
 
         // Add image path to Recipe and save the image
         if(form.getImage().getSize() != 0) { // check if image was uploaded
-            String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + form.getImage().getOriginalFilename();
+            String imageName = controllerServices.randomString(25) + "_" + form.getImage().getOriginalFilename();
+            String absolutePath = form.getRecipe().getUPLOAD_DIRECTORY() + imageName;
             Files.write(Path.of((absolutePath)), form.getImage().getBytes()); // write image to hard drive
-            form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + form.getImage().getOriginalFilename()); // set image path in Recipe
+            form.getRecipe().setImagePath(form.getRecipe().getRELATIVE_PATH() + imageName); // set image path in Recipe
         } else{
-            form.getRecipe().setImagePath("/uploads/static/images/placeholder.jpg");
+            form.getRecipe().setImagePath("/images/placeholder.jpg");
+
         }
 
         //Must save recipe object before ingredient due to One-to-many relationship
@@ -270,6 +272,29 @@ public class RecipeController {
         } else {
            throw new ResourceNotFoundException("No recipe exists with the id: " + recipeId);
         }
+    }
+
+    //TESTING
+    @PostMapping("view/{recipeId}")
+    public String processRecipe(Model model, @RequestParam(required=true) String commentName,
+                                @RequestParam(required=true) String commentComment, @PathVariable int recipeId){
+        Optional optRecipe = recipeRepository.findById(recipeId);
+        Recipe recipe = (Recipe)optRecipe.get();
+        Comment comment = new Comment();
+
+        if (commentName != "" || commentComment != "") {
+            comment.setName(commentName);
+            comment.setComment(commentComment);
+            comment.setRecipe(recipe);
+
+            commentRepository.save(comment);
+        }
+
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("tags", tagRepository.findAll());
+        model.addAttribute("title", "View Recipe");
+
+        return "recipe/view";
     }
 
     @GetMapping("delete/{recipeId}")
