@@ -200,11 +200,9 @@ nav {
   margin-top: 0;
 }
 form {
-  /* Add this CSS property */
   margin-left: auto;
   margin-right: auto;
 }
 .container body-addfav {
   margin-left: auto;
 }
-```

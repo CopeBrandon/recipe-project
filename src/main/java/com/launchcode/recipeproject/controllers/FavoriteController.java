@@ -20,9 +20,9 @@ import java.util.Optional;
 import static com.launchcode.recipeproject.controllers.ListController.columnChoices;
 
 @Controller
-
 @RequestMapping("profile/favorites")
 public class FavoriteController {
+
     @Autowired
     FavoriteRepository favoriteRepository;
 
@@ -45,14 +45,6 @@ public class FavoriteController {
     }
 
 
-    /*@GetMapping("")
-    public String index(Model model) {
-        model.addAttribute("title", "Favorite Recipe");
-        model.addAttribute("favorite", favoriteRepository.findAll());
-        model.addAttribute("recipe", recipeRepository.findAll());
-        return "profile/favorites/index";
-    }
-*/
     @PostMapping("add")
     public String processAddFavoriteForm(@ModelAttribute @Valid Favorite newFavorite, Principal principal,
                                          Errors errors, Model model) {

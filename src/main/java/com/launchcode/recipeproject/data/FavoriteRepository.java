@@ -1,3 +1,4 @@
+package com.launchcode.recipeproject.data;
 
 import com.launchcode.recipeproject.models.Favorite;
 import com.launchcode.recipeproject.models.Ingredient;
