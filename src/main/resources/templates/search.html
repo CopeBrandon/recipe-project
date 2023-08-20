@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head">
+    <header>
+        <nav th:replace="fragments :: header"></nav>
+        <div th:replace="fragments :: sidebar"></div>
+    </header>
+
 </head>
 <body>
 
@@ -9,8 +14,9 @@
     <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
 
     <form th:action="@{/search/results}" method = "post">
-        <h2>Search by:</h2>
+        <h2 style="text-align: center; margin-top: 8em;">Search by</h2>
 
+        <div style="text-align: center; margin-top: 1em;">
 
         <p>
             <span th:each="column : ${columns}">

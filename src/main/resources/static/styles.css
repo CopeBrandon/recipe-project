@@ -188,5 +188,23 @@ img-link {
     text-decoration: none;
 }
 
+.container {
 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
+nav {
+
+  margin-top: 0;
+}
+form {
+  /* Add this CSS property */
+  margin-left: auto;
+  margin-right: auto;
+}
+.container body-addfav {
+  margin-left: auto;
+}
+```

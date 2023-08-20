@@ -20,6 +20,7 @@ public class User extends AbstractEntity{
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // static so all classes can use
 
+
     @OneToMany
     private final List<Recipe> recipes = new ArrayList<>();
 
