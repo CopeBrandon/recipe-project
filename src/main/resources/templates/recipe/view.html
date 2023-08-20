@@ -43,6 +43,13 @@
     </div>
     <br>
 
+    <a>
+        <form method="post" th:action="@{'/recipe/view/' + ${recipe.getId()} + '/addMenuItem'}">
+            <button type="submit" class="btn btn-secondary btn-sm">Add to Menu</button>
+        </form>
+        <div th:if="${message}" th:text="${message}" class="message"></div>
+    </a>
+    <br>
     <div>
         <td th:text = "${recipe.userLikeCount()} + ' '"></td>
         <td th:if="${user}">
@@ -76,6 +83,27 @@ function likeLogIn(){
         }
     }
 </script>
+            <script th:inline="javascript">
+            function likeLogIn(){
+                let span = document.getElementById('likeLogIn');
+                let a = document.createElement('a');
+                a.innerHTML="Please Log In!";
+                a.setAttribute('href', '/login');
+                span.appendChild(a);
+                }
+
+            function ratingLogIn(){
+                let span = document.getElementById('ratingLogIn');
+                let a = document.createElement('a');
+                a.innerHTML="Please Log In!";
+                a.setAttribute('href', '/login');
+                span.appendChild(a);
+                }
+            </script>
+        </td>
+    </div>
+
+<br>
 
 
 <script type="text/javascript" th:src="@{/JS/deletionConfirmation.js}"></script>
