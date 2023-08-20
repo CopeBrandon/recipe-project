@@ -153,16 +153,17 @@ public class RecipeController {
 
         if (optRecipe.isPresent()) {
             Recipe recipe = (Recipe) optRecipe.get();
-            if (!user.getMenuRecipes().contains(recipe)){
+//            if (!user.getMenuRecipes().contains(recipe)){
                 recipe.addMenuUser(user);
                 user.addMenuRecipe(recipe);
                 userRepository.save(user);
                 recipeRepository.save(recipe);
+                model.addAttribute("title", recipe.getName() + " - Recipe Refresh");
                 model.addAttribute("recipe", recipe);
                 model.addAttribute("message", "Recipe added to Menu");
-            } else {
-                model.addAttribute("message", "Recipe is already in the menu");
-            }
+//            } else {
+//                model.addAttribute("message", "Recipe is already in the menu");
+//            }
             return "recipe/view";
 
         } else {
@@ -184,11 +185,14 @@ public class RecipeController {
 
         if (optRecipe.isPresent()) {
             Recipe recipe = (Recipe) optRecipe.get();
-            user.getMenuRecipes().remove(recipe);
+            user.removeMenuRecipe(recipe);
+            recipe.removeMenuUser(user);
             userRepository.save(user);
-            return "recipe/view";
+            recipeRepository.save(recipe);
+            model.addAttribute("recipe", recipe);
+            return "/profile/menu";
         } else {
-            model.addAttribute("title", "Recipe does not exist"); //TODO place holder for title
+            model.addAttribute("title", "Recipe does not exist");
             return "recipe/notFound";
         }
 

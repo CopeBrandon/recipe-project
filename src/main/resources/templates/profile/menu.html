@@ -15,6 +15,12 @@
                 <div>
                     <img class="myRecipeImg rounded" th:if="${recipe.imagePath}" th:src="@{${recipe.imagePath}}"/>
                     <a class="img-link" th:href="@{'/recipe/view/' + ${recipe.getId()}}"><h3 class="h5" th:text="${recipe.name}">Recipe Title</h3></a>
+                    <br>
+                    <a>
+                        <form method="post" th:action="@{'/recipe/view/' + ${recipe.getId()} + '/removeMenuItem'}">
+                            <button type="submit" class="btn btn-secondary btn-sm">Remove from Menu</button>
+                        </form>
+                    </a>
                 </div>
             </div>
         </div>
