@@ -109,26 +109,30 @@ function likeLogIn(){
 <script type="text/javascript" th:src="@{/JS/deletionConfirmation.js}"></script>
 
 
-<hr />
+<!--<hr />-->
+<br>
 
-<!--TESTING-->
-<div th:each="comment : ${recipe.comments}" class="comment_box">
-    <div class="inside_comment">
-        <div class="comment_user" th:text="${comment.name}"></div>
+<div id="comments-container">
+    <!--TESTING-->
+    <div th:each="comment : ${recipe.comments}" class="comment_box">
+        <div class="inside_comment">
+            <div class="comment_user" th:text="${comment.name}"></div>
+        </div>
+        <div class="comment_body">
+            <p th:text="${comment.comment}"></p>
+        </div>
+        <hr>
     </div>
-    <div class="comment_body">
-        <p th:text="${comment.comment}"></p>
-    </div>
+
+    <form method="post">
+        <div id="newCommentBox"></div>
+
+        <div>
+            <input type="submit" value="Add Comment"/>
+        </div>
+        </br>
+    </form>
 </div>
-
-<form method="post">
-    <div id="newCommentBox"></div>
-
-    <div>
-        <input type="submit" value="Add Comment"/>
-    </div>
-    </br>
-</form>
 
 
 <script th:inline="javascript">

@@ -80,6 +80,14 @@ public class RecipeController {
             return "recipe/create";
         }
 
+        User user = controllerServices.getUser(principal);
+        if (user == null){
+            model.addAttribute("title", "Login");
+            return "/login";
+        }
+        form.getRecipe().setUser(user);
+        user.addRecipe(form.getRecipe());
+
         //For Loop to connect all ingredient objects to the recipe objects
         for (Ingredient ingredient : form.getIngredients()){
             ingredient.setRecipe(form.getRecipe());
@@ -99,9 +107,7 @@ public class RecipeController {
             }
         }
 
-        User user = controllerServices.getUser(principal); // this will probably cause an error if the user is not signed in. this path will eventually be restricted to users.
-        form.getRecipe().setUser(user);
-        user.addRecipe(form.getRecipe());
+
 
         // Add image path to Recipe and save the image
         if(form.getImage().getSize() != 0) { // check if image was uploaded
