@@ -44,6 +44,7 @@ public class Favorite extends AbstractEntity {
         return favorites;
     }
 
+
     public void setUser(User user) {
         this.user = user;
     }

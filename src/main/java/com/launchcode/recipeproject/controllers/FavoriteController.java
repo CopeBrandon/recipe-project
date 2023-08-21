@@ -47,11 +47,17 @@ public class FavoriteController {
     @PostMapping("add")
     public String processAddFavoriteForm(@ModelAttribute @Valid Favorite newFavorite, Principal principal,
                                          Errors errors, Model model) {
+        User user= controllerServices.getUser(principal);
+        if (user == null) {
+            model.addAttribute("title", "login");
+            return "/login";
+        }
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Favorite");
             model.addAttribute("recipes", recipeRepository.findAll());
             return "profile/favorites/add";
         }
+        user.addFavorite(newFavorite);
         favoriteRepository.save(newFavorite);
         return "redirect:";
 
@@ -66,7 +72,7 @@ public class FavoriteController {
         }
         int userId = user.getId();
         model.addAttribute("title", " My Favorite Recipes");
-        model.addAttribute("favorites", favoriteRepository.findAll());
+        model.addAttribute("favorites", favoriteRepository.findByUserId(userId));
         return "profile/favorites/index";
     }
     @PostMapping("add/Favorite")
