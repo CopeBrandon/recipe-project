@@ -22,6 +22,10 @@ public class User extends AbstractEntity{
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // static so all classes can use
 
 
+
+    @OneToMany
+    private final List<Favorite> favorites = new ArrayList<>();
+
     @OneToMany
     private final List<Recipe> recipes = new ArrayList<>();
 
@@ -39,6 +43,10 @@ public class User extends AbstractEntity{
 
     public Boolean isPasswordMatching(String password){
         return passwordEncoder.matches(password,passwordHash); // can't use .equals because of salting
+    }
+
+    public List<Favorite> getFavorites() {
+        return favorites;
     }
 
     public void setPassword(String password) {

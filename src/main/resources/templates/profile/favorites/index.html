@@ -22,6 +22,7 @@
 
     <div style="margin: 0 auto; text-align: right;">
         <a href="favorites/add">
+
             <button type="button" style="display: block; margin: 0 auto; background-color: #ffffff; border: 2px solid green; color: green; padding: 10px 20px; font-size: 16px;">Add a Favorite Recipe</button>
         </a>
     </div>
@@ -32,6 +33,7 @@
                 <td>
                     <p th:value="${favorite.recipe}">
                         <span th:text="${favorite.recipe}"></span>
+                      <!--<a th:href="@{'/recipe/view/' + ${favorite.recipe.getId()}}"><h3 th:text="${favorite.recipe.name}">Recipe Title</h3></a> -->
                     </p>
                 </td>
             </tr>

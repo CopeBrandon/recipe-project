@@ -12,4 +12,5 @@ import java.util.List;
 public interface FavoriteRepository extends CrudRepository<Favorite, Integer> {
 
     List<Favorite> findByUserId(Integer id);
+
 }

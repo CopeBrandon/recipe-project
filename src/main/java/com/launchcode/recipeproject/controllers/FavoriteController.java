@@ -69,6 +69,28 @@ public class FavoriteController {
         model.addAttribute("favorites", favoriteRepository.findAll());
         return "profile/favorites/index";
     }
+    @PostMapping("add/Favorite")
+    public String addFavorite(@ModelAttribute Favorite favorite, Principal principal){
+        Optional<User> optionalUser = userRepository.findByUsername(principal.getName());
+        Recipe recipe= favorite.getRecipe();
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            favorite.setUser(user);
+            favorite.setRecipe(recipe);
+
+            recipe.getFavorites().add(favorite);
+            user.getFavorites().add(favorite);
+
+            recipeRepository.save(recipe);
+            favoriteRepository.save(favorite);
+            userRepository.save(user);
+        }
+
+        return "redirect:/";
+    }
+
 }
 
 

@@ -10,6 +10,8 @@ import java.util.List;
 @Entity
 public class Favorite extends AbstractEntity {
 
+    @ManyToMany
+    private final List<Favorite> favorites = new ArrayList<>();
     @ManyToOne
     private Recipe recipe;
 
@@ -32,6 +34,18 @@ public class Favorite extends AbstractEntity {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public List<Favorite> getFavorites() {
+        return favorites;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
 
