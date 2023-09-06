@@ -3,6 +3,7 @@ package com.launchcode.recipeproject.models;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
@@ -21,6 +22,11 @@ public class User extends AbstractEntity{
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // static so all classes can use
 
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private final List<Favorite> favorites = new ArrayList<>();
+
     @OneToMany
     private final List<Recipe> recipes = new ArrayList<>();
 
@@ -38,6 +44,10 @@ public class User extends AbstractEntity{
 
     public Boolean isPasswordMatching(String password){
         return passwordEncoder.matches(password,passwordHash); // can't use .equals because of salting
+    }
+
+    public List<Favorite> getFavorites() {
+        return favorites;
     }
 
     public void setPassword(String password) {
@@ -95,4 +105,8 @@ public class User extends AbstractEntity{
                 ", roles='" + roles + '\'' +
                 '}';
     }
-}
+    public void addFavorite(Favorite favorite){
+        this.favorites.add(favorite);
+    }
+    }
+

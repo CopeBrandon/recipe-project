@@ -30,3 +30,4 @@ public class MyRecipesController {
         return "/profile/myRecipes";
     }
 }
+
