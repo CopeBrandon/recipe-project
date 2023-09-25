@@ -74,7 +74,7 @@ search the website with our regular or advance search options.
 
 #### Screenshots
 
-![Homepage](https://github.com/CopeBrandon/recipe-project/tree/main/src/main/resources/static/images/screenshots/homepage.png?raw=true)
+![Homepage](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/homepage.png)
 ![Login]()
 ![Create-Edit-Delete]()
 ![View-Convert-Recipe]()
