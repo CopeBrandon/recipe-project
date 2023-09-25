@@ -85,7 +85,7 @@ search the website with our regular or advance search options.
 ![Like-Rate](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/like-rate.gif)
 #### Search
 ![Search](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/search.png)
-### Advanced Search
+#### Advanced Search
 ![Advanced-Search](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/advanced-search.gif)
 #### Comment
 ![Comment](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/comments.png)
