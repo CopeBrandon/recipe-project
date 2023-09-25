@@ -75,7 +75,7 @@ search the website with our regular or advance search options.
 ### Screenshots
 #### Homepage
 ![Homepage](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/homepage.png)
-##### Login
+#### Login
 ![Login](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/login.gif)
 #### Create, Edit, Delete
 ![Create-Edit-Delete](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/create.gif)
