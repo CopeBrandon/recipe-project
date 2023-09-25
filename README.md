@@ -72,28 +72,28 @@ search the website with our regular or advance search options.
 > Github:https://github.com/jenbilyeu80
 
 
-#### Screenshots
-##### Homepage
+### Screenshots
+#### Homepage
 ![Homepage](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/homepage.png)
 ##### Login
 ![Login](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/login.gif)
-##### Create, Edit, Delete
+#### Create, Edit, Delete
 ![Create-Edit-Delete](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/create.gif)
-##### View and Convert
+#### View and Convert
 ![View-Convert-Recipe](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/convert.gif)
-##### Like and Rate
+#### Like and Rate
 ![Like-Rate](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/like-rate.gif)
-##### Search
+#### Search
 ![Search](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/search.png)
-##### Advanced Search
+### Advanced Search
 ![Advanced-Search](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/advanced-search.gif)
-##### Comment
+#### Comment
 ![Comment](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/comments.png)
-##### Favorites
+#### Favorites
 ![Favorites](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/favorites.png)
-##### My Recipies
+#### My Recipies
 ![My-Recipies](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/my-recipies.gif)
-##### Menu
+#### Menu
 ![Menu](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/menu.gif)
 
 
