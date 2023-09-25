@@ -72,3 +72,18 @@ search the website with our regular or advance search options.
 > Github:https://github.com/jenbilyeu80
 
 
+#### Screenshots
+
+![Homepage](https://github.com/CopeBrandon/recipe-project/tree/main/src/main/resources/static/images/screenshots/homepage.png?raw=true)
+![Login]()
+![Create-Edit-Delete]()
+![View-Convert-Recipe]()
+![Like-Rate]()
+![Search]()
+![Advanced-Search]()
+![Comment]()
+![Favorites]()
+![My-Recipies]()
+![Menu]()
+
+
