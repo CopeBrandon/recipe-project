@@ -51,7 +51,15 @@ search the website with our regular or advance search options.
 >#### Sean Feuerhelm Features
 >* CRUD operations: In order to interact with your data, the application allows users to perform CRUD operations in a user-friendly way. Simply Use the Create Recipe form to CREATE recipes. Once they are added to the database, user's have the option to EDIT and DELETE their recipes while viewing them. The DELETE feature is a soft-delete feature, meaning admins will be the only users who can fully delete data.
 >* Serving Size Conversion: While viewing a recipe, it's original serving size and portions are initially displayed. However, while viewing the recipe, the user may choose to change the serving/portion size of the recipe. They simply have to change the portion number and hit "convert" and all the ingredients will scale along with the serving size.
-   > </br> Github:https://github.com/ParmaSeanCheese
+   > </br> Github: https://github.com/ParmaSeanCheese
+
+>#### Paul Jackson Features
+>* Spring Security with OAuth2: Implemented OAuth2 for user creation and log in with tokens from Google and Github.
+>* User Login and Registration: Users can create an account and log in to save data to their account.
+>* Multipart File Uploads (Images): Users can upload images with their recipes. Images are saved dynamically and loaded in real-time.
+>* User-validated Likes and Ratings: Allows a signed-in user to like and rate recipes.
+>* Controller Services: A service to return one of three user types. Another service to return recipe information.
+   > </br> Github: https://github.com/paul-jackson-dev
 
 >#### Kelsey Jungermann Features
 > *
@@ -63,6 +71,29 @@ search the website with our regular or advance search options.
 >#### Jennifer Kelly Features
 > Github:https://github.com/jenbilyeu80
 
->#### Paul Jackson Features
-> Github: https://github.com/paul-jackson-dev
+
+### Screenshots
+#### Homepage
+![Homepage](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/homepage.png)
+#### Login
+![Login](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/login.gif)
+#### Create, Edit, Delete
+![Create-Edit-Delete](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/create.gif)
+#### View and Convert
+![View-Convert-Recipe](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/convert.gif)
+#### Like and Rate
+![Like-Rate](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/like-rate.gif)
+#### Search
+![Search](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/search.png)
+#### Advanced Search
+![Advanced-Search](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/advanced-search.gif)
+#### Comment
+![Comment](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/comments.png)
+#### Favorites
+![Favorites](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/favorites.png)
+#### My Recipies
+![My-Recipies](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/my-recipies.gif)
+#### Menu
+![Menu](https://raw.githubusercontent.com/CopeBrandon/recipe-project/p-readme/src/main/resources/static/images/screenshots/menu.gif)
+
 
